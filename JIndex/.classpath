@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="poi.jar"/>
+	<classpathentry kind="lib" path="poi-contrib.jar"/>
+	<classpathentry kind="lib" path="poi-scratchpad.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
