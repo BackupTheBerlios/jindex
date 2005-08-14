@@ -21,7 +21,7 @@ class IndexFiles {
 		
 		try {
 			Date start = new Date();
-			IndexWriter writer = new IndexWriter("index", new StandardAnalyzer(), true);
+			IndexWriter writer = new IndexWriter(HOME+"/index", new StandardAnalyzer(), true);
 			indexDocs(writer, new File(HOME+"/mp3"));
 			indexDocs(writer, new File(HOME+"/bin"));
 			indexDocs(writer, new File(HOME+"/Documents"));
@@ -66,7 +66,8 @@ class IndexFiles {
 						}
 					} else {
 						if (file.getName().equals("Inbox")) {
-							MBoxProcessor.ProcessMBoxFile(file, writer);
+							//MBoxProcessor.ProcessMBoxFile(file, writer);
+							TestMain.indexMails(writer);
 						}
 
 						else {

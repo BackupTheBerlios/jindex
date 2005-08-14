@@ -50,7 +50,6 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 	JTextField queryfield;
 
 	JScrollPane scrollpane;
-
 	JPanel box;
 
 	public static void main(String args[]) {

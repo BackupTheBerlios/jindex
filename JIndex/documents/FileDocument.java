@@ -1,6 +1,7 @@
 package documents;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
@@ -15,8 +16,8 @@ public class FileDocument {
 		Document doc = new Document();
 
 		doc.add(Field.Keyword("path", f.getPath()));
-		String path = f.getPath().replaceFirst(f.getName(), "");
-		path = path.substring(0, path.length() - 1);
+		String path = f.getParent();
+//		path = path.substring(0, path.length() - 1);
 		doc.add(Field.Keyword("absolutepath", path));
 
 		doc.add(Field.Keyword("name", f.getName()));

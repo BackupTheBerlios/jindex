@@ -1,51 +1,26 @@
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.RandomAccessFile;
-import java.io.Reader;
 import java.io.Serializable;
-import java.net.URL;
-import java.nio.Buffer;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Vector;
+
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.index.IndexWriter;
 
 
 public class TestMain  {
 
 	
-	public TestMain() {
+	public static void indexMails(IndexWriter writer) {
 
 			int count = 0;
 			try {
-//				try {
-//					Processor proc = Manager.createProcessor(new URL("file:///home/sorenm/doom_trailer_072505_qthighwide.mov"));
-//					System.out.println(proc.getDuration().getSeconds());
-//
-//				} catch (NoProcessorException e1) {
-//					e1.printStackTrace();
-//				}
-				
-//				XMLEncoder e = new XMLEncoder(
-//		                new BufferedOutputStream(
-//		                    new FileOutputStream("/tmp/Test.xml")));
-//				MailHash hash = new MailHash(100,1);
-//				System.out.println(hash.getLength());
-//				write(hash,"/tmp/hashtest.obj");
-				BufferedReader in = new BufferedReader(new FileReader("/tmp/Inbox"));
+				BufferedReader in = new BufferedReader(new FileReader(System.getenv("HOME")+"/.evolution/mail/local/Inbox"));
 				
 				StringBuffer msg = new StringBuffer();
 				MailList list = null;
@@ -67,19 +42,48 @@ public class TestMain  {
 				String str;
 				int i = 0;
 				position = 0;
+				Mail mail = null;
 				while ((str = in.readLine()) != null) {
 					if (str.startsWith("From ")) {
 						count++;
 						// list.add(msg);
 						if (count > 1) {
-							System.out.println("Msg size: " + msg.length());
-							System.out.println("Msg position: " + position);
-							System.out.println("Msg hashcode: " + msg.substring(0, 100).hashCode());
+//							System.out.println("Msg size: " + msg.length());
+//							System.out.println("Msg position: " + position);
+//							System.out.println("Msg hashcode: " + msg.substring(0, 100).hashCode());
 							position += msg.length();
 							list.add(new MailHash(msg.length(),msg.substring(0, 100).hashCode()));
+							System.out.println(mail);
+							Document doc = new Document();
+							//TODO Path in mail needs to be fixed
+							//doc.add(Field.Keyword("path", f.getPath()));
+
+							doc.add(Field.Text("type", "mail"));
+							doc.add(Field.Text("icon", "icon data"));
+							doc.add(Field.Text("url", "url data"));
+							doc.add(Field.Text("from", mail.getFrom()));
+							doc.add(Field.Text("subject", mail.getSubject()));
+							
+							doc.add(Field.Text("contents", msg.toString()));
+							//doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+							writer.addDocument(doc);
 						}
 						
+						
+						mail = new Mail();						
 						msg = new StringBuffer();
+					}
+					if (str.startsWith("From:")) {
+					    mail.setFrom(str);
+					}
+					if (str.startsWith("To:")) {
+					    mail.setTo(str);
+					}
+					if (str.startsWith("Date:")) {
+					    mail.setDate(str);
+					}
+					if (str.startsWith("Subject:")) {
+					    mail.setSubject(str);
 					}
 					msg.append(str);
 				}
@@ -96,24 +100,6 @@ public class TestMain  {
 
 	public static void main(String argv[]) {
 
-		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection forb = DriverManager.getConnection("jdbc:oracle:thin:@192.168.146.223:1521:prod", "eclub2", "secret");
-			long now = System.currentTimeMillis();
-			forb.getMetaData().supportsSelectForUpdate();
-			System.out.println(System.currentTimeMillis() - now);
-
-			now = System.currentTimeMillis();
-			forb.getMetaData().getDatabaseProductName();
-			System.out.println(System.currentTimeMillis() - now);
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		new TestMain();
 	}
 
 
@@ -135,14 +121,18 @@ public class TestMain  {
 		}
 	}
 
-	private static Object read(String filename) throws ClassNotFoundException, IOException {
+	private static Object read(String filename) throws ClassNotFoundException {
 		ObjectInputStream in = null;
 
 		try {
 			in = new ObjectInputStream(new FileInputStream(filename));
 
 			return in.readObject();
-		} finally {
+		} catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
 			if (in != null) {
 				try {
 					in.close();
@@ -150,7 +140,9 @@ public class TestMain  {
 				}
 			}
 		}
+        return in;
 	}
+	
 
 	
 }
