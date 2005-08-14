@@ -1,19 +1,3 @@
-/**
- * Copyright 2004 The Apache Software Foundation
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package documents.mbox;
 
 import java.io.BufferedReader;
@@ -34,26 +18,8 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 
-/** A utility for making Lucene Documents from a File. */
 
 public class MBoxProcessor {
-	/**
-	 * Makes a document for a File.
-	 * <p>
-	 * The document has three fields:
-	 * <ul>
-	 * <li><code>path</code> --containing the pathname of the file, as a
-	 * stored, tokenized field;
-	 * <li><code>modified</code> --containing the last modified date of the
-	 * file as a keyword field as encoded by <a
-	 * href="lucene.document.DateField.html">DateField </a>; and
-	 * <li><code>contents</code> --containing the full contents of the file,
-	 * as a Reader field;
-	 * 
-	 * @throws MagicException
-	 * @throws MagicMatchNotFoundException
-	 * @throws MagicParseException
-	 */
 	public static void ProcessMBoxFile(File f, IndexWriter writer) throws java.io.FileNotFoundException  {
 
 	
