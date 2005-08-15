@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriter;
 
+import documents.AddressBookDocument;
 import documents.ExcelDocument;
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -34,6 +35,7 @@ class IndexFiles {
 			indexDocs(writer, new File(HOME+"/bin"));
 			indexDocs(writer, new File(HOME+"/Documents"));
 			//indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
+			indexDocs(writer, new File(HOME+"/.evolution/addressbook/local"));
 			indexDocs(writer, new File(HOME+"/.gaim/logs"));
 
 			writer.optimize();
@@ -73,6 +75,7 @@ class IndexFiles {
 					} catch (MagicMatchNotFoundException e) {
 					} 
 					if (match != null) {
+						System.out.println(match.getMimeType());
 						if (match.getMimeType().equals("audio/mpeg")) {
 							//System.out.println("adding MP3 File" + file);
 							writer.addDocument(MP3Document.Document(file));
@@ -87,6 +90,8 @@ class IndexFiles {
 						if (file.getName().equals("Inbox")) {
 							//MBoxProcessor.ProcessMBoxFile(file, writer);
 							TestMain.indexMails(writer);
+						} else if(file.getName().equals("addressbook.db"))  {
+							writer.addDocument(AddressBookDocument.Document(file));
 						}
 
 						else {
