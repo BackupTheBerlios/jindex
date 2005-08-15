@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="log4j.jar"/>
 	<classpathentry kind="lib" path="jakarta-oro.jar"/>
 	<classpathentry kind="lib" path="jdic.jar"/>
+	<classpathentry sourcepath="/home/sorenm/tmp/je-2.0.54/src" kind="lib" path="je.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
