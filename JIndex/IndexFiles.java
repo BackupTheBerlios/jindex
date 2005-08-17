@@ -20,24 +20,27 @@ import documents.AddressBookDocument;
 import documents.ExcelDocument;
 import documents.FileDocument;
 import documents.GaimLogDocument;
+import documents.ImageDocument;
 import documents.MP3Document;
 import documents.mbox.MBoxProcessor;
 
 class IndexFiles {
 //	static Logger log = Logger.getLogger(IndexFiles.class);
     private final static String HOME = System.getenv("HOME");
+    static Magic parser =  null;
 	public static void main(String[] args) throws IOException {
 		try {
 			BasicConfigurator.configure();
 			Date start = new Date();
 			IndexWriter writer = new IndexWriter(HOME+"/index", new StandardAnalyzer(), true);
-			indexDocs(writer, new File(HOME+"/mp3"));
-			indexDocs(writer, new File(HOME+"/bin"));
+//			indexDocs(writer, new File(HOME+"/mp3"));
+//			indexDocs(writer, new File(HOME+"/bin"));
+//			indexDocs(writer, new File(HOME+"/Documents"));
+//			//indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
+//			indexDocs(writer, new File(HOME+"/.evolution/addressbook/local"));
+//			indexDocs(writer, new File(HOME+"/.gaim/logs"));
+			indexDocs(writer, new File(HOME+"/DigitalCameraPictures"));
 			indexDocs(writer, new File(HOME+"/Documents"));
-			//indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
-			indexDocs(writer, new File(HOME+"/.evolution/addressbook/local"));
-			indexDocs(writer, new File(HOME+"/.gaim/logs"));
-
 			writer.optimize();
 			writer.close();
 
@@ -66,8 +69,10 @@ class IndexFiles {
 			} else {
 
 				try {
-					Magic parser = new Magic();
-					parser.initialize();
+					if(parser == null) {
+						parser = new Magic();
+						parser.initialize();
+					}
 					MagicMatch match = null;
 					//FormatDescription desc = FormatIdentification.identify(file);
 					try {
@@ -82,8 +87,12 @@ class IndexFiles {
 						}  else
 						if(match.getMimeType().equals("application/msword")) {
 							writer.addDocument(ExcelDocument.Document(file));
-						} else {
-							System.out.println("adding as normal file with file desc" + file);
+						}else
+							if(match.getMimeType().contains("image/")) {
+								writer.addDocument(ImageDocument.Document(file));
+							} 
+						else {
+							//System.out.println("adding as normal file with file desc" + file);
 							writer.addDocument(FileDocument.Document(file));
 						}
 					} else {
@@ -96,10 +105,10 @@ class IndexFiles {
 
 						else {
 							if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
-								System.out.println("adding gaim log file" + file);
+								//System.out.println("adding gaim log file" + file);
 								writer.addDocument(GaimLogDocument.Document(file));
 							} else {
-								System.out.println("adding as normal file with NO ile desc" + file);
+								//System.out.println("adding as normal file with NO ile desc" + file);
 								writer.addDocument(FileDocument.Document(file));
 							}
 						}

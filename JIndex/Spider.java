@@ -1,4 +1,5 @@
 import gui.GaimLogGUI;
+import gui.ImageContentGUI;
 import gui.MP3LogGUI;
 import gui.UnknownfiletypeGUI;
 
@@ -12,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.awt.image.ImageConsumer;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -21,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -61,6 +64,10 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
     TrayIcon ti;
     
 	public static void main(String args[]) {
+//		  try {
+//		        UIManager.setLookAndFeel(
+//		            UIManager.getSystemLookAndFeelClassName());
+//		    } catch (Exception e) { }
 		new Spider();
 	}
 
@@ -196,6 +203,10 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 					// box.add(new MP3LogGUI(doc));
 					box.add(new MP3LogGUI(doc).getGUI());
 				} else
+					if (doc.get("type").equals("image")) {
+						System.out.println("Added image");
+						box.add(new ImageContentGUI(doc).getGUI());
+					} 
 				if (doc.get("type").equals("mail")) {
 					System.out.println("mail info");
 //					content += new MailGUI(doc).getHTML();
