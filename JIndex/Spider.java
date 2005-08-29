@@ -58,7 +58,7 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 	 * 
 	 */
 	private static final long serialVersionUID = -1801308180541862371L;
-	private static String INDEXFILE = System.getenv("HOME")+"/index";
+	private static String INDEXFILE = System.getProperty("HOME")+"/index";
 	JTextField queryfield;
 	JFrame thisframe;
 	JScrollPane scrollpane;

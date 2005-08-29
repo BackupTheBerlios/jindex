@@ -3,6 +3,7 @@ package documents;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.lucene.document.DateField;
@@ -21,13 +22,16 @@ public class PDFDocument {
 		
 		PdfReader reader = new PdfReader(f.toURL());
 		 int numberofpages = reader.getNumberOfPages();
-		 Iterator ite = reader.getInfo().entrySet().iterator();
-		 while(ite.hasNext()) {
-			 System.out.println(ite.next().toString());
-		 }
-		 String producer = reader.getInfo().get("Producer").toString();
-		 String creator = reader.getInfo().get("Creator").toString();
-		 String creationdate = reader.getInfo().get("CreationDate").toString();
+
+         HashMap map = reader.getInfo();
+         String producer = "";
+         String creator = "";
+         String creationdate = "";
+         if(map != null) {
+		 producer = (String) map.get("Producer");
+		 creator = (String) map.get("Creator");
+		 creationdate = (String) map.get("CreationDate");
+         }
 //		 Producer=OpenOffice.org 1.9.93
 //		 Creator=Writer
 //		 CreationDate=D:20050419102404+02'00

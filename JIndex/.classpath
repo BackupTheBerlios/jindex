@@ -18,5 +18,6 @@
 	<classpathentry kind="lib" path="jdic.jar"/>
 	<classpathentry sourcepath="/home/sorenm/tmp/je-2.0.54/src" kind="lib" path="je.jar"/>
 	<classpathentry kind="lib" path="itext-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>

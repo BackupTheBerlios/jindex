@@ -10,8 +10,7 @@ import java.io.File;
  */
 public class idtree
 {
-	private idtree()
-	{
+	private idtree() 	{
 	}
 
 	private static void handleDirectory(File dir)

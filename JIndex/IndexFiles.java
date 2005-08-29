@@ -11,10 +11,10 @@ import net.sf.jmimemagic.MagicMatch;
 import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
-import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexWriter;
+import org.apache.poi.util.StringUtil;
 
 import documents.AddressBookDocument;
 import documents.ExcelDocument;
@@ -27,13 +27,12 @@ import documents.mbox.MBoxProcessor;
 
 class IndexFiles {
 	// static Logger log = Logger.getLogger(IndexFiles.class);
-	private final static String HOME = System.getenv("HOME");
+	private final static String HOME = System.getProperty("HOME");
 
 	static Magic parser = null;
 
 	public static void main(String[] args) throws IOException {
 		try {
-			BasicConfigurator.configure();
 			Date start = new Date();
 			IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
 			// indexDocs(writer, new File(HOME+"/mp3"));
@@ -86,14 +85,15 @@ class IndexFiles {
 					}
 					if (match != null) {
 						System.out.println(match.getMimeType());
+                       
 						if (match.getMimeType().equals("audio/mpeg")) {
 							// System.out.println("adding MP3 File" + file);
 							writer.addDocument(MP3Document.Document(file));
 						} else if (match.getMimeType().equals("application/msword")) {
 							writer.addDocument(ExcelDocument.Document(file));
-						} else if (match.getMimeType().contains("image/")) {
+						} else if ( StringUtils.contains(match.getMimeType(),"image/")) {
 							writer.addDocument(ImageDocument.Document(file));
-						} else if (match.getMimeType().contains("application/pdf")) {
+						} else if (StringUtils.contains(match.getMimeType(), "application/pdf")) {
 							writer.addDocument(PDFDocument.Document(file));
 						}
 
