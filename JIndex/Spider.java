@@ -1,6 +1,7 @@
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.MP3LogGUI;
+import gui.PDFContentGUI;
 import gui.UnknownfiletypeGUI;
 
 import java.awt.BorderLayout;
@@ -39,7 +40,9 @@ import org.jdesktop.jdic.tray.TrayIcon;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
+import documents.ImageDocument;
 import documents.MP3Document;
+import documents.PDFDocument;
 
 /*
  * Created on Feb 2, 2005
@@ -176,8 +179,9 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 			fields = concatArrays(MP3Document.fields, fields);
 			fields = concatArrays(GaimLogDocument.fields, fields);
 			fields = concatArrays(FileDocument.fields, fields);
-	
-
+			fields = concatArrays(ImageDocument.fields, fields);
+			fields = concatArrays(PDFDocument.fields, fields);
+			
 			query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 			// query = QueryParser.parse(searchquery, "contents", analyzer);
 
@@ -207,6 +211,13 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 						System.out.println("Added image");
 						box.add(new ImageContentGUI(doc).getGUI());
 					} 
+					else
+						if (doc.get("type").equals("application/pdf")) {
+							System.out.println("Added PDF");
+							box.add(new PDFContentGUI(doc).getGUI());
+						} 
+					
+				
 				if (doc.get("type").equals("mail")) {
 					System.out.println("mail info");
 //					content += new MailGUI(doc).getHTML();
