@@ -42,8 +42,8 @@ class IndexFiles {
 			// indexDocs(writer, new
 			// File(HOME+"/.evolution/addressbook/local"));
 			// indexDocs(writer, new File(HOME+"/.gaim/logs"));
-			//indexDocs(writer, new File(HOME + "/DigitalCameraPictures"));
-			indexDocs(writer, new File(HOME + "/Documents"));
+			indexDocs(writer, new File(HOME + "/DigitalCameraPictures/colle"));
+			//indexDocs(writer, new File(HOME + "/Documents"));
 			writer.optimize();
 			writer.close();
 
@@ -84,7 +84,7 @@ class IndexFiles {
 					} catch (MagicMatchNotFoundException e) {
 					}
 					if (match != null) {
-						System.out.println(match.getMimeType());
+						System.out.println("-> "+file.getPath()+"\t"+match.getMimeType());
                        
 						if (match.getMimeType().equals("audio/mpeg")) {
 							// System.out.println("adding MP3 File" + file);
@@ -124,12 +124,8 @@ class IndexFiles {
 					}
 
 				}
-				// at least on windows, some temporary files raise this
-				// exception with an "access denied" message
-				// checking if the file can be read doesn't help
 				catch (FileNotFoundException fnfe) {
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				} catch (MagicParseException e) {
 					e.printStackTrace();

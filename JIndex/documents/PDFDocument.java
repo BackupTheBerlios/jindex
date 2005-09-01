@@ -13,7 +13,7 @@ import org.apache.lucene.document.Field;
 import com.lowagie.text.pdf.PdfReader;
 
 
-public class PDFDocument {
+public class PDFDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "contents", "name", "numberofpages", "producer", "creator", "creationdate" };	
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
@@ -63,6 +63,10 @@ public class PDFDocument {
 
 	private PDFDocument() {
 	}
+
+    public String[] getSearchFields() {
+       return fields;
+    }
 		
 
 }

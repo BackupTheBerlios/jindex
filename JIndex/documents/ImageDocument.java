@@ -6,8 +6,8 @@ import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-public class ImageDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
+public class ImageDocument implements SearchDocument{
+	public static String[] fields = { "path", "absolutepath", "type", "url", "modified", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 
@@ -22,14 +22,17 @@ public class ImageDocument {
 
 		doc.add(Field.Text("type", "image"));
 		doc.add(Field.Text("icon", "icon data"));
-		doc.add(Field.Text("url", "url data"));
-		doc.add(Field.Text("from", ""));
+		//doc.add(Field.Text("url", "url data"));
 		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
 		return doc;
 	}
 
 	private ImageDocument() {
 	}
+
+    public String[] getSearchFields() {
+        return fields;
+    }
 		
 
 }

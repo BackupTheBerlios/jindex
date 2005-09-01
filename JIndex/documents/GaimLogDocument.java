@@ -20,9 +20,9 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class GaimLogDocument {
+public class GaimLogDocument implements SearchDocument {
 	public static String[] fields = { "protocol", "startdate", "starttime", "endtime", "from", "alias", "contents" };
-	private final static String HOME = System.getenv("HOME");
+	private final static String HOME = System.getProperty("HOME");
 	public static org.apache.lucene.document.Document Document(File f) throws IOException {
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		doc.add(Field.Text("path", f.getPath()));
@@ -186,4 +186,8 @@ public class GaimLogDocument {
 
 	private GaimLogDocument() {
 	}
+
+    public String[] getSearchFields() {
+        return fields;
+    }
 }

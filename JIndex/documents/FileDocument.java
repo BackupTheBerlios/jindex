@@ -8,7 +8,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import java.io.*;
 
-public class FileDocument {
+public class FileDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
@@ -37,4 +37,8 @@ public class FileDocument {
 
 	private FileDocument() {
 	}
+
+    public String[] getSearchFields() {
+        return fields;
+    }
 }

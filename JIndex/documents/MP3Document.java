@@ -7,7 +7,7 @@ import org.apache.lucene.document.Field;
 
 import sabercat.Sabercat;
 
-public class MP3Document {
+public class MP3Document implements SearchDocument {
 	public static String fields[] = {"modified",
 			"path",
 			"album",
@@ -32,6 +32,9 @@ public class MP3Document {
 		doc.add(Field.Text("type","audio/mp3"));
 		return doc;
 	}
+    public String[] getSearchFields() {
+        return fields;
+    }
 
 	
 }

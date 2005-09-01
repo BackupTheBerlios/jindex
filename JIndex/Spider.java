@@ -35,6 +35,8 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.jdesktop.jdic.browser.WebBrowser;
+import org.jdesktop.jdic.desktop.internal.BrowserService;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
@@ -137,6 +139,7 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
         
         tray.addTrayIcon(ti);
         
+ 
 		}
 
 	/*
@@ -176,6 +179,7 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 
 
 			String[] fields = new String[0];
+            
 			fields = concatArrays(MP3Document.fields, fields);
 			fields = concatArrays(GaimLogDocument.fields, fields);
 			fields = concatArrays(FileDocument.fields, fields);

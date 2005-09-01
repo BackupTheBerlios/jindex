@@ -25,7 +25,7 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-public class ExcelDocument {
+public class ExcelDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
@@ -217,5 +217,10 @@ public class ExcelDocument {
 			}
 		}
 	}
+
+
+    public String[] getSearchFields() {
+       return fields;
+    }
 
 }

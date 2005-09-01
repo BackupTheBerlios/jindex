@@ -21,7 +21,7 @@ import com.sleepycat.je.Transaction;
 
 import java.io.*;
 
-public class AddressBookDocument {
+public class AddressBookDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
@@ -96,4 +96,8 @@ cursor.getFirst(keyEntry, dataEntry, LockMode.DEFAULT);
 			e.printStackTrace();
 		}
 	}
+
+    public String[] getSearchFields() {
+       return fields;
+    }
 }
