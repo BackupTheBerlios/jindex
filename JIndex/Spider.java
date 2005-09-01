@@ -14,7 +14,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.awt.image.ImageConsumer;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
@@ -24,7 +23,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -35,10 +33,10 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
-import org.jdesktop.jdic.browser.WebBrowser;
-import org.jdesktop.jdic.desktop.internal.BrowserService;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
+
+import sun.misc.UUEncoder;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -65,18 +63,15 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 	JFrame thisframe;
 	JScrollPane scrollpane;
 	JPanel box;
-	SystemTray tray = SystemTray.getDefaultSystemTray();
-    TrayIcon ti;
+//	SystemTray tray = SystemTray.getDefaultSystemTray();
+//    TrayIcon ti;
     
 	public static void main(String args[]) {
-//		  try {
-//		        UIManager.setLookAndFeel(
-//		            UIManager.getSystemLookAndFeelClassName());
-//		    } catch (Exception e) { }
 		new Spider();
 	}
 
 	public Spider() {
+        
 		thisframe = this;
 		JPanel mainpane = new JPanel(new BorderLayout());
 		JPanel searchpane = new JPanel(new BorderLayout());
@@ -119,25 +114,25 @@ public class Spider extends JFrame implements KeyListener, WindowListener {
 		
 		
 		
-		ImageIcon i = new ImageIcon(Spider.class.getResource("images/stock_search.png"));
-
-        ti = new TrayIcon(i, "JDIC Tray Icon API Demo - TrayIcon");
-
-        ti.setIconAutoSize(true);
-        ti.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            	thisframe.setVisible(!thisframe.isVisible());
-            }
-        });
-        ti.addBalloonActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-              JOptionPane.showMessageDialog(null, 
-              "Balloon Message been clicked - TrayIcon", "Message",
-              JOptionPane.INFORMATION_MESSAGE);
-            }
-        });
-        
-        tray.addTrayIcon(ti);
+//		ImageIcon i = new ImageIcon(Spider.class.getResource("images/stock_search.png"));
+//
+//        ti = new TrayIcon(i, "JDIC Tray Icon API Demo - TrayIcon");
+//
+//        ti.setIconAutoSize(true);
+//        ti.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//            	thisframe.setVisible(!thisframe.isVisible());
+//            }
+//        });
+//        ti.addBalloonActionListener(new ActionListener(){
+//            public void actionPerformed(ActionEvent e) {
+//              JOptionPane.showMessageDialog(null, 
+//              "Balloon Message been clicked - TrayIcon", "Message",
+//              JOptionPane.INFORMATION_MESSAGE);
+//            }
+//        });
+//        
+//        tray.addTrayIcon(ti);
         
  
 		}

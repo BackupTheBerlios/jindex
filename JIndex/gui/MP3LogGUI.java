@@ -19,6 +19,15 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.apache.lucene.document.Document;
+import org.gnu.gdk.Pixbuf;
+import org.gnu.gtk.GtkStockItem;
+import org.gnu.gtk.HBox;
+import org.gnu.gtk.Image;
+import org.gnu.gtk.Label;
+import org.gnu.gtk.VBox;
+import org.gnu.gtk.Widget;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * @author sorenm
@@ -56,7 +65,24 @@ public class MP3LogGUI extends MainContentsGUI implements MouseListener {
 		infopane.add(new JLabel(doc.get("title").trim()));
 		return this;
 	}
-       
+    public Widget getGnomeGUI() {
+        // start contentpane design
+        HBox content = new HBox(true, 0);
+        VBox textcontent = new VBox(false, 0);
+        org.gnu.gtk.Image img = new org.gnu.gtk.Image("emblem-sound.png");
+    
+        String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
+        Label fileinfo = new Label(result);
+        Label fileinfo1 = new Label(doc.get("title").trim());
+        textcontent.add(fileinfo);
+        textcontent.add(fileinfo1);
+        
+        
+        content.add(img);
+        content.add(textcontent);
+        return content;
+        // end contentpane design
+    }
 	
 	public String getHTML() {
 		String result="";

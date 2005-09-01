@@ -1,177 +1,202 @@
-import org.gnu.gnome.About;
-import org.gnu.gnome.App;
-import org.gnu.gnome.Program;
-import org.gnu.gnome.UIInfo;
-import org.gnu.gtk.ButtonsType;
-import org.gnu.gtk.DialogFlags;
+import gui.GaimLogGUI;
+import gui.ImageContentGUI;
+import gui.MP3LogGUI;
+import gui.PDFContentGUI;
+
+import java.io.IOException;
+
+import javax.swing.JPanel;
+
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.queryParser.MultiFieldQueryParser;
+import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.search.Hits;
+import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.Query;
+import org.apache.lucene.search.Searcher;
+import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
-import org.gnu.gtk.GtkStockItem;
-import org.gnu.gtk.MessageDialog;
-import org.gnu.gtk.MessageType;
-import org.gnu.gtk.StatusBar;
-import org.gnu.gtk.event.ButtonEvent;
-import org.gnu.gtk.event.ButtonListener;
+import org.gnu.gtk.HBox;
+import org.gnu.gtk.Label;
+import org.gnu.gtk.VBox;
+import org.gnu.gtk.Widget;
+import org.gnu.gtk.Window;
+import org.gnu.gtk.WindowType;
+import org.gnu.gtk.event.KeyEvent;
+import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
-import org.gnu.gtk.event.MenuItemEvent;
-import org.gnu.gtk.event.MenuItemListener;
 
-public class Third implements MenuItemListener, ButtonListener {
-	private App app = null;
- 	private StatusBar statusbar = null;
- 	public static final String appVersion = "0.1";
+import documents.FileDocument;
+import documents.GaimLogDocument;
+import documents.ImageDocument;
+import documents.MP3Document;
+import documents.PDFDocument;
 
-	public Third() {
-		createMainWindow();
-		createMenus();
-		createToolbar();
-		app.showAll();
-	}
+public class Third {
+    VBox contentpane;
+    VBox mainpane;
+    public Widget createEntryWidget() {
+        mainpane = new VBox(false, 0);
+        contentpane = new VBox(true, 0);
+        final HBox b = new HBox(false, 0);
 
-	private void createMainWindow() {
-		app = new App("Third", "Third App");
-		app.setDefaultSize(350, 200);
-		app.addListener(new LifeCycleListener() {
-			public void lifeCycleEvent(LifeCycleEvent event) {}
-			public boolean lifeCycleQuery(LifeCycleEvent event) {
-				Gtk.mainQuit();
-				return false;
-			}
-		});
-	}
+        Label label = new Label("Query: ");
+        b.add(label);
 
-	private void createMenus() {
+        final Entry entry = new Entry();
+        entry.setText("Search string");
+        entry.setVisible(true);
+        entry.addListener(new KeyListener() {
 
-		UIInfo fileMenu[] = {
-			UIInfo.newItem("New Window", "Open a new application window", this),
-			UIInfo.separator(),
-			UIInfo.openItem((MenuItemListener) this),
-			UIInfo.saveItem((MenuItemListener) this),
-			UIInfo.saveAsItem((MenuItemListener) this),
-			UIInfo.separator(),
-			UIInfo.closeItem((MenuItemListener) this),
-			UIInfo.quitItem(new MenuItemListener() { 
-				public void menuItemEvent(MenuItemEvent event) { 
-					fileExit();
-				}
-			}), 
-			UIInfo.end()
-		};
+            public boolean keyEvent(KeyEvent event) {
+                if (event.getKeyval() == 65293
+                        && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
+                                                                            // enter
+                    System.out.println(entry.getText());
+                    //contentpane = new HBox(false, 0);
+                    
+                    doSearchGUI(entry.getText());
+                    //mainpane.add(contentpane);
+                    
+                    contentpane.showAll();
+                    entry.setText("");
+                    return true;
+                }
+                return false;
+            }
 
-		UIInfo editMenu[] = {
-			UIInfo.undoItem((MenuItemListener) this),
-			UIInfo.redoItem((MenuItemListener) this),
-			UIInfo.separator(),
-			UIInfo.cutItem((MenuItemListener) this),
-			UIInfo.copyItem((MenuItemListener) this),
-			UIInfo.pasteItem((MenuItemListener) this),
-			UIInfo.separator(),
-			UIInfo.findItem((MenuItemListener) this),
-			UIInfo.findAgainItem((MenuItemListener) this),
-			UIInfo.replaceItem((MenuItemListener) this),
-			UIInfo.propertiesItem((MenuItemListener) this),
-			UIInfo.end()
-		};
+        });
 
-		UIInfo moveMenu[] = {
-			UIInfo.item("_Up", "Move selection up", (MenuItemListener) this),
-			UIInfo.item("D_own", "Move selection down", (MenuItemListener) this),
-			UIInfo.end()
-		};
+        b.add(entry);
+        mainpane.add(b);
+        // start contentpane design
+        // HBox content = new HBox(true, 0);
+        // VBox textcontent = new VBox(false, 0);
+        // Image img = new Image("images/stock_search.png");
+        // Label fileinfo = new Label("/home/sorenm/test.doc");
+        // Label fileinfo1 = new Label("Word document type");
+        // textcontent.add(fileinfo);
+        // textcontent.add(fileinfo1);
+        //        
+        //        
+        // content.add(img);
+        // content.add(textcontent);
+        // contentpane.add(content);
+        // end contentpane design
+        mainpane.add(contentpane);
+        return mainpane;
+    }
 
-		UIInfo helpMenu[] = {
-			UIInfo.help("second"),
-			UIInfo.aboutItem(new MenuItemListener() { 
-				public void menuItemEvent(MenuItemEvent event) { 
-					helpAbout();
-				}
-			}), 
-			UIInfo.end()
-		};
+    public Third(String[] args) {
+        Gtk.init(args);
+        Window w = new Window(WindowType.TOPLEVEL);
+        w.addListener(new LifeCycleListener() {
+            public void lifeCycleEvent(LifeCycleEvent event) {
+            }
 
-		UIInfo mainMenu[] = {
-			UIInfo.subtree("_File", fileMenu),
-			UIInfo.subtree("_Edit", editMenu),
-			UIInfo.subtree("_Move", moveMenu),
-			UIInfo.subtree("_Help", helpMenu),
-			UIInfo.end()
-		};
-		app.createMenus(mainMenu);
-	}
+            public boolean lifeCycleQuery(LifeCycleEvent event) {
+                Gtk.mainQuit();
+                return false;
+            }
+        });
+        w.setDefaultSize(200, 30);
+        w.setBorderWidth(5);
+        w.setTitle("The Java-Gnome team");
+        w.add(createEntryWidget());
+        w.showAll();
+        
+        Gtk.main();
+    }
 
-	private void createToolbar() {
+    public static void main(String[] args) {
+        new Third(args);
+    }
 
-		UIInfo toolbar[] = {
-			UIInfo.itemStock("New", "Create a new file", 
-					(ButtonListener) this, GtkStockItem.NEW),
-			UIInfo.itemStock("Open", "Open a file", 
-					(ButtonListener) this, GtkStockItem.OPEN),
-			UIInfo.separator(),
-			UIInfo.itemStock("Save", "Save this file", 
-					(ButtonListener) this, GtkStockItem.SAVE),
-			UIInfo.itemStock("Save As", "Save this file as", 
-					(ButtonListener) this, GtkStockItem.SAVE_AS),
-			UIInfo.separator(),
-			UIInfo.itemStock("Close", "Close this file", 
-					(ButtonListener) this, GtkStockItem.CLOSE),
-			UIInfo.end()
-		};
+    static JPanel box;
 
-		app.createToolBar(toolbar);
-	}
+    private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
-	public void helpAbout() {
-	    String appname = "Java-GNOME Tutorial";
-	    String version = "0.1";
-	    String license = "GPL";
-	    String description = "Java-GNOME Tutorial.";
-	    String authors[] = { 
-	        "http://java-gnome.sf.net", 
-	        "http://www.gtk.org" 
-	    };
-	    String documentors[] = { 
-	        "java-gnome-developer@lists.sf.net", 
-	        "http://www.gnome.org"
-	    };
-	    String translators = "Language Guys Inc.";
-	    String website = "http://java-gnome.sf.net";
+    public void doSearchGUI(String searchquery) {
 
-//	    AboutDialog about = new AboutDialog();
-//        about.setName(appname);
-//        about.setVersion(version);
-//        about.setLicense(license);
-//        about.setComments(description);
-//        about.setAuthors(authors);
-//        about.setDocumenters(documentors);
-//        about.setTranslatorCredits(translators);
-//        about.setWebsite(website);
-//		about.show();
-	}
+        // SearchFiles files = new SearchFiles(queryfield.getText());
+        Query query = null;
 
-	public void fileExit() {
-		Gtk.mainQuit();
-	}
+        try {
 
-	public void menuItemEvent(MenuItemEvent event) {
-		displayMessage();
-	}
+            Searcher searcher = new IndexSearcher(INDEXFILE);
 
-	public void buttonEvent(ButtonEvent event) {
-		displayMessage();
-	}
-	
-	private void displayMessage() {
-		MessageDialog dialog = new MessageDialog(app, DialogFlags.MODAL, 
-				MessageType.INFO, ButtonsType.OK,
-				"Not implemented", false);
-		dialog.run();
-		dialog.destroy();
-	}
+            Analyzer analyzer = new StandardAnalyzer();
 
-	public static void main(String[] args) {
-		Program.initGnomeUI("Third", Third.appVersion, args);
-		new Third();
-		Gtk.main();
-	}
+            String[] fields = new String[0];
+
+            fields = concatArrays(MP3Document.fields, fields);
+            fields = concatArrays(GaimLogDocument.fields, fields);
+            fields = concatArrays(FileDocument.fields, fields);
+            fields = concatArrays(ImageDocument.fields, fields);
+            fields = concatArrays(PDFDocument.fields, fields);
+
+            query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
+            // query = QueryParser.parse(searchquery, "contents", analyzer);
+
+            System.out.println("Searching for: " + query.toString("contents"));
+
+            Hits hits = null;
+
+            hits = searcher.search(query);
+            System.out.println(hits.length() + " total matching documents");
+
+            for (int i = 0; i < hits.length(); i++) {
+                Document doc = null;
+                doc = hits.doc(i);
+
+                // System.out.println("Found: " + doc.get("type"));
+                if (doc.get("type").equals("text/gaimlog")) {
+                    // box.add(new GaimLogGUI(doc));
+                    box.add(new GaimLogGUI(doc).getGUI());
+                    // box.add(new GaimLogGUI(doc));
+                } else if (doc.get("type").equals("audio/mp3")) {
+                    // System.out.println("Adding audio info");
+                    // box.add(new MP3LogGUI(doc));
+                    contentpane.add(new MP3LogGUI(doc).getGnomeGUI());
+                } else if (doc.get("type").equals("image")) {
+                    contentpane.add(new ImageContentGUI(doc).getGnomeGUI());
+                    System.out.println("Added image");
+                } else if (doc.get("type").equals("application/pdf")) {
+                    System.out.println("Added PDF");
+                    box.add(new PDFContentGUI(doc).getGUI());
+                }
+
+                if (doc.get("type").equals("mail")) {
+                    System.out.println("mail info");
+                    // content += new MailGUI(doc).getHTML();
+                } else {
+                    // box.add(new UnknownfiletypeGUI(doc).getGUI());
+                }
+            }
+            searcher.close();
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static String[] concatArrays(String[] src, String[] dest) {
+        String[] result = new String[src.length + dest.length];
+        int counter = 0;
+        for (int i = 0; i < src.length; i++) {
+            result[counter] = src[i];
+            counter++;
+        }
+        for (int i = 0; i < dest.length; i++) {
+            result[counter] = dest[i];
+            counter++;
+        }
+        return result;
+
+    }
 }
-

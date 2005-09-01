@@ -42,7 +42,9 @@ class IndexFiles {
 			// indexDocs(writer, new
 			// File(HOME+"/.evolution/addressbook/local"));
 			// indexDocs(writer, new File(HOME+"/.gaim/logs"));
+            indexDocs(writer, new File(HOME + "/Music"));
 			indexDocs(writer, new File(HOME + "/DigitalCameraPictures/colle"));
+            
 			//indexDocs(writer, new File(HOME + "/Documents"));
 			writer.optimize();
 			writer.close();
@@ -77,23 +79,37 @@ class IndexFiles {
 						parser.initialize();
 					}
 					MagicMatch match = null;
-					// FormatDescription desc =
-					// FormatIdentification.identify(file);
-					try {
-						match = parser.getMagicMatch(file);
-					} catch (MagicMatchNotFoundException e) {
-					}
-					if (match != null) {
-						System.out.println("-> "+file.getPath()+"\t"+match.getMimeType());
-                       
-						if (match.getMimeType().equals("audio/mpeg")) {
-							// System.out.println("adding MP3 File" + file);
+
+
+                    FormatDescription desc = FormatIdentification.identify(file);
+                    if (desc == null)
+                    {
+                        System.out.println("unknown data. ("+file.getPath()+")");
+                    }
+                    else
+                    {
+                        System.out.println(".... >> "+desc.getShortName());
+                        System.out.println(".... >> "+desc.getMimeType());
+                    }
+                    
+                    
+                    
+//                    try {
+//						match = parser.getMagicMatch(file);
+//					} catch (MagicMatchNotFoundException e) {
+//					}
+					if (desc != null) {
+                        
+                        String mimetype = desc.getMimeType();
+						                       
+						if (mimetype.equals("audio/mpeg")) {
+							System.out.println("adding MP3 File" + file);
 							writer.addDocument(MP3Document.Document(file));
-						} else if (match.getMimeType().equals("application/msword")) {
+						} else if (mimetype.equals("application/msword")) {
 							writer.addDocument(ExcelDocument.Document(file));
-						} else if ( StringUtils.contains(match.getMimeType(),"image/")) {
+						} else if ( StringUtils.contains(mimetype,"image/")) {
 							writer.addDocument(ImageDocument.Document(file));
-						} else if (StringUtils.contains(match.getMimeType(), "application/pdf")) {
+						} else if (StringUtils.contains(mimetype, "application/pdf")) {
 							writer.addDocument(PDFDocument.Document(file));
 						}
 
@@ -129,9 +145,7 @@ class IndexFiles {
 					e.printStackTrace();
 				} catch (MagicParseException e) {
 					e.printStackTrace();
-				} catch (MagicException e) {
-					e.printStackTrace();
-				}
+                }
 			}
 		}
 	}
