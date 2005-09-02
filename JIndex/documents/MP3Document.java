@@ -2,6 +2,15 @@ package documents;
 import java.io.File;
 import java.io.IOException;
 
+import javax.media.MediaLocator;
+import javax.media.format.AudioFormat;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import javazoom.jl.decoder.Decoder;
+import javazoom.jl.player.Player;
+
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Field;
 
@@ -17,6 +26,7 @@ public class MP3Document implements SearchDocument {
 			"artist",
 			"genre"};
 	public static org.apache.lucene.document.Document Document(File f) throws IOException {
+
 
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		doc.add(Field.Text("path", f.getPath()));

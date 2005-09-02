@@ -33,6 +33,7 @@ import javax.swing.JTextArea;
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Bitmap;
 import org.gnu.gdk.Pixbuf;
+import org.gnu.gdk.PixbufLoader;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.Label;
 import org.gnu.gtk.VBox;
@@ -68,10 +69,12 @@ public class ImageContentGUI extends MainContentsGUI {
         org.gnu.gtk.Image img = new org.gnu.gtk.Image("images/gaim/im-icq.gif");
         BASE64Decoder decoder = new BASE64Decoder();
         String code = doc.get("thumbnail").trim();
-        Pixbuf icon=null;
+        
         try {
             byte [] image = decoder.decodeBuffer(code);
-           
+           PixbufLoader loader = new PixbufLoader();
+           loader.write(image);
+           img = new org.gnu.gtk.Image(loader.getPixbuf());
             System.out.println(image.length);
         } catch (IOException e) {
             e.printStackTrace();

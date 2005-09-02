@@ -20,6 +20,8 @@ import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.Label;
+import org.gnu.gtk.PolicyType;
+import org.gnu.gtk.ScrolledWindow;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
 import org.gnu.gtk.Window;
@@ -38,6 +40,7 @@ import documents.PDFDocument;
 public class Third {
     VBox contentpane;
     VBox mainpane;
+    ScrolledWindow scrolled_window;
     public Widget createEntryWidget() {
         mainpane = new VBox(false, 0);
         contentpane = new VBox(true, 0);
@@ -56,12 +59,11 @@ public class Third {
                         && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
                                                                             // enter
                     System.out.println(entry.getText());
-                    //contentpane = new HBox(false, 0);
-                    
                     doSearchGUI(entry.getText());
                     //mainpane.add(contentpane);
                     
                     contentpane.showAll();
+                    scrolled_window.showAll();
                     entry.setText("");
                     return true;
                 }
@@ -72,21 +74,16 @@ public class Third {
 
         b.add(entry);
         mainpane.add(b);
-        // start contentpane design
-        // HBox content = new HBox(true, 0);
-        // VBox textcontent = new VBox(false, 0);
-        // Image img = new Image("images/stock_search.png");
-        // Label fileinfo = new Label("/home/sorenm/test.doc");
-        // Label fileinfo1 = new Label("Word document type");
-        // textcontent.add(fileinfo);
-        // textcontent.add(fileinfo1);
-        //        
-        //        
-        // content.add(img);
-        // content.add(textcontent);
-        // contentpane.add(content);
-        // end contentpane design
-        mainpane.add(contentpane);
+
+        
+        scrolled_window = new ScrolledWindow(null, null);
+        scrolled_window.setBorderWidth(10);
+        scrolled_window.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
+        scrolled_window.show();
+        scrolled_window.addWithViewport(contentpane);
+        scrolled_window.setMinimumSize(500,600);
+        
+        mainpane.add(scrolled_window);
         return mainpane;
     }
 
@@ -104,7 +101,7 @@ public class Third {
         });
         w.setDefaultSize(200, 30);
         w.setBorderWidth(5);
-        w.setTitle("The Java-Gnome team");
+        w.setTitle("JIndex");
         w.add(createEntryWidget());
         w.showAll();
         

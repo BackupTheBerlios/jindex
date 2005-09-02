@@ -35,9 +35,8 @@ import sun.misc.BASE64Decoder;
  * To change the template for this generated type comment go to
  * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class MP3LogGUI extends MainContentsGUI implements MouseListener {
+public class MP3LogGUI extends MainContentsGUI {
 	Document doc;
-	String filepath="file:///home/sorenm/workspace/Spider/";
 	public MP3LogGUI(Document _doc) {
 		super();
 		doc = _doc;
@@ -84,77 +83,5 @@ public class MP3LogGUI extends MainContentsGUI implements MouseListener {
         // end contentpane design
     }
 	
-	public String getHTML() {
-		String result="";
-		
-		result += "<tr>";
-		String icon = "emblem-sound.png";
-		
-		result += "<td>";
-		result += "<img src='"+filepath+icon+"' height=24 width=24></img>";
-		result += "</td>";
-		
-		//if (imwith.equals(""))
-		//	System.out.println(doc.get("contents"));
-		result += "<td>";
-		result += doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"<br>\n";
-		//result += " Started: " + doc.get("starttime")+" on the "+doc.get("startdate")+"<br>\n";
-		//result += " Ended at " + doc.get("endtime")+"<br>\n<hr>";
-		result += "</td>";
-		result += "</tr>";
-		//System.out.println(result);
-		return result;
-	}
-       
-
-	 
-    
-    
-   
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseClicked(java.awt.event.MouseEvent)
-	 */
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		try {
-			Runtime.getRuntime().exec("totem "+doc.get("path"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
-	 */
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
-	 */
-	public void mouseReleased(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
-	 */
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
-	 */
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-       
+	
 }

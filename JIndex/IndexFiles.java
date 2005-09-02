@@ -37,7 +37,7 @@ class IndexFiles {
 			IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
 			// indexDocs(writer, new File(HOME+"/mp3"));
 			// indexDocs(writer, new File(HOME+"/bin"));
-			// indexDocs(writer, new File(HOME+"/Documents"));
+            	// indexDocs(writer, new File(HOME+"/Documents"));
 			// //indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
 			// indexDocs(writer, new
 			// File(HOME+"/.evolution/addressbook/local"));

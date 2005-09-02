@@ -92,5 +92,13 @@
 		<attributes>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/jl1.0.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="libs/jmf.jar">
+		<attributes>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="binout"/>
 </classpath>
