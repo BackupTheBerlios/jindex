@@ -21,7 +21,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class GaimLogDocument implements SearchDocument {
-	public static String[] fields = { "protocol", "startdate", "starttime", "endtime", "from", "alias", "contents" };
+	public static String[] fields = { "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
 	private final static String HOME = System.getProperty("HOME");
 	public static org.apache.lucene.document.Document Document(File f) throws IOException {
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
@@ -97,7 +97,7 @@ public class GaimLogDocument implements SearchDocument {
 		}
 		is = new FileInputStream(f);
 		reader = new BufferedReader(new InputStreamReader(is));
-		doc.add(Field.Text("contents", reader));
+		doc.add(Field.Text("filecontents", reader));
 
 		// return the document
 		return doc;

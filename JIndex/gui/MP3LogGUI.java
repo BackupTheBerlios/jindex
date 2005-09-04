@@ -19,11 +19,13 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.apache.lucene.document.Document;
+import org.gnu.gdk.Color;
 import org.gnu.gdk.Pixbuf;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.Image;
 import org.gnu.gtk.Label;
+import org.gnu.gtk.StateType;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
 
@@ -64,7 +66,7 @@ public class MP3LogGUI extends MainContentsGUI {
 		infopane.add(new JLabel(doc.get("title").trim()));
 		return this;
 	}
-    public Widget getGnomeGUI() {
+    public Widget getGnomeGUI(boolean alternaterow) {
         // start contentpane design
         HBox content = new HBox(true, 0);
         VBox textcontent = new VBox(false, 0);
@@ -79,6 +81,9 @@ public class MP3LogGUI extends MainContentsGUI {
         
         content.add(img);
         content.add(textcontent);
+        if(alternaterow) {
+            content.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
+        }
         return content;
         // end contentpane design
     }

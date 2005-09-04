@@ -36,12 +36,12 @@ class IndexFiles {
 			Date start = new Date();
 			IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
 			// indexDocs(writer, new File(HOME+"/mp3"));
-			// indexDocs(writer, new File(HOME+"/bin"));
+			indexDocs(writer, new File(HOME+"/bin"));
             	// indexDocs(writer, new File(HOME+"/Documents"));
 			// //indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
 			// indexDocs(writer, new
 			// File(HOME+"/.evolution/addressbook/local"));
-			// indexDocs(writer, new File(HOME+"/.gaim/logs"));
+			indexDocs(writer, new File(HOME+"/.gaim/logs"));
             indexDocs(writer, new File(HOME + "/Music"));
 			indexDocs(writer, new File(HOME + "/DigitalCameraPictures/colle"));
             

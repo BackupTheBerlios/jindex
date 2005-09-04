@@ -2,10 +2,29 @@ import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.MP3LogGUI;
 import gui.PDFContentGUI;
+import gui.UnknownfiletypeGUI;
 
+import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+import javax.media.Manager;
+import javax.media.NoProcessorException;
+import javax.media.Processor;
+import javax.media.ResourceUnavailableException;
+import javax.media.Time;
+import javax.media.format.VideoFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
+
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -16,12 +35,16 @@ import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
+import org.gnu.gdk.Color;
 import org.gnu.gtk.Entry;
+import org.gnu.gtk.EventBox;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HBox;
+import org.gnu.gtk.HSeparator;
 import org.gnu.gtk.Label;
 import org.gnu.gtk.PolicyType;
 import org.gnu.gtk.ScrolledWindow;
+import org.gnu.gtk.StateType;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
 import org.gnu.gtk.Window;
@@ -43,12 +66,14 @@ public class Third {
     ScrolledWindow scrolled_window;
     public Widget createEntryWidget() {
         mainpane = new VBox(false, 0);
-        contentpane = new VBox(true, 0);
+        contentpane = new VBox(false, 0);
         final HBox b = new HBox(false, 0);
 
         Label label = new Label("Query: ");
         b.add(label);
-
+        
+        
+        
         final Entry entry = new Entry();
         entry.setText("Search string");
         entry.setVisible(true);
@@ -59,9 +84,11 @@ public class Third {
                         && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
                                                                             // enter
                     System.out.println(entry.getText());
+                    contentpane.destroy();
+                    contentpane = new VBox(false, 0);
                     doSearchGUI(entry.getText());
                     //mainpane.add(contentpane);
-                    
+                    scrolled_window.addWithViewport(contentpane);
                     contentpane.showAll();
                     scrolled_window.showAll();
                     entry.setText("");
@@ -109,6 +136,42 @@ public class Third {
     }
 
     public static void main(String[] args) {
+      
+        
+        
+        try {
+            // From file
+            Processor video = Manager.createProcessor(new URL("file:///home/sorenm/movies/The.Hitchhikers.Guide.To.The.Galaxy.PROPER.DVDRiP.XviD/CD1/movie.mpg"));
+            video.configure();
+            Time length = video.getDuration();
+            System.out.println(video.getRate());
+            double hours = Math.round(length.getSeconds()/(60*60));
+            double min = hours*60*60-length.getSeconds()/60/60;
+            
+            System.out.println(new BigDecimal(length.getSeconds()).intValue());
+            System.out.println(new BigDecimal(hours).intValue()+":"+min);
+            
+            System.out.println("-->"+video.getMediaTime().getSeconds());
+            
+       
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NoProcessorException e) {
+            e.printStackTrace();
+        }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         new Third(args);
     }
 
@@ -129,11 +192,11 @@ public class Third {
 
             String[] fields = new String[0];
 
-            fields = concatArrays(MP3Document.fields, fields);
-            fields = concatArrays(GaimLogDocument.fields, fields);
+//            fields = concatArrays(MP3Document.fields, fields);
+//            fields = concatArrays(GaimLogDocument.fields, fields);
             fields = concatArrays(FileDocument.fields, fields);
-            fields = concatArrays(ImageDocument.fields, fields);
-            fields = concatArrays(PDFDocument.fields, fields);
+//            fields = concatArrays(ImageDocument.fields, fields);
+//            fields = concatArrays(PDFDocument.fields, fields);
 
             query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
             // query = QueryParser.parse(searchquery, "contents", analyzer);
@@ -148,7 +211,11 @@ public class Third {
             for (int i = 0; i < hits.length(); i++) {
                 Document doc = null;
                 doc = hits.doc(i);
-
+                boolean alternaterow;
+                if(i % 2 == 0)
+                    alternaterow = true;
+                else 
+                    alternaterow = false;
                 // System.out.println("Found: " + doc.get("type"));
                 if (doc.get("type").equals("text/gaimlog")) {
                     // box.add(new GaimLogGUI(doc));
@@ -157,21 +224,23 @@ public class Third {
                 } else if (doc.get("type").equals("audio/mp3")) {
                     // System.out.println("Adding audio info");
                     // box.add(new MP3LogGUI(doc));
-                    contentpane.add(new MP3LogGUI(doc).getGnomeGUI());
+                    contentpane.packStart(new MP3LogGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
                 } else if (doc.get("type").equals("image")) {
-                    contentpane.add(new ImageContentGUI(doc).getGnomeGUI());
+                    contentpane.packStart(new ImageContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
                     System.out.println("Added image");
                 } else if (doc.get("type").equals("application/pdf")) {
                     System.out.println("Added PDF");
                     box.add(new PDFContentGUI(doc).getGUI());
-                }
+                } else
 
                 if (doc.get("type").equals("mail")) {
                     System.out.println("mail info");
                     // content += new MailGUI(doc).getHTML();
                 } else {
-                    // box.add(new UnknownfiletypeGUI(doc).getGUI());
+                    contentpane.packStart(new UnknownfiletypeGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
+                    
                 }
+                contentpane.packStart(new HSeparator(), false, true, 0);
             }
             searcher.close();
         } catch (IOException e2) {

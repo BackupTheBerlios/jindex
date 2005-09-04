@@ -1,104 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="poi.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="poi-contrib.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="poi-scratchpad.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="lucene-1.4.3.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="sabercat.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="xercesImpl.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="xml-apis.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="xmlParserAPIs.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="xalan.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="jmimemagic-0.0.4a.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="jxl.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="log4j.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="jakarta-oro.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="jdic.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" sourcepath="/home/sorenm/tmp/je-2.0.54/src" path="je.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="itext-1.3.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/commons-lang.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/usr/share/java/gconf2.10-2.10.1.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/usr/share/java/glade2.10-2.10.1.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/usr/share/java/gnome2.10-2.10.1.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/usr/share/java/gtk2.6-2.6.2.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/jl1.0.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="libs/jmf.jar">
-		<attributes>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="src" path=""/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="poi.jar"/>
+	<classpathentry kind="lib" path="poi-contrib.jar"/>
+	<classpathentry kind="lib" path="poi-scratchpad.jar"/>
+	<classpathentry kind="lib" path="sabercat.jar"/>
+	<classpathentry kind="lib" path="xercesImpl.jar"/>
+	<classpathentry kind="lib" path="xml-apis.jar"/>
+	<classpathentry kind="lib" path="xmlParserAPIs.jar"/>
+	<classpathentry kind="lib" path="xalan.jar"/>
+	<classpathentry kind="lib" path="jmimemagic-0.0.4a.jar"/>
+	<classpathentry kind="lib" path="jxl.jar"/>
+	<classpathentry kind="lib" path="log4j.jar"/>
+	<classpathentry kind="lib" path="jakarta-oro.jar"/>
+	<classpathentry kind="lib" path="jdic.jar"/>
+	<classpathentry sourcepath="/home/sorenm/tmp/je-2.0.54/src" kind="lib" path="je.jar"/>
+	<classpathentry kind="lib" path="itext-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/commons-lang.jar"/>
+	<classpathentry kind="lib" path="libs/jl1.0.jar"/>
+	<classpathentry kind="lib" path="libs/jmf.jar"/>
+	<classpathentry kind="lib" path="libs/gconf2.8.jar"/>
+	<classpathentry kind="lib" path="libs/glade2.8.jar"/>
+	<classpathentry kind="lib" path="libs/gnome2.8.jar"/>
+	<classpathentry kind="lib" path="libs/gtk2.4.jar"/>
+	<classpathentry kind="lib" path="libs/lucene-1.4.3.jar"/>
+	<classpathentry kind="lib" path="libs/jffmpeg-1.0.0.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>

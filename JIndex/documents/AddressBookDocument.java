@@ -1,7 +1,10 @@
 package documents;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
@@ -17,12 +20,9 @@ import com.sleepycat.je.Environment;
 import com.sleepycat.je.EnvironmentConfig;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
-import com.sleepycat.je.Transaction;
-
-import java.io.*;
 
 public class AddressBookDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
+	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 //test(f);
@@ -43,7 +43,7 @@ public class AddressBookDocument implements SearchDocument {
 
 		FileInputStream is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
-		doc.add(Field.Text("contents", reader));
+		doc.add(Field.Text("filecontents", reader));
 
 		return doc;
 	}

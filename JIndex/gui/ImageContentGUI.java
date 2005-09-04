@@ -32,10 +32,13 @@ import javax.swing.JTextArea;
 
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Bitmap;
+import org.gnu.gdk.Color;
+import org.gnu.gdk.Colormap;
 import org.gnu.gdk.Pixbuf;
 import org.gnu.gdk.PixbufLoader;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.Label;
+import org.gnu.gtk.StateType;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
 
@@ -62,9 +65,11 @@ public class ImageContentGUI extends MainContentsGUI {
         setOpenAction(doc.get("path"));
 
     }
-    public Widget getGnomeGUI() {
+    public Widget getGnomeGUI(boolean alternaterow) {
         // start contentpane design
-        HBox content = new HBox(true, 0);
+        int textpadding = 0;
+        
+        HBox content = new HBox(false, 0);
         VBox textcontent = new VBox(false, 0);
         org.gnu.gtk.Image img = new org.gnu.gtk.Image("images/gaim/im-icq.gif");
         BASE64Decoder decoder = new BASE64Decoder();
@@ -75,19 +80,32 @@ public class ImageContentGUI extends MainContentsGUI {
            PixbufLoader loader = new PixbufLoader();
            loader.write(image);
            img = new org.gnu.gtk.Image(loader.getPixbuf());
-            System.out.println(image.length);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         //img = new org.gnu.gtk.Image(icon);
-        Label fileinfo = new Label("123 /home/sorenm/test.doc");
-        Label fileinfo1 = new Label("Word document type");
-        textcontent.add(fileinfo);
-        textcontent.add(fileinfo1);
+        Label fileinfo = new Label("Size: "+doc.get("image-height")+"x"+doc.get("image-width"));
+        Label filepath = new Label(doc.get("name"));
+        fileinfo.setAlignment(0, 0);
+        filepath.setAlignment(0, 0);
+        textcontent.packStart(filepath,true, true, 1);
+        textcontent.packStart(fileinfo,true, true, 1);
+
+       
         
-        
-        content.add(img);
-        content.add(textcontent);
+
+        if(alternaterow) {
+            content.setBackgroundColor(StateType.ACTIVE, new Color(23,23,23));
+            content.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
+            content.setBackgroundColor(StateType.INSENSITIVE, new Color(23,23,23));
+            content.setBackgroundColor(StateType.SELECTED, Color.ORANGE);
+            content.setBaseColor(StateType.SELECTED, new Color(23,123,223));
+            textcontent.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
+        }
+
+        content.packStart(img,false, true, 1);
+        content.packStart(textcontent, true, false, 1);
         return content;
         // end contentpane design
     }

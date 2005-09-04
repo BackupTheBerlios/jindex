@@ -9,8 +9,7 @@ import org.apache.lucene.document.Field;
 import java.io.*;
 
 public class FileDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
-
+    public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 
 		Document doc = new Document();
@@ -22,7 +21,7 @@ public class FileDocument implements SearchDocument {
 
 		doc.add(Field.Keyword("name", f.getName()));
 
-		doc.add(Field.Text("type", "type field"));
+		doc.add(Field.Text("type", "unknown mime type"));
 		doc.add(Field.Text("icon", "icon data"));
 		doc.add(Field.Text("url", "url data"));
 		doc.add(Field.Text("from", ""));
@@ -30,7 +29,7 @@ public class FileDocument implements SearchDocument {
 
 		FileInputStream is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
-		doc.add(Field.Text("contents", reader));
+        doc.add(Field.Text("filecontents", reader));
 
 		return doc;
 	}
@@ -39,6 +38,8 @@ public class FileDocument implements SearchDocument {
 	}
 
     public String[] getSearchFields() {
+        
+        System.out.println(fields);
         return fields;
     }
 }

@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
@@ -14,7 +13,7 @@ import com.lowagie.text.pdf.PdfReader;
 
 
 public class PDFDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "contents", "name", "numberofpages", "producer", "creator", "creationdate" };	
+	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name", "numberofpages", "producer", "creator", "creationdate" };	
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 		try {

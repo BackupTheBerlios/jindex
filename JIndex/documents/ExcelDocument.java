@@ -26,7 +26,7 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class ExcelDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "contents", "name" };
+	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 
@@ -97,7 +97,7 @@ public class ExcelDocument implements SearchDocument {
 			}
 		}
 		System.out.println("LIST == "+list.toString());
-		doc.add(Field.Text("contents", list.toString()));
+		doc.add(Field.Text("filecontents", list.toString()));
 		doc.add(Field.Keyword("name", name));
 		return doc;
 	}
