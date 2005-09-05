@@ -138,31 +138,31 @@ public class Third {
     public static void main(String[] args) {
       
         
-        
-        try {
-            // From file
-            Processor video = Manager.createProcessor(new URL("file:///home/sorenm/movies/The.Hitchhikers.Guide.To.The.Galaxy.PROPER.DVDRiP.XviD/CD1/movie.mpg"));
-            video.configure();
-            Time length = video.getDuration();
-            System.out.println(video.getRate());
-            double hours = Math.round(length.getSeconds()/(60*60));
-            double min = hours*60*60-length.getSeconds()/60/60;
-            
-            System.out.println(new BigDecimal(length.getSeconds()).intValue());
-            System.out.println(new BigDecimal(hours).intValue()+":"+min);
-            
-            System.out.println("-->"+video.getMediaTime().getSeconds());
-            
-       
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NoProcessorException e) {
-            e.printStackTrace();
-        }
-
-        
+//        
+//        try {
+//            // From file
+//            Processor video = Manager.createProcessor(new URL("file:///home/sorenm/movies/The.Hitchhikers.Guide.To.The.Galaxy.PROPER.DVDRiP.XviD/CD1/movie.mpg"));
+//            video.configure();
+//            Time length = video.getDuration();
+//            System.out.println(video.getRate());
+//            double hours = Math.round(length.getSeconds()/(60*60));
+//            double min = hours*60*60-length.getSeconds()/60/60;
+//            
+//            System.out.println(new BigDecimal(length.getSeconds()).intValue());
+//            System.out.println(new BigDecimal(hours).intValue()+":"+min);
+//            
+//            System.out.println("-->"+video.getMediaTime().getSeconds());
+//            
+//       
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (NoProcessorException e) {
+//            e.printStackTrace();
+//        }
+//
+//        
         
         
         
