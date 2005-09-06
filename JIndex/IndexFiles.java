@@ -41,9 +41,9 @@ class IndexFiles {
 			// //indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
 			// indexDocs(writer, new
 			// File(HOME+"/.evolution/addressbook/local"));
-			indexDocs(writer, new File(HOME+"/.gaim/logs"));
-            indexDocs(writer, new File(HOME + "/Music"));
-			indexDocs(writer, new File(HOME + "/DigitalCameraPictures/colle"));
+//			indexDocs(writer, new File(HOME+"/.gaim/logs"));
+//            indexDocs(writer, new File(HOME + "/Music"));
+			indexDocs(writer, new File(HOME + "/DigitalCameraPictures"));
             
 			//indexDocs(writer, new File(HOME + "/Documents"));
 			writer.optimize();

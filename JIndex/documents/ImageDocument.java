@@ -11,6 +11,7 @@ import java.awt.image.WritableRaster;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
 
@@ -20,6 +21,13 @@ import org.apache.lucene.document.Field;
 
 import sun.misc.BASE64Encoder;
 
+import com.drew.imaging.jpeg.JpegProcessingException;
+import com.drew.metadata.Directory;
+import com.drew.metadata.Metadata;
+import com.drew.metadata.Tag;
+import com.drew.metadata.exif.ExifDirectory;
+import com.drew.metadata.exif.ExifReader;
+import com.drew.metadata.iptc.IptcDirectory;
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
@@ -31,9 +39,29 @@ public class ImageDocument implements SearchDocument {
 
     public static Document Document(File f)
             throws java.io.FileNotFoundException {
-Meta
+
         Document doc = new Document();
 
+        try {
+			ExifReader exifreader = new ExifReader(f);
+			Metadata metadata = exifreader.extract();
+			
+			Directory exifDirectory = metadata.getDirectory(ExifDirectory.class);
+			String cameraMake = exifDirectory.getString(ExifDirectory.TAG_MAKE);
+			String cameraModel = exifDirectory.getString(ExifDirectory.TAG_MODEL);
+			String artist = exifDirectory.getString(ExifDirectory.TAG_ARTIST);
+			String created = exifDirectory.getString(ExifDirectory.TAG_DATETIME);
+			String orientation = exifDirectory.getString(ExifDirectory.TAG_ORIENTATION);
+			Directory iptcDirectory = metadata.getDirectory(IptcDirectory.class);
+			String caption = iptcDirectory.getString(IptcDirectory.TAG_CAPTION);
+			System.out.println(cameraMake);
+			System.out.println(cameraModel);
+			System.out.println(artist);
+			System.out.println(created);
+			System.out.println(orientation);
+		} catch (JpegProcessingException e1) {
+			e1.printStackTrace();
+		}
         doc.add(Field.Keyword("path", f.getPath()));
         String path = f.getParent();
         // path = path.substring(0, path.length() - 1);
