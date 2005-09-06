@@ -2,21 +2,6 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="poi.jar"/>
-	<classpathentry kind="lib" path="poi-contrib.jar"/>
-	<classpathentry kind="lib" path="poi-scratchpad.jar"/>
-	<classpathentry kind="lib" path="sabercat.jar"/>
-	<classpathentry kind="lib" path="xercesImpl.jar"/>
-	<classpathentry kind="lib" path="xml-apis.jar"/>
-	<classpathentry kind="lib" path="xmlParserAPIs.jar"/>
-	<classpathentry kind="lib" path="xalan.jar"/>
-	<classpathentry kind="lib" path="jmimemagic-0.0.4a.jar"/>
-	<classpathentry kind="lib" path="jxl.jar"/>
-	<classpathentry kind="lib" path="log4j.jar"/>
-	<classpathentry kind="lib" path="jakarta-oro.jar"/>
-	<classpathentry kind="lib" path="jdic.jar"/>
-	<classpathentry sourcepath="/home/sorenm/tmp/je-2.0.54/src" kind="lib" path="je.jar"/>
-	<classpathentry kind="lib" path="itext-1.3.jar"/>
 	<classpathentry kind="lib" path="libs/commons-lang.jar"/>
 	<classpathentry kind="lib" path="libs/jl1.0.jar"/>
 	<classpathentry kind="lib" path="libs/jmf.jar"/>
@@ -26,5 +11,20 @@
 	<classpathentry kind="lib" path="libs/gtk2.4.jar"/>
 	<classpathentry kind="lib" path="libs/lucene-1.4.3.jar"/>
 	<classpathentry kind="lib" path="libs/jffmpeg-1.0.0.jar"/>
+	<classpathentry kind="lib" path="libs/itext-1.3.jar"/>
+	<classpathentry kind="lib" path="libs/jakarta-oro.jar"/>
+	<classpathentry kind="lib" path="libs/jdic.jar"/>
+	<classpathentry kind="lib" path="libs/je.jar"/>
+	<classpathentry kind="lib" path="libs/jmimemagic-0.0.4a.jar"/>
+	<classpathentry kind="lib" path="libs/jxl.jar"/>
+	<classpathentry kind="lib" path="libs/log4j.jar"/>
+	<classpathentry kind="lib" path="libs/poi.jar"/>
+	<classpathentry kind="lib" path="libs/poi-contrib.jar"/>
+	<classpathentry kind="lib" path="libs/poi-scratchpad.jar"/>
+	<classpathentry kind="lib" path="libs/sabercat.jar"/>
+	<classpathentry kind="lib" path="libs/xalan.jar"/>
+	<classpathentry kind="lib" path="libs/xercesImpl.jar"/>
+	<classpathentry kind="lib" path="libs/xml-apis.jar"/>
+	<classpathentry kind="lib" path="libs/xmlParserAPIs.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>

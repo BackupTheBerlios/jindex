@@ -31,7 +31,7 @@ public class ImageDocument implements SearchDocument {
 
     public static Document Document(File f)
             throws java.io.FileNotFoundException {
-
+Meta
         Document doc = new Document();
 
         doc.add(Field.Keyword("path", f.getPath()));
