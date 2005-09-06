@@ -21,6 +21,7 @@ import org.apache.lucene.document.Field;
 
 import sun.misc.BASE64Encoder;
 
+import com.drew.imaging.jpeg.JpegMetadataReader;
 import com.drew.imaging.jpeg.JpegProcessingException;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
@@ -41,10 +42,9 @@ public class ImageDocument implements SearchDocument {
             throws java.io.FileNotFoundException {
 
         Document doc = new Document();
-
+// check http://reader.imagero.com/tutorial.html
         try {
-			ExifReader exifreader = new ExifReader(f);
-			Metadata metadata = exifreader.extract();
+			Metadata metadata = JpegMetadataReader.readMetadata(f);
 			
 			Directory exifDirectory = metadata.getDirectory(ExifDirectory.class);
 			String cameraMake = exifDirectory.getString(ExifDirectory.TAG_MAKE);
