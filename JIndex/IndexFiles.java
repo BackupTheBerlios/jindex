@@ -43,7 +43,8 @@ class IndexFiles {
 			// File(HOME+"/.evolution/addressbook/local"));
 //			indexDocs(writer, new File(HOME+"/.gaim/logs"));
 //            indexDocs(writer, new File(HOME + "/Music"));
-			indexDocs(writer, new File(HOME + "/DigitalCameraPictures"));
+			//indexDocs(writer, new File(HOME + "/DigitalCameraPictures"));
+			indexDocs(writer, new File(HOME + "/indextest"));
             
 			//indexDocs(writer, new File(HOME + "/Documents"));
 			writer.optimize();

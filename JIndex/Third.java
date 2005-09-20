@@ -66,7 +66,10 @@ public class Third {
     ScrolledWindow scrolled_window;
     public Widget createEntryWidget() {
         mainpane = new VBox(false, 0);
+        mainpane.setBackgroundColor(StateType.NORMAL, Color.WHITE);
+        
         contentpane = new VBox(false, 0);
+        contentpane.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         final HBox b = new HBox(false, 0);
 
         Label label = new Label("Query: ");
@@ -109,7 +112,7 @@ public class Third {
         scrolled_window.show();
         scrolled_window.addWithViewport(contentpane);
         scrolled_window.setMinimumSize(500,600);
-        
+        scrolled_window.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         mainpane.add(scrolled_window);
         return mainpane;
     }
@@ -129,9 +132,11 @@ public class Third {
         w.setDefaultSize(200, 30);
         w.setBorderWidth(5);
         w.setTitle("JIndex");
-        w.add(createEntryWidget());
+        Widget wg = createEntryWidget(); 
+        	wg.setBackgroundColor(StateType.NORMAL, Color.WHITE);
+        w.add(wg);
         w.showAll();
-        
+      //  w.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         Gtk.main();
     }
 

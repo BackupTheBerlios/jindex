@@ -8,6 +8,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
+
+
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
@@ -37,7 +39,7 @@ public class TestMain  {
 					position += hash.getLength();
 				}
 
-				
+		
 				// Read a character
 				String str;
 				int i = 0;
@@ -99,6 +101,7 @@ public class TestMain  {
 	}
 
 	public static void main(String argv[]) {
+
 
 	}
 
