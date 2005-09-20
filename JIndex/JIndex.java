@@ -60,7 +60,7 @@ import documents.ImageDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
 
-public class Third {
+public class JIndex {
     VBox contentpane;
     VBox mainpane;
     ScrolledWindow scrolled_window;
@@ -117,7 +117,7 @@ public class Third {
         return mainpane;
     }
 
-    public Third(String[] args) {
+    public JIndex(String[] args) {
         Gtk.init(args);
         Window w = new Window(WindowType.TOPLEVEL);
         w.addListener(new LifeCycleListener() {
@@ -177,7 +177,7 @@ public class Third {
         
         
         
-        new Third(args);
+        new JIndex(args);
     }
 
     static JPanel box;
