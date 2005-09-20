@@ -1,0 +1,12 @@
+fileschanged (0.6.2-1) unstable; urgency=low
+
+  * control: changed dependency libf0c102 to libfam0c102.
+
+ -- Ben Asselstine <benasselstine@users.sf.net>  Wed, 1 Jun 2005 10:03:17 +0500
+
+fileschanged (0.6.1-1) unstable; urgency=low
+
+  * using cdbs.
+
+ -- Ben Asselstine <benasselstine@users.sf.net>  Wed, 13 Oct 2004 09:23:23 +0500
+

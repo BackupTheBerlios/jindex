@@ -1,0 +1,99 @@
+* Wed Jul 20 2005 Ben Asselstine <benasselstine@users.sourceforge.net>
+- closed ancient bug #725725, can't reproduce it.
+- added documentation for -L and -x options.
+- added new option -L --dereference (symlinks). bug #1241792
+- code beautification
+- fixed bad signed/unsigned param passing (gcc4)
+
+* Wed Jun 8 2005 Ben Asselstine <benasselstine@users.sourceforge.net>
+- fixed bug #1217188 use SA_NOCLDWAIT only if the platform has it.
+
+* Wed Jun 1 2005 Ben Asselstine <benasselstine@users.sourceforge.net>
+- added gamin support.
+- fixed bug #1203532, debian fam dependency.
+- reworded some of the --help documentation.
+
+* Thu Feb 11 2005 Ben Asselstine <benasselstine@users.sourceforge.net>
+- added gettext support.
+- fixed bug #1121065 change displayed action to be more CVS-like.
+
+* Thu Feb 10 2005 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.6.1
+- changed "--prepend-action" to "--display-action".
+- reworded some of the --help documentation.
+- fixed written list code to not have a hardcoded limit.
+- minor code cleanups.
+
+* Fri Oct 8 2004 Ben Asselstine <benasselstine@users.sourceforge.net>
+- replaced -c -C -d -e -E options with -s (--show=EVENT).
+
+* Tue Jun 15 2004 Ben Asselstine <benasselstine@users.sourceforge.net> 
+- fixed zombies upon execlp.  thanks to Konstantin Reznichenko.
+
+* Tue May 25 2004 Ben Asselstine <benasselstine@users.sourceforge.net>
+- added new -x "execute command" option.  thanks to Konstantin Reznichenko.
+
+* Fri May 7 2004 Ben Asselstine <benasselstine@users.sourceforge.net>
+- minor code rewrites.
+- added new specfile, thanks to Dick Marinus.
+
+* Mon May 3 2004 Ben Asselstine <benasselstine@users.sourceforge.net>
+- fixed bug #914580 loops on self referring symlinks.
+- fixed bug #932343 Copying files breaks monitoring.
+- reworded some of the --help documentation.
+
+* Sun Feb 22 2004 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.6.0
+- a rewrite of fileschanged.
+- now monitorining starts after the list of files is read in.
+- removed one-filesystem option.
+- removed hash-is-not-comment option.
+- changed default option from -l to -f.
+- changed the wording of the --help display.
+- added new --show-all option.
+
+* Thu Mar 22 2003 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.5.3
+- improved autobuilding.
+
+* Thu Feb 8 2003 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.5.2
+- fixed -d option so that it works.
+
+* Thu Oct 10 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.5.1
+- added --show-action option.
+
+* Thu Sep 26 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.5.0
+- correctly handling termination of fam server.
+- added help2man to missing and configure scripts.
+- automatically creating manpage from ./fileschanged --help .
+- ran autoproject to fancify things.
+- created texinfo page.
+
+* Wed Sep 26 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- version 0.4.0
+- fixed leaks/race conditions to allow for monitoring larger 
+- filesets.
+- added new option -x to stay on current filesystem (as 
+- current working dir).
+- built rpm from simple spec file.
+
+* Thu Aug  8 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- new in version 0.3.0
+- created a man page.
+- added extra info in --help.
+- now checking malloc return values.
+- added handy new timeout command line option.
+
+* Sun Jul 14 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- new in version 0.2.0
+- revamped the command-line options to make more sense.
+- added feature to see files that start and stop executing.
+- changed -d option not report deleted files on stderr.
+- fixed getopt crashing
+- added some initial error checking.
+
+* Fri Jun  7 2002 Ben Asselstine <benasselstine@users.sourceforge.net>
+- initial version

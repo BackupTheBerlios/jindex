@@ -9,7 +9,11 @@
 	<classpathentry kind="lib" path="libs/glade2.8.jar"/>
 	<classpathentry kind="lib" path="libs/gnome2.8.jar"/>
 	<classpathentry kind="lib" path="libs/gtk2.4.jar"/>
-	<classpathentry kind="lib" path="libs/lucene-1.4.3.jar"/>
+	<classpathentry sourcepath="/home/sorenm/JavaLibs/lucene-1.4-final/lucene-1.4-final.jar" kind="lib" path="libs/lucene-1.4.3.jar">
+		<attributes>
+			<attribute value="http://lucene.apache.org/java/docs/api/http://lucene.apache.org/java/docs/api/package-list" name="javadoc_location"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="libs/jffmpeg-1.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/itext-1.3.jar"/>
 	<classpathentry kind="lib" path="libs/jakarta-oro.jar"/>

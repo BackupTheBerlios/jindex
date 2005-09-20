@@ -1,0 +1,5 @@
+@setfilename package.info
+
+@set VERSION 0.6.4
+@set MAINTAINER Ben Asselstine
+@set ADDRESS benasselstine@@users.sf.net

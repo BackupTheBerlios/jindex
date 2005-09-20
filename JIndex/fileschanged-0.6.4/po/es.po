@@ -1,0 +1,143 @@
+# fileschanged Spanish translation.
+# This file is put in the public domain.
+# Guillem Jover <guillem@debian.org>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fileschanged 0.6.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-07-20 15:50-0400\n"
+"PO-Revision-Date: 2005-02-12 04:19+0100\n"
+"Last-Translator: Guillem Jover <guillem@debian.org>\n"
+"Language-Team: Spanish <debian-l10n-spanish@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/fileschanged.c:97
+msgid "Error: Couldn't connect to fam daemon."
+msgstr "Error: No se ha podido conectar al demonio «fam»."
+
+#: src/opts.c:12
+msgid ""
+"Monitors FILEs for alterations.  Display the filenames of FILEs that were "
+"created, changed, deleted, started execution or finished executing.FILEs "
+"must exist when monitoring begins, or they will not be monitored."
+msgstr ""
+"Monitoriza alteraciones en FICHEROS. Muestra los nombre de fichero de "
+"FICHEROS que han sido creados, borrados, se ha empezado su ejecución o se ha "
+"terminado su ejecución. Los FICHEROS deben existir cuando la monitorización "
+"empiece, o no serán monitorizados."
+
+#: src/opts.c:17
+msgid "[FILE]..."
+msgstr "[FICHERO]..."
+
+#: src/opts.c:23
+msgid "EVENT[,...]"
+msgstr "EVENTO[,...]"
+
+#: src/opts.c:24
+msgid ""
+"Display created, changed, deleted, executing, or executed files (Default is "
+"\"created,changed\")"
+msgstr ""
+"Muestra ficheros creados, modificados, borrados, ejecutándose o ejecutados "
+"(Predeterminado a «creado,modificado»)"
+
+#: src/opts.c:27
+msgid "Display deleted files"
+msgstr "Muestra ficheros borrados"
+
+#: src/opts.c:29
+msgid "(Default) Display changed files"
+msgstr "(Predeterminada) Muestra ficheros modificados"
+
+#: src/opts.c:31
+msgid "(Default) Display newly created files"
+msgstr "(Predeterminada) Muestra ficheros creados de nuevo"
+
+#: src/opts.c:33
+msgid "Display executing files"
+msgstr "Muestra ficheros en ejecución"
+
+#: src/opts.c:35
+msgid "Display files that have stopped executing"
+msgstr "Mostrar ficheros que han parado su ejecución"
+
+#: src/opts.c:37
+msgid "Display all file events and the associated action"
+msgstr "Mostrar todos los eventos de los ficheros y las acciones asociadas"
+
+#: src/opts.c:39
+msgid "(Default) Monitor the FILEs on the command line"
+msgstr "(Predeterminada) Monitorizar los FICHEROS en la linea de comandos"
+
+#: src/opts.c:40
+msgid "FILE"
+msgstr "FICHERO"
+
+#: src/opts.c:41
+msgid "Monitor the list of filenames inside FILE"
+msgstr "Monitoriza la lista de nombres de ficheros de dentro de FICHERO"
+
+#: src/opts.c:43
+msgid "Monitor subdirectories of directories"
+msgstr "Monitoriza los subdirectorios de los directorios"
+
+#: src/opts.c:45
+msgid "Don't monitor symlinks, monitor what's pointed to"
+msgstr ""
+
+#: src/opts.c:47
+msgid "Delay showing changed files for N seconds (Def=2)"
+msgstr ""
+"Retrasa en N segundos en mostrar los ficheros modificados (Predeterminado 2)"
+
+#: src/opts.c:49
+msgid "Display action when showing altered files"
+msgstr "Muestra la acción cuando se muestren los ficheros alterados"
+
+#: src/opts.c:50
+msgid "PROG"
+msgstr "PROGRAMA"
+
+#: src/opts.c:51
+#, fuzzy
+msgid "Run PROG when file is altered (PROG action filename)"
+msgstr ""
+"Ejecuta PROGRAMA cuando el fichero se altere (PROGRAMA acción nombre-fichero)"
+
+#: src/opts.c:76
+msgid "created"
+msgstr "creado"
+
+#: src/opts.c:78
+msgid "changed"
+msgstr "modificado"
+
+#: src/opts.c:80
+msgid "deleted"
+msgstr "borrado"
+
+#: src/opts.c:82
+msgid "executing"
+msgstr "ejecutándose"
+
+#: src/opts.c:84
+msgid "executed"
+msgstr "ejecutado"
+
+#: src/opts.c:86
+msgid "all"
+msgstr "todos"
+
+#: src/opts.c:89
+#, fuzzy, c-format
+msgid "Error!  '%s' is an unrecognized EVENT."
+msgstr "Error! «%s» es un EVENTO no reconocido."
+
+#: src/filelist.c:64
+#, c-format
+msgid "Error: couldn't open '%s'\n"
+msgstr "Error: no se ha podido abrir «%s»\n"

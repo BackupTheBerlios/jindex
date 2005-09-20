@@ -195,11 +195,11 @@ public class JIndex {
 
             String[] fields = new String[0];
 
-//            fields = concatArrays(MP3Document.fields, fields);
-//            fields = concatArrays(GaimLogDocument.fields, fields);
+            fields = concatArrays(MP3Document.fields, fields);
+            fields = concatArrays(GaimLogDocument.fields, fields);
             fields = concatArrays(FileDocument.fields, fields);
-//            fields = concatArrays(ImageDocument.fields, fields);
-//            fields = concatArrays(PDFDocument.fields, fields);
+            fields = concatArrays(ImageDocument.fields, fields);
+            fields = concatArrays(PDFDocument.fields, fields);
 
             query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
             // query = QueryParser.parse(searchquery, "contents", analyzer);

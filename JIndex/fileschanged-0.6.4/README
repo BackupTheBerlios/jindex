@@ -1,0 +1,38 @@
+
+fileschanged.
+
+(from the info manual)
+
+The fileschanged utility is a FAM (File Alteration Monitor) client.  From 
+the command-line it monitors sets of files and shows you when they change.  
+You can use fileschanged in shell scripts to take action when monitored 
+files become altered.  In it's simplest form, you can give fileschanged 
+filenames to monitor from stdin, and it will report when those files have 
+changed via stdout.  You can stop fileschanged from monitoring files by 
+pressing CTRL-C.  In a more complex usage, fileschanged can monitor 
+command-line specified files recursively, while following symbolic links, 
+while staying on the current filesystem, and reporting deleted files as 
+well as created and changed files that haven't been written to for 2 
+seconds.  This software is protected by the GNU General Public License, so
+users are free to share and change it.
+
+
+notes to my future self on how to build packages:
+
+to build a debian package:
+	make sure you have cdbs installed.
+	make dist
+	cp fileschanged-{version}.tar.gz /tmp
+	cd /tmp
+	tar -zxvf fileschanged-{version}
+	cd into the top level source directory.
+	debuild
+
+to build a redhat package:
+	make sure you have rpmbuild installed.
+	make dist
+	mkdir ~/play/rpmbuild/SOURCES/fileschanged-{version}
+	cp fileschanged-{version}.tar.gz ~/play/rpmbuild/SOURCES/fileschanged-{version}
+	cd into the top level source directory
+	./configure
+	rpmbuild -ba --sign redhat/fileschanged.spec

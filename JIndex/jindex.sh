@@ -1,2 +1,2 @@
 #!/bin/bash
-fileschanged -r --exec=./updateindex.sh --show=created,changed,deleted /home/sorenm/bin 
+fileschanged -r --exec=./updateindex.sh --show=created,changed,deleted /home/sorenm/indextest

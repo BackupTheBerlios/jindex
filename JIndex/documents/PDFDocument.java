@@ -13,7 +13,7 @@ import com.lowagie.text.pdf.PdfReader;
 
 
 public class PDFDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name", "numberofpages", "producer", "creator", "creationdate" };	
+	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "file-name", "numberofpages", "producer", "creator", "creationdate" };	
 
 	public static Document Document(File f) {
 		try {
@@ -35,12 +35,12 @@ public class PDFDocument implements SearchDocument {
 //		 Creator=Writer
 //		 CreationDate=D:20050419102404+02'00
 		
-		doc.add(Field.Text("path", f.getPath(), true));
+		doc.add(Field.Keyword("path", f.getPath()));
 		java.lang.String path = f.getParent();
 //		path = path.substring(0, path.length() - 1);
 		doc.add(Field.Text("absolutepath", path, true));
 
-		doc.add(Field.Text("name", f.getName(), true));
+		doc.add(Field.Keyword("file-name", f.getName()));
 
 		doc.add(Field.Text("type", "application/pdf"));
 		doc.add(Field.Text("icon", "icon data"));

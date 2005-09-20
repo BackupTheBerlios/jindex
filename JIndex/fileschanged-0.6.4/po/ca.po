@@ -1,0 +1,142 @@
+# fileschanged Catalan translation.
+# This file is put in the public domain.
+# Guillem Jover <guillem@debian.org>, 2005.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: fileschanged 0.6.2\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2005-07-20 15:50-0400\n"
+"PO-Revision-Date: 2005-02-12 05:15+0100\n"
+"Last-Translator: Guillem Jover <guillem@debian.org>\n"
+"Language-Team: Catalan <debian-l10n-catalan@lists.debian.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/fileschanged.c:97
+msgid "Error: Couldn't connect to fam daemon."
+msgstr "Error: No s'ha pogut connectar al dimoni «fam»"
+
+#: src/opts.c:12
+msgid ""
+"Monitors FILEs for alterations.  Display the filenames of FILEs that were "
+"created, changed, deleted, started execution or finished executing.FILEs "
+"must exist when monitoring begins, or they will not be monitored."
+msgstr ""
+"Monitoritza els FITXERS per alteracions. Mostra els noms de fitxer dels "
+"FITXERS que han estat creats, modificats, esborrats, s'ha començat a "
+"executar o han finalitzat l'execució. Els FITXERS han d'existir quan el "
+"monitoreig comença o no seran monitoritzats."
+
+#: src/opts.c:17
+msgid "[FILE]..."
+msgstr "[FITXER]..."
+
+#: src/opts.c:23
+msgid "EVENT[,...]"
+msgstr "ESDEVENIMENT[,...]"
+
+#: src/opts.c:24
+msgid ""
+"Display created, changed, deleted, executing, or executed files (Default is "
+"\"created,changed\")"
+msgstr ""
+"Mostra fitxers creats, modificats, esborrats, executant-se o executats "
+"(Predeterminat «creats,modificats»)"
+
+#: src/opts.c:27
+msgid "Display deleted files"
+msgstr "Mostra fitxers esborrats"
+
+#: src/opts.c:29
+msgid "(Default) Display changed files"
+msgstr "(Predeterminada) Mostra fitxers modificats"
+
+#: src/opts.c:31
+msgid "(Default) Display newly created files"
+msgstr "(Predeterminada) Mostra fitxers creats de nou"
+
+#: src/opts.c:33
+msgid "Display executing files"
+msgstr "Mostra fitxers en execució"
+
+#: src/opts.c:35
+msgid "Display files that have stopped executing"
+msgstr "Mostra fitxers que s'han parat d'executar"
+
+#: src/opts.c:37
+msgid "Display all file events and the associated action"
+msgstr "Mostra tots els esdeveniments i les accions associades"
+
+#: src/opts.c:39
+msgid "(Default) Monitor the FILEs on the command line"
+msgstr "(Predeterminada) Mostra els FITXERS a la línia d'ordres"
+
+#: src/opts.c:40
+msgid "FILE"
+msgstr "FITXER"
+
+#: src/opts.c:41
+msgid "Monitor the list of filenames inside FILE"
+msgstr "Monitoritza la llista de fitxers de dins de FITXER"
+
+#: src/opts.c:43
+msgid "Monitor subdirectories of directories"
+msgstr "Monitoritza els subdirectoris dels directoris"
+
+#: src/opts.c:45
+msgid "Don't monitor symlinks, monitor what's pointed to"
+msgstr ""
+
+#: src/opts.c:47
+msgid "Delay showing changed files for N seconds (Def=2)"
+msgstr ""
+"Retarda en N segons en mostrar els fitxers modificats (Predeterminat 2)"
+
+#: src/opts.c:49
+msgid "Display action when showing altered files"
+msgstr "Mostra l'acció quan s'ensenyin els fitxers alterats"
+
+#: src/opts.c:50
+msgid "PROG"
+msgstr "PROGRAMA"
+
+#: src/opts.c:51
+msgid "Run PROG when file is altered (PROG action filename)"
+msgstr ""
+"Executa PROGRAMA quan s'alteri el fitxer (PROGRAMA acció nom-de-fitxer)"
+
+#: src/opts.c:76
+msgid "created"
+msgstr "creat"
+
+#: src/opts.c:78
+msgid "changed"
+msgstr "modificat"
+
+#: src/opts.c:80
+msgid "deleted"
+msgstr "esborrat"
+
+#: src/opts.c:82
+msgid "executing"
+msgstr "executant-se"
+
+#: src/opts.c:84
+msgid "executed"
+msgstr "executat"
+
+#: src/opts.c:86
+msgid "all"
+msgstr "tots"
+
+#: src/opts.c:89
+#, c-format
+msgid "Error!  '%s' is an unrecognized EVENT."
+msgstr "Error! «%s» és un ESDEVENIMENT desconegut."
+
+#: src/filelist.c:64
+#, c-format
+msgid "Error: couldn't open '%s'\n"
+msgstr "Error: no s'ha pogut obrir «%s»\n"

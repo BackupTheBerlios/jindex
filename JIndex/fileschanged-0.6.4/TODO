@@ -1,0 +1,22 @@
+this outlines some issues with fileschanged
+and some other things that need doing.
+
+------
+
+fileschanged ignoring certain fam codes...
+I'm ignoring exists and endexists.  should I be?
+I'm doing my own accounting of files I'm monitoring.
+
+----------
+problem with monitoring a file that gets written to so repeatedly
+that it doesn't ever get through the FAMPending loop.
+eg) fileschanged --recursive --files-to-monitor /tmp/this > /tmp/this/list
+need a way to detect very frequently changing files and then cancel monitoring of them.  eg) so frequently that the program can't operate.
+**this problem seems to have just "gone away"***
+
+--------------------
+
+calmly handle binary filelists.
+keep track of number of files attempted to be monitored
+versuses number of files monitored.
+when this rate is high enough, show a warning.
