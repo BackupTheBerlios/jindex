@@ -6,20 +6,21 @@
  */
 package gui;
 
-import javax.swing.JPanel;
-
-import javax.swing.JLabel;
-import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.io.IOException;
 
-import javax.swing.JTextArea;
-import javax.swing.JButton;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-public class MainContentsGUI extends JPanel {
+import javax.swing.JButton;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import org.gnu.gtk.Widget;
+public class MainContentsGUI implements MainGUIInterface {
 	private String openAction;
+	
+	
 	/**
 	 * @return Returns the openAction.
 	 */
@@ -52,13 +53,13 @@ public class MainContentsGUI extends JPanel {
 	 * @return void
 	 */
 	private void initialize() {
-        this.setLayout(new BorderLayout());
-        this.setName("mainpane");
-        this.setSize(400, 100);
-        this.setMaximumSize(new Dimension(400,100));
-        this.setPreferredSize(new Dimension(400,100));
-        this.add(getImagepane(), java.awt.BorderLayout.WEST);
-        this.add(getJPanel1(), java.awt.BorderLayout.CENTER);
+//        this.setLayout(new BorderLayout());
+//        this.setName("mainpane");
+//        this.setSize(400, 100);
+//        this.setMaximumSize(new Dimension(400,100));
+//        this.setPreferredSize(new Dimension(400,100));
+//        this.add(getImagepane(), java.awt.BorderLayout.WEST);
+//        this.add(getJPanel1(), java.awt.BorderLayout.CENTER);
 			
 	}
 	/**
@@ -152,7 +153,7 @@ public class MainContentsGUI extends JPanel {
 	/**
 	 * 
 	 */
-	protected void executeOpenAction() {
+	public void executeOpenAction() {
 		try {
 			Runtime.getRuntime().exec("gnome-open "+getOpenAction());
 		} catch (IOException e) {
@@ -160,5 +161,9 @@ public class MainContentsGUI extends JPanel {
 			e.printStackTrace();
 		}
 		
+	}
+	public Widget getGnomeGUI() {
+		System.out.println("getGnomeGUI not implemented..");
+		return null;
 	}
    }  //  @jve:decl-index=0:visual-constraint="218,59"

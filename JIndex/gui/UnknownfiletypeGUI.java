@@ -98,7 +98,7 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		}
 		
 		infopane.add(new JLabel(doc.get("name").trim()+" in folder ("+doc.get("absolutepath")+" )"));
-		return this;
+		return null;
 	}
        
 	

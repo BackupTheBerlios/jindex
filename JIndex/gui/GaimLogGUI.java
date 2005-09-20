@@ -70,7 +70,7 @@ public class GaimLogGUI extends MainContentsGUI  {
 		result += " Ended at " + doc.get("endtime")+"\n";
 		textpane.setText(result);
 		infopane.add(new JLabel(imwith));
-		return this;
+		return null;
 	}
        
 }

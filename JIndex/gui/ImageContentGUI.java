@@ -109,7 +109,7 @@ public class ImageContentGUI extends MainContentsGUI {
         return content;
         // end contentpane design
     }
-    public JPanel getGUI() {
+    public ImageContentGUI getGUI() {
         JPanel imgpane = getImagepane();
         JPanel infopane = getDescriptionpane();
         JTextArea textpane = getFreePane();

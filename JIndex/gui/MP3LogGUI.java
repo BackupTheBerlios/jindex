@@ -43,29 +43,8 @@ public class MP3LogGUI extends MainContentsGUI {
 		super();
 		doc = _doc;
 		setOpenAction(doc.get("path"));
-/*		initComponents();
+	}
 	
-			
-		IconLable.setIcon(new ImageIcon("emblem-sound.png"));
-		IconLable.setText("");
-		String title=doc.get("title").trim();
-		String artist=doc.get("artist").trim();
-		jLabel1.setText("<html>"+artist+"<br>"+title+"</html>");
-		*/
-	}
-	public JPanel getGUI() {
-		JPanel imgpane = getImagepane();
-		JPanel infopane = getDescriptionpane();
-		JTextArea textpane = getFreePane();
-		
-		JLabel imagelabel = null;
-		imagelabel = new JLabel(new ImageIcon("emblem-sound.png"));
-		imgpane.add(imagelabel, BorderLayout.CENTER);
-		String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
-		textpane.setText(result);
-		infopane.add(new JLabel(doc.get("title").trim()));
-		return this;
-	}
     public Widget getGnomeGUI(boolean alternaterow) {
         // start contentpane design
         HBox content = new HBox(true, 0);

@@ -235,7 +235,7 @@ public class JIndex {
                     System.out.println("Added image");
                 } else if (doc.get("type").equals("application/pdf")) {
                     System.out.println("Added PDF");
-                    box.add(new PDFContentGUI(doc).getGUI());
+                    contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow));
                 } else
 
                 if (doc.get("type").equals("mail")) {

@@ -31,7 +31,7 @@ class IndexFiles {
 
 	static Magic parser = null;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) {
 		try {
 			Date start = new Date();
 			IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
@@ -79,7 +79,6 @@ class IndexFiles {
 						parser = new Magic();
 						parser.initialize();
 					}
-					MagicMatch match = null;
 
 
                     FormatDescription desc = FormatIdentification.identify(file);
@@ -93,12 +92,6 @@ class IndexFiles {
                         System.out.println(".... >> "+desc.getMimeType());
                     }
                     
-                    
-                    
-//                    try {
-//						match = parser.getMagicMatch(file);
-//					} catch (MagicMatchNotFoundException e) {
-//					}
 					if (desc != null) {
                         
                         String mimetype = desc.getMimeType();
