@@ -36,6 +36,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Color;
+import org.gnu.gtk.Adjustment;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.EventBox;
 import org.gnu.gtk.Gtk;
@@ -74,9 +75,6 @@ public class JIndex {
 
         Label label = new Label("Query: ");
         b.add(label);
-        
-        
-        
         final Entry entry = new Entry();
         entry.setText("Search string");
         entry.setVisible(true);
@@ -86,7 +84,6 @@ public class JIndex {
                 if (event.getKeyval() == 65293
                         && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
                                                                             // enter
-                    System.out.println(entry.getText());
                     contentpane.destroy();
                     contentpane = new VBox(false, 0);
                     doSearchGUI(entry.getText());
@@ -105,7 +102,8 @@ public class JIndex {
         b.add(entry);
         mainpane.add(b);
 
-        
+     
+
         scrolled_window = new ScrolledWindow(null, null);
         scrolled_window.setBorderWidth(10);
         scrolled_window.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
@@ -235,7 +233,7 @@ public class JIndex {
                     System.out.println("Added image");
                 } else if (doc.get("type").equals("application/pdf")) {
                     System.out.println("Added PDF");
-                    contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow));
+                    contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
                 } else
 
                 if (doc.get("type").equals("mail")) {
@@ -247,6 +245,7 @@ public class JIndex {
                 }
                 contentpane.packStart(new HSeparator(), false, true, 0);
             }
+            
             searcher.close();
         } catch (IOException e2) {
             e2.printStackTrace();

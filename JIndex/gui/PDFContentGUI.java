@@ -44,6 +44,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  */
 public class PDFContentGUI extends MainContentsGUI {
 	Document doc;
+
 	public PDFContentGUI(Document _doc) {
 		super();
 		doc = _doc;
@@ -51,43 +52,44 @@ public class PDFContentGUI extends MainContentsGUI {
 
 	}
 
-	 public Widget getGnomeGUI(boolean alternaterow) {
-         // start contentpane design
-    
-         HBox content = new HBox(false, 0);
-         VBox textcontent = new VBox(false, 0);
-         
-         Image img = new Image(GtkStockItem.MISSING_IMAGE,IconSize.BUTTON);
-         img.setMinimumSize(48, 48);
-        System.out.println((doc.get("type")));
-         textcontent.add(new Label(doc.get("name").trim()+" in folder ("+doc.get("absolutepath")+" )\n"+"Number of pages: "+doc.get("numberofpages")));
-         String result = doc.get("filecontents");
-         System.out.println(result);
-         if(result != null) {
-             Label filepath = new Label(result.substring(100));
-             textcontent.add(filepath);
-             textcontent.add(new Label(doc.get("type")));
-         }
+	public Widget getGnomeGUI(boolean alternaterow) {
+		// start contentpane design
 
-     
-         if(alternaterow) {
-             content.setBackgroundColor(StateType.ACTIVE, new Color(23,23,23));
-             content.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
-             content.setBackgroundColor(StateType.INSENSITIVE, new Color(23,23,23));
-             content.setBackgroundColor(StateType.SELECTED, Color.ORANGE);
-             content.setBaseColor(StateType.SELECTED, new Color(23,123,223));
-             textcontent.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
-         }
-         
-         content.packStart(img,true, true, 30);
-         content.packEnd(textcontent, true, true, 20);
-   
-         return content;
-         // end contentpane design
-     }
-  
+		HBox content = new HBox(false, 0);
+		VBox textcontent = new VBox(false, 0);
+		VBox imgcontent = new VBox(false, 0);
+		VBox maincontent = new VBox(false, 0);
 
-	  
-  
-       
+		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.BUTTON);
+		img.setMinimumSize(48, 48);
+		System.out.println((doc.get("type")));
+		textcontent.add(new Label(doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )\n" + "Number of pages: " + doc.get("numberofpages")));
+		String result = doc.get("filecontents");
+		System.out.println(result);
+		if (result != null) {
+			Label filepath = new Label(result.substring(100));
+			textcontent.add(filepath);
+			textcontent.add(new Label(doc.get("type")));
+		}
+
+		if (alternaterow) {
+			content.setBackgroundColor(StateType.ACTIVE, new Color(23, 23, 23));
+			content.setBackgroundColor(StateType.NORMAL, new Color(23, 23, 23));
+			content.setBackgroundColor(StateType.INSENSITIVE, new Color(23, 23, 23));
+			content.setBackgroundColor(StateType.SELECTED, Color.ORANGE);
+			content.setBaseColor(StateType.SELECTED, new Color(23, 123, 223));
+			textcontent.setBackgroundColor(StateType.NORMAL, new Color(23, 23, 23));
+		}
+
+		imgcontent.add(img);
+		maincontent.add(textcontent);
+		maincontent.add(getOpenButton());
+		content.packStart(imgcontent, true, true, 30);
+		content.packEnd(maincontent, true, true, 20);
+
+
+		return content;
+		// end contentpane design
+	}
+
 }
