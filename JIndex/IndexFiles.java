@@ -33,10 +33,18 @@ class IndexFiles {
 
 	public static void main(String[] args) {
 		try {
+			if(HOME == null){
+				System.out.println("Needs to be stated with -DHOME=~/ or something");
+				System.exit(-1);
+			}
+			if(args.length <= 0) {
+				System.out.println("Needs to be executed with a argument\nThe argument should be a file or directory");
+				System.exit(-1);
+			}
 			Date start = new Date();
 			IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
 			// indexDocs(writer, new File(HOME+"/mp3"));
-			indexDocs(writer, new File(HOME+"/bin"));
+			indexDocs(writer, new File(args[0]));
             	// indexDocs(writer, new File(HOME+"/Documents"));
 			// //indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
 			// indexDocs(writer, new
@@ -51,7 +59,6 @@ class IndexFiles {
 			writer.close();
 
 			Date end = new Date();
-
 			System.out.print(end.getTime() - start.getTime());
 			System.out.println(" total milliseconds");
 

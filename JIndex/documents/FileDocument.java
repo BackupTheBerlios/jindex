@@ -29,7 +29,7 @@ public class FileDocument implements SearchDocument {
 
 		FileInputStream is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
-        doc.add(Field.Text("filecontents", reader));
+        doc.add(Field.Text("filecontents", reader, true));
 
 		return doc;
 	}
