@@ -52,27 +52,7 @@ public class PDFContentGUI extends MainContentsGUI {
 		setOpenAction(doc.get("path"));
 
 	}
-	public JPanel getGUI() {
-//		JPanel imgpane = getImagepane();
-//		JPanel infopane = getDescriptionpane();
-//		JTextArea textpane = getFreePane();
-//		
-//		JLabel imagelabel = null;
-//		try {
-//			imagelabel = new JLabel(new ImageIcon("PDF"));
-//		} catch (ImageFormatException e) {
-//			e.printStackTrace();
-//		} 
-//		
-//		imgpane.add(imagelabel, BorderLayout.CENTER);
-//		String result = doc.get("contents");
-//		if(result != null) {
-//			textpane.setText(result.substring(100));	
-//		}
-//		String label = doc.get("name").trim()+" in folder ("+doc.get("absolutepath")+" )\n"+"Number of pages: "+doc.get("numberofpages");
-//		infopane.add(new JLabel(label));
-		return null;
-	}
+
 	 public Widget getGnomeGUI(boolean alternaterow) {
          // start contentpane design
     
