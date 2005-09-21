@@ -63,7 +63,7 @@ public class PDFContentGUI extends MainContentsGUI {
 		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.BUTTON);
 		img.setMinimumSize(48, 48);
 		System.out.println((doc.get("type")));
-		textcontent.add(new Label(doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )\n" + "Number of pages: " + doc.get("numberofpages")));
+		textcontent.add(new Label(doc.get("file-name").trim() + " in folder (" + doc.get("absolutepath") + " )\n" + "Number of pages: " + doc.get("numberofpages")));
 		String result = doc.get("filecontents");
 		System.out.println(result);
 		if (result != null) {

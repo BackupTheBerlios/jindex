@@ -1,7 +1,14 @@
+package daemon;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.Date;
+import java.util.List;
 
 import metadata.FormatDescription;
 import metadata.FormatIdentification;
@@ -27,13 +34,34 @@ import documents.MP3Document;
 import documents.PDFDocument;
 import documents.mbox.MBoxProcessor;
 
-class IndexFiles {
+class IndexFiles extends Thread {
     // static Logger log = Logger.getLogger(IndexFiles.class);
+    long numMillisecondsToSleep = 5000; // 5 seconds
     private final static String HOME = System.getProperty("HOME");
 
     static Magic parser = null;
 
     private static boolean updateindex = false;
+
+    public void run() {
+        updateindex = true;
+
+      while(true) {
+          try {
+            Thread.sleep(numMillisecondsToSleep);
+            List files = JIndexDaemon.getFileFromQueue();
+            for(int i=0; i < files.size(); i++) {
+                System.out.println("Processing file "+i);
+                File file = (File) files.get(i);
+                indexDocs(file);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+      }
+    }
 
     public static void main(String[] args) {
         try {
@@ -149,7 +177,7 @@ class IndexFiles {
                     } else {
                         if (file.getName().equals("Inbox")) {
                             // MBoxProcessor.ProcessMBoxFile(file, writer);
-                            TestMain.indexMails(writer);
+                            //TestMain.indexMails(writer);
                         } else if (file.getName().equals("addressbook.db")) {
                             writer.addDocument(AddressBookDocument
                                     .Document(file));
