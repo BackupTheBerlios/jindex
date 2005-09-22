@@ -62,6 +62,8 @@ import documents.MP3Document;
 import documents.PDFDocument;
 
 public class JIndex {
+    private static String INDEXFILE = System.getProperty("HOME") + "/index";
+    
     VBox contentpane;
     VBox mainpane;
     ScrolledWindow scrolled_window;
@@ -72,8 +74,9 @@ public class JIndex {
         contentpane = new VBox(false, 0);
         contentpane.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         final HBox b = new HBox(false, 0);
-
+        b.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         Label label = new Label("Query: ");
+        
         b.add(label);
         final Entry entry = new Entry();
         entry.setText("Search string");
@@ -134,53 +137,15 @@ public class JIndex {
         	wg.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         w.add(wg);
         w.showAll();
-      //  w.setBackgroundColor(StateType.NORMAL, Color.WHITE);
+        w.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         Gtk.main();
     }
 
     public static void main(String[] args) {
-      
-        
-//        
-//        try {
-//            // From file
-//            Processor video = Manager.createProcessor(new URL("file:///home/sorenm/movies/The.Hitchhikers.Guide.To.The.Galaxy.PROPER.DVDRiP.XviD/CD1/movie.mpg"));
-//            video.configure();
-//            Time length = video.getDuration();
-//            System.out.println(video.getRate());
-//            double hours = Math.round(length.getSeconds()/(60*60));
-//            double min = hours*60*60-length.getSeconds()/60/60;
-//            
-//            System.out.println(new BigDecimal(length.getSeconds()).intValue());
-//            System.out.println(new BigDecimal(hours).intValue()+":"+min);
-//            
-//            System.out.println("-->"+video.getMediaTime().getSeconds());
-//            
-//       
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (NoProcessorException e) {
-//            e.printStackTrace();
-//        }
-//
-//        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         new JIndex(args);
     }
 
-    static JPanel box;
 
-    private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
     public void doSearchGUI(String searchquery) {
 
@@ -222,7 +187,7 @@ public class JIndex {
                 // System.out.println("Found: " + doc.get("type"));
                 if (doc.get("type").equals("text/gaimlog")) {
                     // box.add(new GaimLogGUI(doc));
-                    box.add(new GaimLogGUI(doc).getGUI());
+                    //box.add(new GaimLogGUI(doc).getGUI());
                     // box.add(new GaimLogGUI(doc));
                 } else if (doc.get("type").equals("audio/mp3")) {
                     // System.out.println("Adding audio info");

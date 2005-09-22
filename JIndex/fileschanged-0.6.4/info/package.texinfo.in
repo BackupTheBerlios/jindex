@@ -1,5 +1,0 @@
-@setfilename package.info
-
-@set VERSION @PACKAGE_VERSION@
-@set MAINTAINER @PACKAGE_MAINTAINER@
-@set ADDRESS benasselstine@@users.sf.net
