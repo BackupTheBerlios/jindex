@@ -54,6 +54,8 @@ import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
+import org.jdesktop.jdic.filetypes.Association;
+import org.jdesktop.jdic.filetypes.AssociationService;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -119,6 +121,19 @@ public class JIndex {
     }
 
     public JIndex(String[] args) {
+		try {
+	    	AssociationService assocService = new AssociationService();
+	        Association assoc;
+
+			assoc = assocService.getAssociationByContent(new URL("file:///home/sorenm/Sommerkatalog_S05.pdf"));
+			System.out.println("SVG Icon file name: "+assoc.getIconFileName());
+			System.out.println("SVG Icon file name: "+assoc.getMimeType());
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+        	
+    	
+    	
         Gtk.init(args);
         Window w = new Window(WindowType.TOPLEVEL);
         w.addListener(new LifeCycleListener() {
