@@ -59,7 +59,7 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		VBox imgcontent = new VBox(false, 0);
 		VBox maincontent = new VBox(false, 0);
 
-		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.BUTTON);
+		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.LARGE_TOOLBAR);
 		img.setMinimumSize(48, 48);
 		System.out.println((doc.get("type")));
 		textcontent.add(new Label(doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )"));

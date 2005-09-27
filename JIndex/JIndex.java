@@ -25,7 +25,6 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JPanel;
 
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -65,20 +64,23 @@ import documents.PDFDocument;
 
 public class JIndex {
     private static String INDEXFILE = System.getProperty("HOME") + "/index";
-    
+
     VBox contentpane;
+
     VBox mainpane;
+
     ScrolledWindow scrolled_window;
+
     public Widget createEntryWidget() {
         mainpane = new VBox(false, 0);
         mainpane.setBackgroundColor(StateType.NORMAL, Color.WHITE);
-        
+
         contentpane = new VBox(false, 0);
         contentpane.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         final HBox b = new HBox(false, 0);
         b.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         Label label = new Label("Query: ");
-        
+
         b.add(label);
         final Entry entry = new Entry();
         entry.setText("Search string");
@@ -88,11 +90,11 @@ public class JIndex {
             public boolean keyEvent(KeyEvent event) {
                 if (event.getKeyval() == 65293
                         && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
-                                                                            // enter
+                    // enter
                     contentpane.destroy();
                     contentpane = new VBox(false, 0);
                     doSearchGUI(entry.getText());
-                    //mainpane.add(contentpane);
+                    // mainpane.add(contentpane);
                     scrolled_window.addWithViewport(contentpane);
                     contentpane.showAll();
                     scrolled_window.showAll();
@@ -107,14 +109,12 @@ public class JIndex {
         b.add(entry);
         mainpane.add(b);
 
-     
-
         scrolled_window = new ScrolledWindow(null, null);
         scrolled_window.setBorderWidth(10);
         scrolled_window.setPolicy(PolicyType.AUTOMATIC, PolicyType.AUTOMATIC);
         scrolled_window.show();
         scrolled_window.addWithViewport(contentpane);
-        scrolled_window.setMinimumSize(500,600);
+        scrolled_window.setMinimumSize(500, 600);
         scrolled_window.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         mainpane.add(scrolled_window);
         return mainpane;
@@ -148,11 +148,11 @@ public class JIndex {
         w.setDefaultSize(200, 30);
         w.setBorderWidth(5);
         w.setTitle("JIndex");
-        Widget wg = createEntryWidget(); 
-        	wg.setBackgroundColor(StateType.NORMAL, Color.WHITE);
+        Widget wg = createEntryWidget();
+        // wg.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         w.add(wg);
         w.showAll();
-        w.setBackgroundColor(StateType.NORMAL, Color.WHITE);
+        // w.setBackgroundColor(StateType.NORMAL, Color.WHITE);
         Gtk.main();
     }
 
@@ -160,79 +160,83 @@ public class JIndex {
         new JIndex(args);
     }
 
-
-
     public void doSearchGUI(String searchquery) {
 
         // SearchFiles files = new SearchFiles(queryfield.getText());
         Query query = null;
+        if (!searchquery.equals("")) {
+            try {
 
-        try {
+                Searcher searcher = new IndexSearcher(INDEXFILE);
 
-            Searcher searcher = new IndexSearcher(INDEXFILE);
+                Analyzer analyzer = new StandardAnalyzer();
 
-            Analyzer analyzer = new StandardAnalyzer();
+                String[] fields = new String[0];
 
-            String[] fields = new String[0];
+                fields = concatArrays(MP3Document.fields, fields);
+                fields = concatArrays(GaimLogDocument.fields, fields);
+                fields = concatArrays(FileDocument.fields, fields);
+                fields = concatArrays(ImageDocument.fields, fields);
+                fields = concatArrays(PDFDocument.fields, fields);
 
-            fields = concatArrays(MP3Document.fields, fields);
-            fields = concatArrays(GaimLogDocument.fields, fields);
-            fields = concatArrays(FileDocument.fields, fields);
-            fields = concatArrays(ImageDocument.fields, fields);
-            fields = concatArrays(PDFDocument.fields, fields);
+                query = MultiFieldQueryParser.parse(searchquery, fields,
+                        analyzer);
+                // query = QueryParser.parse(searchquery, "contents", analyzer);
 
-            query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
-            // query = QueryParser.parse(searchquery, "contents", analyzer);
+                System.out.println("Searching for: "
+                        + query.toString("contents"));
 
-            System.out.println("Searching for: " + query.toString("contents"));
+                Hits hits = null;
 
-            Hits hits = null;
+                hits = searcher.search(query);
+                System.out.println(hits.length() + " total matching documents");
 
-            hits = searcher.search(query);
-            System.out.println(hits.length() + " total matching documents");
+                for (int i = 0; i < hits.length(); i++) {
+                    Document doc = null;
+                    doc = hits.doc(i);
+                    boolean alternaterow;
+                    if (i % 2 == 0)
+                        alternaterow = true;
+                    else
+                        alternaterow = false;
+                    // System.out.println("Found: " + doc.get("type"));
+                    if (doc.get("type").equals("text/gaimlog")) {
+                        // box.add(new GaimLogGUI(doc));
+                        // box.add(new GaimLogGUI(doc).getGUI());
+                        // box.add(new GaimLogGUI(doc));
+                    } else if (doc.get("type").equals("audio/mp3")) {
+                        // System.out.println("Adding audio info");
+                        // box.add(new MP3LogGUI(doc));
+                        contentpane.packStart(new MP3LogGUI(doc)
+                                .getGnomeGUI(alternaterow), false, true, 0);
+                    } else if (doc.get("type").equals("image")) {
+                        contentpane.packStart(new ImageContentGUI(doc)
+                                .getGnomeGUI(alternaterow), false, true, 0);
+                        System.out.println("Added image");
+                    } else if (doc.get("type").equals("application/pdf")) {
+                        System.out.println("Added PDF");
+                        contentpane.packStart(new PDFContentGUI(doc)
+                                .getGnomeGUI(alternaterow), false, true, 0);
+                    } else
 
-            for (int i = 0; i < hits.length(); i++) {
-                Document doc = null;
-                doc = hits.doc(i);
-                boolean alternaterow;
-                if(i % 2 == 0)
-                    alternaterow = true;
-                else 
-                    alternaterow = false;
-                // System.out.println("Found: " + doc.get("type"));
-                if (doc.get("type").equals("text/gaimlog")) {
-                    // box.add(new GaimLogGUI(doc));
-                    //box.add(new GaimLogGUI(doc).getGUI());
-                    // box.add(new GaimLogGUI(doc));
-                } else if (doc.get("type").equals("audio/mp3")) {
-                    // System.out.println("Adding audio info");
-                    // box.add(new MP3LogGUI(doc));
-                    contentpane.packStart(new MP3LogGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
-                } else if (doc.get("type").equals("image")) {
-                    contentpane.packStart(new ImageContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
-                    System.out.println("Added image");
-                } else if (doc.get("type").equals("application/pdf")) {
-                    System.out.println("Added PDF");
-                    contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
-                } else
+                    if (doc.get("type").equals("mail")) {
+                        System.out.println("mail info");
+                        // content += new MailGUI(doc).getHTML();
+                    } else {
+                        contentpane.packStart(new UnknownfiletypeGUI(doc)
+                                .getGnomeGUI(alternaterow), false, true, 0);
 
-                if (doc.get("type").equals("mail")) {
-                    System.out.println("mail info");
-                    // content += new MailGUI(doc).getHTML();
-                } else {
-                    contentpane.packStart(new UnknownfiletypeGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
-                    
+                    }
+                    contentpane.packStart(new HSeparator(), false, true, 0);
                 }
-                contentpane.packStart(new HSeparator(), false, true, 0);
-            }
-            
-            searcher.close();
-        } catch (IOException e2) {
-            e2.printStackTrace();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
+                searcher.close();
+            } catch (IOException e2) {
+                e2.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public static String[] concatArrays(String[] src, String[] dest) {

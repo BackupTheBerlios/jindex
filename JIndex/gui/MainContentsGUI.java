@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import org.gnu.gtk.Button;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
+import org.gnu.gtk.Label;
 import org.gnu.gtk.Widget;
 import org.gnu.gtk.event.ButtonEvent;
 import org.gnu.gtk.event.ButtonListener;
@@ -55,7 +56,6 @@ public class MainContentsGUI implements MainGUIInterface {
     public Widget getOpenButton() {
         HBox mainpane = new HBox(false, 0);
         Button openButton = new Button(GtkStockItem.OPEN);
-
         openButton.addListener(new ButtonListener() {
             public void buttonEvent(ButtonEvent event) {
                 if (event.isOfType(ButtonEvent.Type.CLICK)) {
@@ -63,7 +63,7 @@ public class MainContentsGUI implements MainGUIInterface {
                 }
             }
         });
-        mainpane.add(openButton);
+        mainpane.packStart(openButton, false, true, 0);
         return mainpane;
     }
 

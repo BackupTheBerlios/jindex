@@ -25,13 +25,8 @@ import javax.swing.JTextArea;
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
 import org.gnu.gtk.*;
-import org.gnu.gtk.GtkStockItem;
-import org.gnu.gtk.HBox;
-import org.gnu.gtk.IconSize;
-import org.gnu.gtk.Label;
-import org.gnu.gtk.StateType;
-import org.gnu.gtk.VBox;
-import org.gnu.gtk.Widget;
+
+import utils.LuceneUtility;
 
 import com.sun.image.codec.jpeg.ImageFormatException;
 import com.sun.image.codec.jpeg.JPEGCodec;
@@ -60,10 +55,10 @@ public class PDFContentGUI extends MainContentsGUI {
 		VBox imgcontent = new VBox(false, 0);
 		VBox maincontent = new VBox(false, 0);
 
-		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.BUTTON);
+		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.LARGE_TOOLBAR);
 		img.setMinimumSize(48, 48);
-		System.out.println((doc.get("type")));
-		textcontent.add(new Label(doc.get("file-name").trim() + " in folder (" + doc.get("absolutepath") + " )\n" + "Number of pages: " + doc.get("numberofpages")));
+       
+		textcontent.add(new Label( LuceneUtility.getText(doc, "file-name") + " in folder (" +  LuceneUtility.getText(doc, "absolutepath") + " )\n" + "Number of pages: " +  LuceneUtility.getText(doc, "numberofpages")));
 		String result = doc.get("filecontents");
 		System.out.println(result);
 		if (result != null) {
