@@ -7,9 +7,6 @@ import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicParseException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
@@ -30,9 +27,6 @@ class IndexFiles extends Thread {
     // static Logger log = Logger.getLogger(IndexFiles.class);
     long numMillisecondsToSleep = 5000; // 5 seconds
     private final static String HOME = System.getProperty("HOME");
-
-    static Magic parser = null;
-
     private static boolean updateindex = false;
 
     public void run() {
@@ -131,11 +125,6 @@ class IndexFiles extends Thread {
                 IndexWriter writer = new IndexWriter(HOME + "/index",
                         new StandardAnalyzer(), false);
                 try {
-                    if (parser == null) {
-                        parser = new Magic();
-                        parser.initialize();
-                    }
-
                  	AssociationService assocService = new AssociationService();
                  	URL url = new URL(file.toURL().toString());
                  	Association assoc = assocService.getAssociationByContent(url);
@@ -185,8 +174,6 @@ class IndexFiles extends Thread {
                   
                 } catch (FileNotFoundException fnfe) {
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (MagicParseException e) {
                     e.printStackTrace();
                 }
                 writer.close();
