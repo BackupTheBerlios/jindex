@@ -1,21 +1,13 @@
 package daemon;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 
-import metadata.FormatDescription;
-import metadata.FormatIdentification;
 import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicException;
-import net.sf.jmimemagic.MagicMatch;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
 import net.sf.jmimemagic.MagicParseException;
 
 import org.apache.commons.lang.StringUtils;
@@ -23,7 +15,8 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
-import org.apache.poi.util.StringUtil;
+import org.jdesktop.jdic.filetypes.Association;
+import org.jdesktop.jdic.filetypes.AssociationService;
 
 import documents.AddressBookDocument;
 import documents.ExcelDocument;
@@ -32,7 +25,6 @@ import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
-import documents.mbox.MBoxProcessor;
 
 class IndexFiles extends Thread {
     // static Logger log = Logger.getLogger(IndexFiles.class);
@@ -81,6 +73,7 @@ class IndexFiles extends Thread {
                 updateindex = true;
 
             indexDocs(new File(args[1]));
+            
             // indexDocs(writer, new File(HOME+"/Documents"));
             // //indexDocs(writer, new File(HOME+"/.evolution/mail/local"));
             // indexDocs(writer, new
@@ -143,20 +136,13 @@ class IndexFiles extends Thread {
                         parser.initialize();
                     }
 
-                    FormatDescription desc = FormatIdentification
-                            .identify(file);
-                    if (desc == null) {
-                        System.out.println("unknown data. (" + file.getPath()
-                                + ")");
-                    } else {
-                        System.out.println(".... >> " + desc.getShortName());
-                        System.out.println(".... >> " + desc.getMimeType());
-                    }
+                 	AssociationService assocService = new AssociationService();
+                 	URL url = new URL(file.toURL().toString());
+                 	Association assoc = assocService.getAssociationByContent(url);
+                 	System.out.println("foud mime type: "+assoc.getMimeType());
+                 	String mimetype = assoc.getMimeType();                    
 
-                    if (desc != null) {
-
-                        String mimetype = desc.getMimeType();
-
+                    if (mimetype != null) {
                         if (mimetype.equals("audio/mpeg")) {
                             System.out.println("adding MP3 File" + file);
                             writer.addDocument(MP3Document.Document(file));
