@@ -6,32 +6,18 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Graphics2D;
-import java.awt.MediaTracker;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
-import org.gnu.gtk.*;
+import org.gnu.gtk.GtkStockItem;
+import org.gnu.gtk.HBox;
+import org.gnu.gtk.IconSize;
+import org.gnu.gtk.Image;
+import org.gnu.gtk.Label;
+import org.gnu.gtk.StateType;
+import org.gnu.gtk.VBox;
+import org.gnu.gtk.Widget;
 
 import utils.LuceneUtility;
-
-import com.sun.image.codec.jpeg.ImageFormatException;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
  * @author sorenm

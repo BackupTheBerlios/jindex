@@ -6,30 +6,13 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
-import org.gnu.gdk.Pixbuf;
-import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
-import org.gnu.gtk.Image;
 import org.gnu.gtk.Label;
 import org.gnu.gtk.StateType;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
-
-import sun.misc.BASE64Decoder;
 
 /**
  * @author sorenm

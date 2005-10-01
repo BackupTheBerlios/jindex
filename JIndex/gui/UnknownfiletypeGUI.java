@@ -6,35 +6,16 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
-import org.gnu.gdk.Colormap;
-import org.gnu.gdk.PixbufLoader;
-import org.gnu.gtk.Adjustment;
-import org.gnu.gtk.Alignment;
-import org.gnu.gtk.AttachOptions;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
-import org.gnu.gtk.HScale;
 import org.gnu.gtk.IconSize;
 import org.gnu.gtk.Image;
-import org.gnu.gtk.ImageStockData;
 import org.gnu.gtk.Label;
-import org.gnu.gtk.ResizeMode;
 import org.gnu.gtk.StateType;
-import org.gnu.gtk.Table;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Widget;
-
-import sun.misc.BASE64Decoder;
 
 /**
  * @author sorenm

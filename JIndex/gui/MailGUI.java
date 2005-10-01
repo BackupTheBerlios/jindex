@@ -6,16 +6,6 @@
  */
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-
 import org.apache.lucene.document.Document;
 
 /**
@@ -32,19 +22,18 @@ public class MailGUI extends MainContentsGUI  {
 		doc = _doc;
 	
 	}
-	public MailGUI getGUI() {
-		JPanel imgpane = getImagepane();
-		JPanel infopane = getDescriptionpane();
-		JTextArea textpane = getFreePane();
-		
-		JLabel imagelabel = null;
-		imagelabel = new JLabel(new ImageIcon("emblem-sound.png"));
-		imgpane.add(imagelabel, BorderLayout.CENTER);
-		String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
-		textpane.setText(result);
-		infopane.add(new JLabel(doc.get("from")));
-		return this;
-	}
+//		JPanel imgpane = getImagepane();
+//		JPanel infopane = getDescriptionpane();
+//		JTextArea textpane = getFreePane();
+//		
+//		JLabel imagelabel = null;
+//		imagelabel = new JLabel(new ImageIcon("emblem-sound.png"));
+//		imgpane.add(imagelabel, BorderLayout.CENTER);
+//		String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
+//		textpane.setText(result);
+//		infopane.add(new JLabel(doc.get("from")));
+//		return this;
+//	}
 	/**
 	 * @return
 	 */

@@ -31,7 +31,7 @@
 	<classpathentry kind="lib" path="libs/xmlParserAPIs.jar"/>
 	<classpathentry kind="lib" path="libs/metadata-extractor.jar"/>
 	<classpathentry kind="lib" path="libs/PDFBox-0.7.1.jar"/>
-	<classpathentry kind="lib" path="/usr/share/classpath/glibj.zip"/>
-	<classpathentry exported="true" kind="var" path="GCJLIB"/>
+	<classpathentry kind="lib" path="libs/commons-codec.jar"/>
+	<classpathentry kind="var" path="JRE_LIB"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>

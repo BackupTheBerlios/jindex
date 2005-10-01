@@ -1,29 +1,11 @@
-import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.MP3LogGUI;
 import gui.PDFContentGUI;
 import gui.UnknownfiletypeGUI;
 
-import java.io.File;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
-
-import javax.media.Manager;
-import javax.media.NoProcessorException;
-import javax.media.Processor;
-import javax.media.ResourceUnavailableException;
-import javax.media.Time;
-import javax.media.format.VideoFormat;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-import javax.swing.JPanel;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -35,9 +17,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Color;
-import org.gnu.gtk.Adjustment;
 import org.gnu.gtk.Entry;
-import org.gnu.gtk.EventBox;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.HSeparator;
@@ -229,7 +209,6 @@ public class JIndex {
                     }
                     contentpane.packStart(new HSeparator(), false, true, 0);
                 }
-
                 searcher.close();
             } catch (IOException e2) {
                 e2.printStackTrace();
