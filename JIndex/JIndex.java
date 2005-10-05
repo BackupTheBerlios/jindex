@@ -17,6 +17,7 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Color;
+import org.gnu.glade.LibGlade;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HBox;
@@ -137,9 +138,24 @@ public class JIndex {
     }
 
     public static void main(String[] args) {
+
         new JIndex(args);
     }
 
+    
+    
+    
+    
+    
+    
+    
+    
+  
+    
+    
+    
+    
+    
     public void doSearchGUI(String searchquery) {
 
         // SearchFiles files = new SearchFiles(queryfield.getText());
