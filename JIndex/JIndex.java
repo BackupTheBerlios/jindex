@@ -142,20 +142,6 @@ public class JIndex {
         new JIndex(args);
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-  
-    
-    
-    
-    
-    
     public void doSearchGUI(String searchquery) {
 
         // SearchFiles files = new SearchFiles(queryfield.getText());

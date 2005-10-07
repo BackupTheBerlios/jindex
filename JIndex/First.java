@@ -11,7 +11,7 @@ public class First
     
     public First() throws FileNotFoundException, GladeXMLException, IOException
     {
-        firstApp = new LibGlade("galde.JIndex/jindex.glade", this);
+        firstApp = new LibGlade("glade/jindex.glade", this);
     }
     
     public static void main(String[] args)
