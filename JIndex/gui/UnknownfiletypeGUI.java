@@ -25,7 +25,8 @@ import org.gnu.gtk.Widget;
  */
 public class UnknownfiletypeGUI extends MainContentsGUI {
 	Document doc;
-
+	VBox imgcontent;
+	VBox maincontent;
 	public UnknownfiletypeGUI(Document _doc) {
 		super();
 		doc = _doc;
@@ -37,8 +38,8 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		// start contentpane design
 		HBox content = new HBox(false, 0);
 		VBox textcontent = new VBox(false, 0);
-		VBox imgcontent = new VBox(false, 0);
-		VBox maincontent = new VBox(false, 0);
+		imgcontent = new VBox(false, 0);
+		maincontent = new VBox(false, 0);
 
 		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.LARGE_TOOLBAR);
 		img.setMinimumSize(48, 48);
@@ -70,4 +71,13 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		return content;
 		// end contentpane design
 	}
+	public VBox getImageIconPane() {
+		return imgcontent;
+		
+	}
+	public VBox getMainContent() {
+		return maincontent;
+		
+	}
+	
 }
