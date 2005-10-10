@@ -59,21 +59,21 @@ public class First {
 		resulttable.setForegroundColor(StateType.NORMAL, new Color(200, 200, 200));
 		resulttable.setForegroundColor(StateType.ACTIVE, new Color(200, 200, 200));
 
-		int column = 0;
-		int row = 1;
-		resulttable.attach(new Label("palle123"), column, column + 1, row, row + 1);
-		column = 1;
-		row = 1;
-		resulttable.attach(new Label("palle"), column, column + 1, row, row + 1);
-
-		column = 0;
-		row = 2;
-		resulttable.attach(new Label("Søren"), column, column + 1, row, row + 1);
-		column = 1;
-		row = 2;
-		resulttable.attach(new Label("Mathiasen"), column, column + 1, row, row + 1);
-
-		resulttable.showAll();
+//		int column = 0;
+//		int row = 1;
+//		resulttable.attach(new Label("palle123"), column, column + 1, row, row + 1);
+//		column = 1;
+//		row = 1;
+//		resulttable.attach(new Label("palle"), column, column + 1, row, row + 1);
+//
+//		column = 0;
+//		row = 2;
+//		resulttable.attach(new Label("Søren"), column, column + 1, row, row + 1);
+//		column = 1;
+//		row = 2;
+//		resulttable.attach(new Label("Mathiasen"), column, column + 1, row, row + 1);
+//
+//		resulttable.showAll();
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
@@ -127,8 +127,8 @@ public class First {
 
 				hits = searcher.search(query);
 				System.out.println(hits.length() + " total matching documents");
-				resulttable.destroy();
-				resulttable = new Table(2,2, false);
+				//resulttable.destroy();
+				resulttable = new Table(2,2, true);
 				
 				for (int i = 0; i < hits.length(); i++) {
 					int row = i;
@@ -167,7 +167,7 @@ public class First {
 
 					}
 					//contentpane.packStart(new HSeparator(), false, true, 0);
-					if(i==1) break;
+					//if(i==1) break;
 				}
 				
 				searcher.close();
@@ -177,6 +177,7 @@ public class First {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
+			resulttable.resizeChildren();
 			resulttable.showAll();
 			viewport.showAll();
 		}
