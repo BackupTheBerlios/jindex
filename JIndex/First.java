@@ -18,12 +18,18 @@ import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Color;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
+import org.gnu.gtk.DataColumn;
+import org.gnu.gtk.DataColumnBoolean;
+import org.gnu.gtk.DataColumnPixbuf;
+import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HSeparator;
 import org.gnu.gtk.Label;
+import org.gnu.gtk.ListStore;
 import org.gnu.gtk.StateType;
 import org.gnu.gtk.Table;
+import org.gnu.gtk.TreeView;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Viewport;
 import org.gnu.gtk.Widget;
@@ -43,21 +49,21 @@ public class First {
 	Viewport viewport;
 	VBox contentpane = null;
 
-	Table resulttable = null;
+	TreeView resulttable = null;
 
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
 		firstApp = new LibGlade("glade/jindex.glade", this);
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
 		viewport = (Viewport) firstApp.getWidget("viewport1");
-		resulttable = (Table) firstApp.getWidget("resulttable");
-		resulttable.setBackgroundColor(StateType.NORMAL, new Color(200, 200, 200));
-		resulttable.setBackgroundColor(StateType.ACTIVE, new Color(200, 200, 200));
+		resulttable = (TreeView) firstApp.getWidget("resultview");
+		DataColumn[] dc = new DataColumn[2];
+		dc[0] = new DataColumnPixbuf();
+		dc[1] = new DataColumnString();
 
-		resulttable.setBaseColor(StateType.NORMAL, new Color(200, 200, 200));
-		resulttable.setBaseColor(StateType.ACTIVE, new Color(200, 200, 200));
+		ListStore ls = new ListStore( dc );
 
-		resulttable.setForegroundColor(StateType.NORMAL, new Color(200, 200, 200));
-		resulttable.setForegroundColor(StateType.ACTIVE, new Color(200, 200, 200));
+		resulttable.setModel( ls ); 
+
 
 //		int column = 0;
 //		int row = 1;
@@ -128,7 +134,7 @@ public class First {
 				hits = searcher.search(query);
 				System.out.println(hits.length() + " total matching documents");
 				//resulttable.destroy();
-				resulttable = new Table(2,2, true);
+				//resulttable = new Table(2,2, true);
 				
 				for (int i = 0; i < hits.length(); i++) {
 					int row = i;
@@ -203,13 +209,11 @@ public class First {
 		
 		if(!(one == null && two ==null )) {
 			int column = 0;
-			System.out.println("resulttable.attach(one, "+column+", "+(column + 1)+", "+row+", "+(row + 1)+");");
-			//resulttable.attach(one, column, column + 1, row, row + 1);
-			resulttable.attach(new Label("test: "+row), column, column + 1, row, row + 1);
-			column = 1;
-			System.out.println("resulttable.attach(two, "+column+", "+(column + 1)+", "+row+", "+(row + 1)+");");
-			//resulttable.attach(two, column, column + 1, row, row + 1);
-			resulttable.attach(new Label("test: "+row), column, column + 1, row, row + 1);
+//			System.out.println("resulttable.attach(one, "+column+", "+(column + 1)+", "+row+", "+(row + 1)+");");
+//			resulttable.attach(new Label("test: "+row), column, column + 1, row, row + 1);
+//			column = 1;
+//			System.out.println("resulttable.attach(two, "+column+", "+(column + 1)+", "+row+", "+(row + 1)+");");
+//			resulttable.attach(new Label("test: "+row), column, column + 1, row, row + 1);
 		} else {
 			System.out.println("Component one or two is null");
 		}
