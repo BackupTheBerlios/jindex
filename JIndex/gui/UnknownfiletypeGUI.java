@@ -8,6 +8,8 @@ package gui;
 
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
+import org.gnu.gdk.PixbufLoader;
+import org.gnu.gdk.PixbufRotation;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.IconSize;
@@ -27,6 +29,7 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 	Document doc;
 	VBox imgcontent;
 	VBox maincontent;
+	private String textstring;
 	public UnknownfiletypeGUI(Document _doc) {
 		super();
 		doc = _doc;
@@ -44,7 +47,8 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.LARGE_TOOLBAR);
 		img.setMinimumSize(48, 48);
 		System.out.println((doc.get("type")));
-		textcontent.add(new Label(doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )"));
+		textstring = doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )";
+		textcontent.add(new Label(textstring));
 		String result = doc.get("filecontents");
 		System.out.println(result);
 		if (result != null) {
@@ -79,5 +83,12 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		return maincontent;
 		
 	}
-	
+		public String getTextContent() {
+			return textstring;
+		}
+
+		public byte[] getIcon() {
+			Image img = new Image(GtkStockItem.MISSING_IMAGE, IconSize.LARGE_TOOLBAR);
+			return null;
+		}
 }

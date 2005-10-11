@@ -16,9 +16,11 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Pixbuf;
+import org.gnu.gdk.PixbufLoader;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
 import org.gnu.glib.JGException;
+import org.gnu.glib.Type;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
 import org.gnu.gtk.ComboBox;
@@ -62,6 +64,7 @@ public class First {
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		initTable();
 
+		searchtypecombo.appendText( "testing");
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
@@ -77,7 +80,6 @@ public class First {
 
 	public static void main(String[] args) {
 		First g;
-
 		try {
 			Gtk.init(args);
 			g = new First();
@@ -143,7 +145,7 @@ public class First {
 						System.out.println("Added image");
 					} else if (doc.get("type").equals("application/pdf")) {
 						System.out.println("Added PDF");
-						contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
+						//contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
 					} else
 
 					if (doc.get("type").equals("mail")) {
@@ -152,10 +154,8 @@ public class First {
 					} else {
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 						gui.getGnomeGUI(alternaterow);
-						addToTable("images/stock_search.png", gui.getTextContent());
+						addToTable(gui.getIcon(), gui.getTextContent());
 					}
-					// contentpane.packStart(new HSeparator(), false, true, 0);
-					// if(i==1) break;
 				}
 
 				searcher.close();
@@ -220,6 +220,7 @@ public class First {
 		col0.packStart(render1, true);
 		col0.addAttributeMapping(render1, CellRendererPixbuf.Attribute.PIXBUF, ColThumbImage);
 
+		
 		TreeViewColumn col2 = new TreeViewColumn();
 		CellRendererText render2 = new CellRendererText();
 		col2.packStart(render2, true);
@@ -227,18 +228,14 @@ public class First {
 		
 		resulttable.setSearchDataColumn(ColData);
 		/* append columns */
-
 		resulttable.appendColumn(col0);
 		resulttable.appendColumn(col2);
 	}
 
-	public void addToTable(String image, String data) throws FileNotFoundException {
+	public void addToTable(byte[] image, String data) throws FileNotFoundException {
 		TreeIter row = ls.appendRow();
-		try {
+		if(!(image == null))
 			ls.setValue(row, ColThumbImage, new Pixbuf(image));
-		} catch (JGException e) {
-			System.err.println("image not found : " + e.getMessage());
-		}
 
 		ls.setValue(row, ColData,data);
 
