@@ -21,6 +21,7 @@ import org.gnu.glade.LibGlade;
 import org.gnu.glib.JGException;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
+import org.gnu.gtk.ComboBox;
 import org.gnu.gtk.DataColumn;
 import org.gnu.gtk.DataColumnPixbuf;
 import org.gnu.gtk.DataColumnString;
@@ -52,16 +53,15 @@ public class First {
 
 	TreeView resulttable = null;
 	ListStore ls = null;
+	ComboBox searchtypecombo;
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
 		firstApp = new LibGlade("glade/jindex.glade", this);
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
+		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
 		viewport = (Viewport) firstApp.getWidget("viewport1");
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		initTable();
-		addToTable("images/stock_search.png", "<span foreground=\"blue\" size=\"x-large\">Blue text</span> is <i>cool</i>");
-		addToTable("images/stock_search.png", "<span foreground=\"blue\" size=\"x-large\">Blue text</span> is <i>cooler</i>");
 
-		
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
@@ -88,17 +88,22 @@ public class First {
 	}
 
 	public void doSearchGUI(String searchquery) {
-
 		// SearchFiles files = new SearchFiles(queryfield.getText());
 		Query query = null;
 		if (!searchquery.equals("")) {
 			try {
-
+				while(true)
+				{
+				 TreeIter item = ls.getIter("0");
+				   if (item == null) break;
+				   ls.removeRow(item);
+				}
 				Searcher searcher = new IndexSearcher(INDEXFILE);
 
 				Analyzer analyzer = new StandardAnalyzer();
 
 				String[] fields = new String[0];
+
 
 				fields = concatArrays(MP3Document.fields, fields);
 				fields = concatArrays(GaimLogDocument.fields, fields);
@@ -115,9 +120,6 @@ public class First {
 
 				hits = searcher.search(query);
 				System.out.println(hits.length() + " total matching documents");
-				// resulttable.destroy();
-				// resulttable = new Table(2,2, true);
-
 				for (int i = 0; i < hits.length(); i++) {
 					int row = i;
 					Document doc = null;
@@ -150,11 +152,7 @@ public class First {
 					} else {
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 						gui.getGnomeGUI(alternaterow);
-						addToTable(i, gui.getImageIconPane(), gui.getMainContent());
-						// contentpane.packStart(new
-						// UnknownfiletypeGUI(doc).getGnomeGUI(alternaterow),
-						// false, true, 0);
-
+						addToTable("images/stock_search.png", gui.getTextContent());
 					}
 					// contentpane.packStart(new HSeparator(), false, true, 0);
 					// if(i==1) break;
@@ -167,9 +165,6 @@ public class First {
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-			resulttable.resizeChildren();
-			resulttable.showAll();
-			viewport.showAll();
 		}
 	}
 
