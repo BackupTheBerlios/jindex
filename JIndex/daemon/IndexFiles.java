@@ -51,6 +51,13 @@ class IndexFiles extends Thread {
 
     public static void main(String[] args) {
         try {
+
+            AssociationService assocService = new AssociationService();
+            URL url = new URL("file:///home/sorenm/movies/Tripping.The.Rift.S02E04.DSR.XviD-LOKi/tripping.the.rift.204.dsr-loki.avi");
+            Association assoc = assocService.getAssociationByContent(url);
+            System.out.println("foud mime type: "+assoc.getMimeType());
+            
+            
             if (HOME == null) {
                 System.out
                         .println("Needs to be stated with -DHOME=~/ or something");

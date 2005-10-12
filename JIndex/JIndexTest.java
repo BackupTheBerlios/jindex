@@ -17,7 +17,6 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Color;
-import org.gnu.glade.LibGlade;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.HBox;
@@ -44,7 +43,7 @@ import documents.ImageDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
 
-public class JIndex {
+public class JIndexTest {
     private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
     VBox contentpane;
@@ -126,7 +125,6 @@ public class JIndex {
     }
 
     public static void main(String[] args) {
-
         new JIndex(args);
     }
 
@@ -160,7 +158,7 @@ public class JIndex {
 
                 hits = searcher.search(query);
                 System.out.println(hits.length() + " total matching documents");
-
+                Table table = new Table(hits.length(),2, true);
                 for (int i = 0; i < hits.length(); i++) {
                     Document doc = null;
                     doc = hits.doc(i);
@@ -185,19 +183,29 @@ public class JIndex {
                         System.out.println("Added image");
                     } else if (doc.get("type").equals("application/pdf")) {
                         System.out.println("Added PDF");
-                        contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
+                        PDFContentGUI content = new PDFContentGUI(doc);
+                        content.getGnomeGUI(alternaterow);
+                        System.out.println(i);
+//                        table.attach(content.imgcontent, i, 1, i, 1);
+//                        table.attach(content.maincontent, i, 2, i, 2);
+                        
+                        table.attach(new Label("test"), i, 1, i, 1);
+                        table.attach(new Label("tes34t"), i, 2, i, 2);
+
+                        //contentpane.packStart(, false, true, 0);
                     } else
 
                     if (doc.get("type").equals("mail")) {
                         System.out.println("mail info");
                         // content += new MailGUI(doc).getHTML();
                     } else {
-                        contentpane.packStart(new UnknownfiletypeGUI(doc)
-                                .getGnomeGUI(alternaterow), false, true, 0);
+//                        contentpane.packStart(new UnknownfiletypeGUI(doc)
+//                                .getGnomeGUI(alternaterow, table), false, true, 0);
 
                     }
-                    contentpane.packStart(new HSeparator(), false, true, 0);
+                    //contentpane.packStart(new HSeparator(), false, true, 0);
                 }
+                contentpane.packStart(table, false, true, 0);
                 searcher.close();
             } catch (IOException e2) {
                 e2.printStackTrace();

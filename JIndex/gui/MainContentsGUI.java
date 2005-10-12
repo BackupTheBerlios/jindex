@@ -11,6 +11,7 @@ import org.gnu.gtk.Button;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
 import org.gnu.gtk.Label;
+import org.gnu.gtk.Table;
 import org.gnu.gtk.Widget;
 import org.gnu.gtk.event.ButtonEvent;
 import org.gnu.gtk.event.ButtonListener;
@@ -83,7 +84,8 @@ public class MainContentsGUI implements MainGUIInterface {
     }
 
     public Widget getGnomeGUI() {
-        System.out.println("getGnomeGUI not implemented..");
+        // TODO Auto-generated method stub
         return null;
     }
+
 }
