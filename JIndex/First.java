@@ -1,6 +1,5 @@
 import gui.ImageContentGUI;
 import gui.MP3LogGUI;
-import gui.PDFContentGUI;
 import gui.UnknownfiletypeGUI;
 
 import java.io.FileNotFoundException;
@@ -16,11 +15,8 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.gdk.Pixbuf;
-import org.gnu.gdk.PixbufLoader;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
-import org.gnu.glib.JGException;
-import org.gnu.glib.Type;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
 import org.gnu.gtk.ComboBox;
@@ -35,8 +31,11 @@ import org.gnu.gtk.TreeView;
 import org.gnu.gtk.TreeViewColumn;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Viewport;
+import org.gnu.gtk.Window;
 import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
+import org.gnu.gtk.event.LifeCycleEvent;
+import org.gnu.gtk.event.LifeCycleListener;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -53,18 +52,27 @@ public class First {
 
 	VBox contentpane = null;
 
+	// Tree viwe
 	TreeView resulttable = null;
+
 	ListStore ls = null;
+
+	DataColumnPixbuf ColThumbImage;
+
+	DataColumnString ColData;
+
 	ComboBox searchtypecombo;
+
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
 		firstApp = new LibGlade("glade/jindex.glade", this);
+		addWindowCloser();
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
 		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
 		viewport = (Viewport) firstApp.getWidget("viewport1");
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		initTable();
 
-		searchtypecombo.appendText( "testing");
+		initCombo();
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
@@ -79,14 +87,26 @@ public class First {
 	}
 
 	public static void main(String[] args) {
-		First g;
 		try {
 			Gtk.init(args);
-			g = new First();
+			new First();
 			Gtk.main();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addWindowCloser() {
+		Window window = (Window) firstApp.getWidget("mainwindow");
+		window.addListener(new LifeCycleListener() {
+			public void lifeCycleEvent(LifeCycleEvent event) {
+			}
+
+			public boolean lifeCycleQuery(LifeCycleEvent event) {
+				Gtk.mainQuit();
+				return false;
+			}
+		});
 	}
 
 	public void doSearchGUI(String searchquery) {
@@ -94,18 +114,17 @@ public class First {
 		Query query = null;
 		if (!searchquery.equals("")) {
 			try {
-				while(true)
-				{
-				 TreeIter item = ls.getIter("0");
-				   if (item == null) break;
-				   ls.removeRow(item);
+				while (true) {
+					TreeIter item = ls.getIter("0");
+					if (item == null)
+						break;
+					ls.removeRow(item);
 				}
 				Searcher searcher = new IndexSearcher(INDEXFILE);
 
 				Analyzer analyzer = new StandardAnalyzer();
 
 				String[] fields = new String[0];
-
 
 				fields = concatArrays(MP3Document.fields, fields);
 				fields = concatArrays(GaimLogDocument.fields, fields);
@@ -145,7 +164,9 @@ public class First {
 						System.out.println("Added image");
 					} else if (doc.get("type").equals("application/pdf")) {
 						System.out.println("Added PDF");
-						//contentpane.packStart(new PDFContentGUI(doc).getGnomeGUI(alternaterow), false, true, 0);
+						// contentpane.packStart(new
+						// PDFContentGUI(doc).getGnomeGUI(alternaterow), false,
+						// true, 0);
 					} else
 
 					if (doc.get("type").equals("mail")) {
@@ -183,36 +204,17 @@ public class First {
 
 	}
 
-	public void addToTable(int row, VBox one, VBox two) {
-		System.out.println("Row: " + row);
-
-		if (!(one == null && two == null)) {
-			int column = 0;
-			// System.out.println("resulttable.attach(one, "+column+", "+(column
-			// + 1)+", "+row+", "+(row + 1)+");");
-			// resulttable.attach(new Label("test: "+row), column, column + 1,
-			// row, row + 1);
-			// column = 1;
-			// System.out.println("resulttable.attach(two, "+column+", "+(column
-			// + 1)+", "+row+", "+(row + 1)+");");
-			// resulttable.attach(new Label("test: "+row), column, column + 1,
-			// row, row + 1);
-		} else {
-			System.out.println("Component one or two is null");
-		}
-	}
-
-	DataColumnPixbuf  ColThumbImage;
-	DataColumnString ColData;
-	
 	public void initTable() {
 		ColThumbImage = new DataColumnPixbuf();
 		ColData = new DataColumnString();
-		ls = new ListStore( new DataColumn[] {ColThumbImage, ColData} ); 
-		
-		resulttable.setEnableSearch( true );  /* allows to use keyboard to search items matching the pressed keys */
+		ls = new ListStore(new DataColumn[] { ColThumbImage, ColData });
 
-		resulttable.setAlternateRowColor( true ); /* no comments smile */ 
+		resulttable.setEnableSearch(true); /*
+											 * allows to use keyboard to search
+											 * items matching the pressed keys
+											 */
+
+		resulttable.setAlternateRowColor(true); /* no comments smile */
 		resulttable.setModel(ls);
 
 		TreeViewColumn col0 = new TreeViewColumn();
@@ -220,24 +222,28 @@ public class First {
 		col0.packStart(render1, true);
 		col0.addAttributeMapping(render1, CellRendererPixbuf.Attribute.PIXBUF, ColThumbImage);
 
-		
 		TreeViewColumn col2 = new TreeViewColumn();
 		CellRendererText render2 = new CellRendererText();
 		col2.packStart(render2, true);
 		col2.addAttributeMapping(render2, CellRendererText.Attribute.MARKUP, ColData);
-		
+
 		resulttable.setSearchDataColumn(ColData);
 		/* append columns */
 		resulttable.appendColumn(col0);
 		resulttable.appendColumn(col2);
 	}
 
+	public void initCombo() {
+		searchtypecombo.appendText("sma");
+		searchtypecombo.showAll();
+	}
+
 	public void addToTable(byte[] image, String data) throws FileNotFoundException {
 		TreeIter row = ls.appendRow();
-		if(!(image == null))
+		if (!(image == null))
 			ls.setValue(row, ColThumbImage, new Pixbuf(image));
 
-		ls.setValue(row, ColData,data);
+		ls.setValue(row, ColData, data);
 
 		resulttable.showAll();
 
