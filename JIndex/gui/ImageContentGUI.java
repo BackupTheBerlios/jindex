@@ -22,12 +22,10 @@ import org.gnu.gtk.Widget;
 /**
  * @author sorenm
  * 
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class ImageContentGUI extends MainContentsGUI {
     Document doc;
-
+    String textstring = "";
     public ImageContentGUI(Document _doc) {
         super();
         doc = _doc;
@@ -51,7 +49,9 @@ public class ImageContentGUI extends MainContentsGUI {
          img = new org.gnu.gtk.Image(loader.getPixbuf());
         
         //img = new org.gnu.gtk.Image(icon);
-        Label fileinfo = new Label("Size: "+doc.get("image-height")+"x"+doc.get("image-width"));
+         textstring = "Size: "+doc.get("image-height")+"x"+doc.get("image-width");
+        Label fileinfo = new Label(textstring);
+        textstring += "\n"+doc.get("name");
         Label filepath = new Label(doc.get("name"));
         fileinfo.setAlignment(0, 0);
         filepath.setAlignment(0, 0);
@@ -108,9 +108,13 @@ public class ImageContentGUI extends MainContentsGUI {
 //        return this;
 //    }
   
-  
+    public String getTextContent() {
+		return textstring;
+	}
+
+
     public byte[] getIcon() {
-        org.gnu.gtk.Image img = new org.gnu.gtk.Image("images/gaim/im-icq.gif");
+       // org.gnu.gtk.Image img = new org.gnu.gtk.Image("images/gaim/im-icq.gif");
         Base64 b64 = new Base64();
         
         String code = doc.get("thumbnail").trim();
