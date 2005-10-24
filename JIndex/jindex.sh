@@ -1,2 +1,2 @@
 #!/bin/bash
-fileschanged -r --exec=./updateindex.sh --show=created,changed,deleted /home/sorenm/workspace.stable
+fileschanged -r --exec=./updateindex1.sh --show=created,changed,deleted /home/sorenm/workspace.stable

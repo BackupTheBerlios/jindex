@@ -11,34 +11,25 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class FileChangedNotifier {
-    public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {
 
-        Socket echoSocket = null;
-        PrintWriter out = null;
-        BufferedReader in = null;
+		Socket echoSocket = null;
+		PrintWriter out = null;
+		BufferedReader in = null;
 
-        try {
-            echoSocket = new Socket("localhost", 4444);
-            out = new PrintWriter(echoSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(
-                                        echoSocket.getInputStream()));
-        } catch (UnknownHostException e) {
-            System.err.println("Don't know about host: taranis.");
-            System.exit(1);
-        } catch (IOException e) {
-            System.err.println("Couldn't get I/O for "
-                               + "the connection to: taranis.");
-            System.exit(1);
-        }
-
-
-    //while ((userInput = stdIn.readLine()) != null) {
-        out.println(args[0]);
-//        System.out.println("echo: " + in.readLine());
-    //}
-
-    out.close();
-    in.close();
-    echoSocket.close();
-    }
+		try {
+			echoSocket = new Socket("localhost", 44441);
+			out = new PrintWriter(echoSocket.getOutputStream(), true);
+			in = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
+		} catch (UnknownHostException e) {
+			System.exit(1);
+		} catch (IOException e) {
+			System.err.println("Couldn't get I/O for the connection to JIndexDaemon");
+			System.exit(1);
+		}
+		out.println(args[0]);
+		out.close();
+		in.close();
+		echoSocket.close();
+	}
 }

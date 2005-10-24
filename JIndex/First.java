@@ -125,7 +125,6 @@ public class First {
 					ls.removeRow(item);
 				}
 				Searcher searcher = new IndexSearcher(INDEXFILE);
-
 				Analyzer analyzer = new StandardAnalyzer();
 
 				String[] fields = new String[0];
@@ -180,6 +179,7 @@ public class First {
 						gui.getGnomeGUI();
 						addToTable(gui.getIcon(), gui.getTextContent());
 					}
+					System.out.println("found file of type: "+doc.get("type"));
 				}
 
 				searcher.close();

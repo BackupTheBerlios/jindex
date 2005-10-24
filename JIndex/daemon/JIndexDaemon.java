@@ -19,9 +19,10 @@ public class JIndexDaemon {
         new IndexFiles().start();
         
         try {
-            serverSocket = new ServerSocket(4444);
+            serverSocket = new ServerSocket(44441);
         } catch (IOException e) {
             System.err.println("Could not listen on port: 4444.");
+            e.printStackTrace();
             System.exit(-1);
         }
 
@@ -38,6 +39,10 @@ public class JIndexDaemon {
     public static synchronized List getFileFromQueue() {
         List value = new LinkedList();
         value.addAll(filequeue);
+        for (int i = 0; i < value.size(); i++) {
+			System.out.println("Processing file " + value.get(i));
+		}
+        
         filequeue.clear();
         return value;
     }
