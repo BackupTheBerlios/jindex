@@ -31,7 +31,8 @@ class IndexFiles extends Thread {
 	private final static String HOME = System.getProperty("HOME");
 
 	private static boolean updateindex = false;
-
+	static IndexWriter writer = null;
+	
 	public void run() {
 		updateindex = true;
 
@@ -40,13 +41,9 @@ class IndexFiles extends Thread {
 			try {
 				Thread.sleep(numMillisecondsToSleep);
 				List files = JIndexDaemon.getFileFromQueue();
-				// for(int i=0; i < files.size(); i++) {
-				// System.out.println("Processing file "+i);
-				// File file = (File) files.get(i);
 				if (files.size() > 0) {
 					indexDocs(files);
 				}
-				// }
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -126,7 +123,6 @@ class IndexFiles extends Thread {
 			if (file.canRead()) {
 				if (file.isDirectory()) {
 					String[] files = file.list();
-					// an IO error could occur
 					if (files != null) {
 						LinkedList tmpfiles = new LinkedList();
 						for (int i = 0; i < files.length; i++) {
@@ -138,7 +134,8 @@ class IndexFiles extends Thread {
 					// if update, remove the old entry before continuing
 					if (updateindex)
 						removeEntry(file.getAbsolutePath());
-					IndexWriter writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
+					if(writer == null)
+					 writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
 					try {
 						AssociationService assocService = new AssociationService();
 						URL url = new URL(file.toURL().toString());
@@ -185,7 +182,6 @@ class IndexFiles extends Thread {
 								}
 							}
 						}
-
 					} catch (FileNotFoundException fnfe) {
 					} catch (IOException e) {
 						e.printStackTrace();

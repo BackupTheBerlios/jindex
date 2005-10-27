@@ -84,6 +84,7 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		
 	}
 		public String getTextContent() {
+			textstring = doc.get("name").trim() + " in folder (" + doc.get("absolutepath") + " )";
 			return textstring;
 		}
 

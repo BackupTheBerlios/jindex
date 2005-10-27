@@ -175,6 +175,7 @@ public class First {
 						System.out.println("mail info");
 						// content += new MailGUI(doc).getHTML();
 					} else {
+						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 						gui.getGnomeGUI();
 						addToTable(gui.getIcon(), gui.getTextContent());
@@ -260,7 +261,6 @@ public class First {
 		}
 
 		ls.setValue(row, ColData, data);
-
 		resulttable.showAll();
 
 	}
