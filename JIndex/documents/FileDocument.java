@@ -1,12 +1,14 @@
 package documents;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import java.io.*;
 
 public class FileDocument implements SearchDocument {
     public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };

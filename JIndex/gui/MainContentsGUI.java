@@ -3,15 +3,11 @@
  */
 package gui;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 import org.gnu.gtk.Button;
 import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
-import org.gnu.gtk.Label;
-import org.gnu.gtk.Table;
 import org.gnu.gtk.Widget;
 import org.gnu.gtk.event.ButtonEvent;
 import org.gnu.gtk.event.ButtonListener;
