@@ -21,6 +21,7 @@ import documents.ExcelDocument;
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
+import documents.JavaDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
 
@@ -31,8 +32,9 @@ class IndexFiles extends Thread {
 	private final static String HOME = System.getProperty("HOME");
 
 	private static boolean updateindex = false;
+
 	static IndexWriter writer = null;
-	
+
 	public void run() {
 		updateindex = true;
 
@@ -42,7 +44,7 @@ class IndexFiles extends Thread {
 				Thread.sleep(numMillisecondsToSleep);
 				List files = JIndexDaemon.getFileFromQueue();
 				if (files.size() > 0) {
-					indexDocs(files);
+					indexDocs(updateIndex(files));
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -67,7 +69,7 @@ class IndexFiles extends Thread {
 		if (args[0].equals("updateindex"))
 			updateindex = true;
 
-		//indexDocs(new File(args[1]));
+		// indexDocs(new File(args[1]));
 		try {
 			indexDocs(new File(args[1]));
 		} catch (IOException e) {
@@ -86,13 +88,9 @@ class IndexFiles extends Thread {
 		System.out.print(end.getTime() - start.getTime());
 		System.out.println(" total milliseconds");
 
-		// } catch (IOException e) {
-		// System.out.println(" caught a " + e.getClass()
-		// + "\n with message: " + e.getMessage());
-		// }
 	}
 
-	public static void removeEntry(String filename) {
+	public synchronized static void removeEntry(String filename) {
 
 		try {
 			IndexReader reader = IndexReader.open(HOME + "/index");
@@ -110,14 +108,83 @@ class IndexFiles extends Thread {
 			e.printStackTrace();
 		}
 	}
+
 	public synchronized static void indexDocs(File file) throws IOException {
 		LinkedList list = new LinkedList();
 		list.add(file);
-		indexDocs(list);
+		indexDocs(updateIndex(list));
 	}
-	
+
 	public synchronized static void indexDocs(List filelist) throws IOException {
 		// do not try to index files that cannot be read
+
+		for (int j = 0; j < filelist.size(); j++) {
+			File file = (File) filelist.get(j);
+		
+			if (updateindex)
+				removeEntry(file.getAbsolutePath());
+
+			//if (writer == null)
+				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
+
+			try {
+				AssociationService assocService = new AssociationService();
+				URL url = new URL(file.toURL().toString());
+				Association assoc = assocService.getAssociationByContent(url);
+				System.out.println("foud mime type: " + assoc.getMimeType());
+				String mimetype = assoc.getMimeType();
+
+				if (mimetype != null) {
+					if (mimetype.equals("audio/mpeg")) {
+						System.out.println("adding MP3 File" + file);
+						writer.addDocument(MP3Document.Document(file));
+					} else if (mimetype.equals("application/msword")) {
+						writer.addDocument(ExcelDocument.Document(file));
+					} else if (StringUtils.contains(mimetype, "image/")) {
+						writer.addDocument(ImageDocument.Document(file));
+					} else if (StringUtils.contains(mimetype, "application/pdf")) {
+						writer.addDocument(PDFDocument.Document(file));
+					} else if (StringUtils.contains(mimetype, "text/x-java")) {
+						writer.addDocument(JavaDocument.Document(file));
+					}
+
+					else {
+					 	 System.out.println("Skipping unknown file with file desc" + file);
+						//writer.addDocument(FileDocument.Document(file));
+					}
+				} else {
+					if (file.getName().equals("Inbox")) {
+						// MBoxProcessor.ProcessMBoxFile(file, writer);
+						// TestMain.indexMails(writer);
+					} else if (file.getName().equals("addressbook.db")) {
+						writer.addDocument(AddressBookDocument.Document(file));
+					}
+
+					else {
+						if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
+							// System.out.println("adding gaim log file"
+							// +
+							// file);
+							writer.addDocument(GaimLogDocument.Document(file));
+						} else {
+							// System.out.println("adding as normal file
+							// with NO ile desc" + file);
+							writer.addDocument(FileDocument.Document(file));
+						}
+					}
+				}
+				if (writer != null) {
+					writer.close();
+				}
+			} catch (FileNotFoundException fnfe) {
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public static List updateIndex(List filelist) {
+		List completefileslist = new LinkedList();
 		for (int j = 0; j < filelist.size(); j++) {
 			File file = (File) filelist.get(j);
 			if (file.canRead()) {
@@ -128,69 +195,14 @@ class IndexFiles extends Thread {
 						for (int i = 0; i < files.length; i++) {
 							tmpfiles.add(files[i]);
 						}
-						indexDocs(tmpfiles);
+						completefileslist.addAll(updateIndex(tmpfiles));
 					}
 				} else {
-					// if update, remove the old entry before continuing
-					if (updateindex)
-						removeEntry(file.getAbsolutePath());
-					if(writer == null)
-					 writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
-					try {
-						AssociationService assocService = new AssociationService();
-						URL url = new URL(file.toURL().toString());
-						Association assoc = assocService.getAssociationByContent(url);
-						System.out.println("foud mime type: " + assoc.getMimeType());
-						String mimetype = assoc.getMimeType();
-
-						if (mimetype != null) {
-							if (mimetype.equals("audio/mpeg")) {
-								System.out.println("adding MP3 File" + file);
-								writer.addDocument(MP3Document.Document(file));
-							} else if (mimetype.equals("application/msword")) {
-								writer.addDocument(ExcelDocument.Document(file));
-							} else if (StringUtils.contains(mimetype, "image/")) {
-								writer.addDocument(ImageDocument.Document(file));
-							} else if (StringUtils.contains(mimetype, "application/pdf")) {
-								writer.addDocument(PDFDocument.Document(file));
-							}
-
-							else {
-								// System.out.println("adding as normal file
-								// with
-								// file desc" + file);
-								writer.addDocument(FileDocument.Document(file));
-							}
-						} else {
-							if (file.getName().equals("Inbox")) {
-								// MBoxProcessor.ProcessMBoxFile(file, writer);
-								// TestMain.indexMails(writer);
-							} else if (file.getName().equals("addressbook.db")) {
-								writer.addDocument(AddressBookDocument.Document(file));
-							}
-
-							else {
-								if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
-									// System.out.println("adding gaim log file"
-									// +
-									// file);
-									writer.addDocument(GaimLogDocument.Document(file));
-								} else {
-									// System.out.println("adding as normal file
-									// with NO ile desc" + file);
-									writer.addDocument(FileDocument.Document(file));
-								}
-							}
-						}
-					} catch (FileNotFoundException fnfe) {
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-					writer.close();
+					completefileslist.add(file);
 				}
+
 			}
-
 		}
+		return completefileslist;
 	}
-
 }
