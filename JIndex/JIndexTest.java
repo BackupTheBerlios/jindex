@@ -101,7 +101,7 @@ public class JIndexTest {
         return mainpane;
     }
 
-    public JIndex(String[] args) {
+    public JIndexTest(String[] args) {
         Gtk.init(args);
         Window w = new Window(WindowType.TOPLEVEL);
         w.addListener(new LifeCycleListener() {

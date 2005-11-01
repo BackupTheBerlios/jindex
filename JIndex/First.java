@@ -1,4 +1,5 @@
 import gui.ImageContentGUI;
+import gui.JavaDocumentGUI;
 import gui.MP3LogGUI;
 import gui.UnknownfiletypeGUI;
 
@@ -18,7 +19,6 @@ import org.gnu.gdk.Pixbuf;
 import org.gnu.gdk.PixbufLoader;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
-import org.gnu.glib.Handle;
 import org.gnu.glib.JGException;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
@@ -28,7 +28,6 @@ import org.gnu.gtk.DataColumnPixbuf;
 import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
-import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.ListStore;
 import org.gnu.gtk.TreeIter;
 import org.gnu.gtk.TreeView;
@@ -169,7 +168,14 @@ public class First {
 						// contentpane.packStart(new
 						// PDFContentGUI(doc).getGnomeGUI(alternaterow), false,
 						// true, 0);
-					} else
+					} else if (doc.get("type").equals("text/x-java")) {
+						System.out.println("FOUND JAVA FILE");
+						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
+						gui.getGnomeGUI();
+						addToTable(gui.getIcon(), gui.getTextContent());
+					}
+					
+					else
 
 					if (doc.get("type").equals("mail")) {
 						System.out.println("mail info");
