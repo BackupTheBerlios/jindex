@@ -86,6 +86,7 @@ public class JavaDocumentGUI extends MainContentsGUI {
 		public String getTextContent() {
 		//"<span font_desc=\"sans 10\">4. This label using</span><span foreground=\"red\" font_desc=\"fixed 14\"> Pango markup</span> ");
 			textstring = "<span font_desc=\"sans 10\">"+doc.get("file-name").trim()+"</span>\n";
+			textstring += "http://www.google.dk ";
 			textstring += "In folder (" + doc.get("absolutepath") + " )";
 			return textstring;
 		}

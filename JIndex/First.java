@@ -6,6 +6,8 @@ import gui.UnknownfiletypeGUI;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import javax.swing.text.html.ListView;
+
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -30,15 +32,22 @@ import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.ListStore;
 import org.gnu.gtk.TreeIter;
+import org.gnu.gtk.TreePath;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.TreeViewColumn;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Viewport;
 import org.gnu.gtk.Window;
+import org.gnu.gtk.event.ContainerEvent;
+import org.gnu.gtk.event.ContainerListener;
 import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
+import org.gnu.gtk.event.TreeSelectionEvent;
+import org.gnu.gtk.event.TreeSelectionListener;
+import org.gnu.gtk.event.TreeViewEvent;
+import org.gnu.gtk.event.TreeViewListener;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -46,7 +55,7 @@ import documents.ImageDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
 
-public class First {
+public class First implements TreeViewListener {
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
 	private LibGlade firstApp;
@@ -73,6 +82,8 @@ public class First {
 		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
 		viewport = (Viewport) firstApp.getWidget("viewport1");
 		resulttable = (TreeView) firstApp.getWidget("resultview");
+		resulttable.setHoverSelection(true);
+		resulttable.addListener(this);
 		initTable();
 
 		initCombo();
@@ -162,7 +173,7 @@ public class First {
 						// System.out.println("Added image");
 						ImageContentGUI gui = new ImageContentGUI(doc);
 						gui.getGnomeGUI();
-						addToTable(gui.getIcon(), gui.getTextContent());
+						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
 					} else if (doc.get("type").equals("application/pdf")) {
 						System.out.println("Added PDF");
 						// contentpane.packStart(new
@@ -172,9 +183,9 @@ public class First {
 						System.out.println("FOUND JAVA FILE");
 						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
 						gui.getGnomeGUI();
-						addToTable(gui.getIcon(), gui.getTextContent());
+						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
 					}
-					
+
 					else
 
 					if (doc.get("type").equals("mail")) {
@@ -184,9 +195,9 @@ public class First {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 						gui.getGnomeGUI();
-						addToTable(gui.getIcon(), gui.getTextContent());
+						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
 					}
-					System.out.println("found file of type: "+doc.get("type"));
+					System.out.println("found file of type: " + doc.get("type"));
 				}
 
 				searcher.close();
@@ -248,9 +259,8 @@ public class First {
 		searchtypecombo.showAll();
 	}
 
-	public void addToTable(byte[] image, String data) {
+	public void addToTable(byte[] image, String data, String openCommand, int commandNumber) {
 		TreeIter row = ls.appendRow();
-
 		if (!(image == null)) {
 			PixbufLoader test = new PixbufLoader();
 			test.write(image);
@@ -265,9 +275,21 @@ public class First {
 				e.printStackTrace();
 			}
 		}
-
 		ls.setValue(row, ColData, data);
+		ls.setData("openCommand" + commandNumber, openCommand);
 		resulttable.showAll();
 
 	}
+
+	public void treeViewEvent(TreeViewEvent event) {
+		if (event.getTreeIter() != null) {
+			String command = (String) ls.getData("openCommand" + event.getTreeIter().toString());
+			try {
+				Runtime.getRuntime().exec("gnome-open " + command);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 }
