@@ -3,85 +3,49 @@
  */
 package gui;
 
+import java.io.File;
 import java.io.IOException;
 
-import org.gnu.gtk.Button;
-import org.gnu.gtk.GtkStockItem;
-import org.gnu.gtk.HBox;
-import org.gnu.gtk.Widget;
-import org.gnu.gtk.event.ButtonEvent;
-import org.gnu.gtk.event.ButtonListener;
+import org.apache.commons.lang.StringUtils;
+import org.apache.lucene.document.Document;
 
-public class MainContentsGUI implements MainGUIInterface {
-    private String openAction;
+import utils.FileUtility;
 
-    /**
-     * @return Returns the openAction.
-     */
-    public String getOpenAction() {
-        return openAction;
-    }
+public abstract class MainContentsGUI implements MainGUIInterface {
+	private String openAction;
 
-    /**
-     * @param openAction
-     *            The openAction to set.
-     */
-    public void setOpenAction(String openAction) {
-        this.openAction = openAction;
-    }
+	Document maindoc = null;
 
-    /**
-     * This method initializes
-     * 
-     */
-    public MainContentsGUI() {
-        super();
-    }
+	public MainContentsGUI(Document doc) {
+		maindoc = doc;
+	}
 
-    /**
-     * @return
-     */
-    private Widget getActionpane() {
-        HBox actionpane = new HBox(false, 0);
-        actionpane.packStart(getOpenButton());
-        return actionpane;
-    }
+	/**
+	 * @return Returns the openAction.
+	 */
+	public String getOpenAction() {
+		return openAction;
+	}
 
-    /**
-     * @return
-     */
-    public Widget getOpenButton() {
-        HBox mainpane = new HBox(false, 0);
-        Button openButton = new Button(GtkStockItem.OPEN);
-        openButton.addListener(new ButtonListener() {
-            public void buttonEvent(ButtonEvent event) {
-                if (event.isOfType(ButtonEvent.Type.CLICK)) {
-                    executeOpenAction();
-                }
-            }
-        });
-        mainpane.packStart(openButton, false, true, 0);
-        return mainpane;
-    }
+	/**
+	 * @param openAction
+	 *            The openAction to set.
+	 */
+	public void setOpenAction(String openAction) {
+		this.openAction = openAction;
+	}
 
-    /**
-     * 
-     */
-    public void executeOpenAction() {
-        System.out.println("Execute: " + "gnome-open \"" + getOpenAction()
-                + "\"");
-        
-             try {
-                Runtime.getRuntime().exec("gnome-open \"" + getOpenAction() + "\"");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        
-    }
-
-    public Widget getGnomeGUI() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+	public byte[] getIcon() {
+		if (maindoc != null) {
+			String type = maindoc.get("type");
+			type = type = StringUtils.replace(type, "/", "-");
+			File f = new File("images/mimetypes/gnome-mime-" + type + ".png");
+			try {
+				return FileUtility.getBytesFromFile(f);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
 }

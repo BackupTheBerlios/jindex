@@ -15,7 +15,7 @@ import com.lowagie.text.pdf.PdfReader;
 public class PDFDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "file-name", "numberofpages", "producer", "creator", "creationdate" };	
 
-	public static Document Document(File f) {
+	public static Document Document(File f, String mimetype) {
 		try {
 		Document doc = new Document();
 		
@@ -42,7 +42,7 @@ public class PDFDocument implements SearchDocument {
 
 		doc.add(Field.Keyword("file-name", f.getName()));
 
-		doc.add(Field.Text("type", "application/pdf"));
+		doc.add(Field.Text("type", mimetype));
 		doc.add(Field.Text("icon", "icon data"));
 		doc.add(Field.Text("url", "url data"));
 		

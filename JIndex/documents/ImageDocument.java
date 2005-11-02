@@ -12,11 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.codec.binary.Base64;
@@ -37,7 +32,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
 public class ImageDocument implements SearchDocument {
 	public static String[] fields = { "path", "absolutepath", "type", "url", "modified", "name", "image-width", "image-height" };
 
-	public static Document Document(File f) {
+	public static Document Document(File f, String mimetype) {
 
 		Document doc = new Document();
 		Metadata metadata = null;
@@ -68,7 +63,7 @@ public class ImageDocument implements SearchDocument {
 
 			doc.add(Field.Keyword("name", f.getName()));
 
-			doc.add(Field.Text("type", "image"));
+			doc.add(Field.Text("type", mimetype));
 
 			ImageIcon tmpicon = new ImageIcon(f.getPath());
 

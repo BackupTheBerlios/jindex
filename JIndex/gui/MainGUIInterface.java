@@ -1,9 +1,10 @@
 package gui;
 
-import org.gnu.gtk.Widget;
 
 public interface MainGUIInterface {
-	public Widget getGnomeGUI();
+	//public Widget getGnomeGUI();
 	public void setOpenAction(String openAction);
-	public void executeOpenAction();
+	public byte[] getIcon();
+	public String getTextContent();
+	//public void executeOpenAction();
 }

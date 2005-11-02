@@ -165,14 +165,13 @@ public class First implements TreeViewListener {
 					} else if (doc.get("type").equals("audio/mp3")) {
 						// System.out.println("Adding audio info");
 						// box.add(new MP3LogGUI(doc));
-						contentpane.packStart(new MP3LogGUI(doc).getGnomeGUI(), false, true, 0);
+//						contentpane.packStart(new MP3LogGUI(doc).getGnomeGUI(), false, true, 0);
 					} else if (doc.get("type").equals("image")) {
 						// contentpane.packStart(new
 						// ImageContentGUI(doc).getGnomeGUI(alternaterow),
 						// false, true, 0);
 						// System.out.println("Added image");
 						ImageContentGUI gui = new ImageContentGUI(doc);
-						gui.getGnomeGUI();
 						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
 					} else if (doc.get("type").equals("application/pdf")) {
 						System.out.println("Added PDF");
@@ -182,7 +181,6 @@ public class First implements TreeViewListener {
 					} else if (doc.get("type").equals("text/x-java")) {
 						System.out.println("FOUND JAVA FILE");
 						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
-						gui.getGnomeGUI();
 						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
 					}
 
@@ -194,7 +192,6 @@ public class First implements TreeViewListener {
 					} else {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-						gui.getGnomeGUI();
 						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
 					}
 					System.out.println("found file of type: " + doc.get("type"));

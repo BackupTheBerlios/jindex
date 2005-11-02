@@ -1,22 +1,7 @@
 package documents;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.ArrayList;
-
-import org.apache.lucene.document.DateField;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
-
-import net.sf.jmimemagic.Magic;
-import net.sf.jmimemagic.MagicException;
-import net.sf.jmimemagic.MagicMatch;
-import net.sf.jmimemagic.MagicMatchNotFoundException;
-import net.sf.jmimemagic.MagicParseException;
 
 import jxl.Cell;
 import jxl.CellFeatures;
@@ -25,10 +10,13 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+
 public class ExcelDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 
-	public static Document Document(File f) throws java.io.FileNotFoundException {
+	public static Document Document(File f, String mimetype) throws java.io.FileNotFoundException {
 
 		Document doc = new Document();
 //		CSV(f, doc);
@@ -39,7 +27,7 @@ public class ExcelDocument implements SearchDocument {
 //
 		doc.add(Field.Keyword("name", f.getName()));
 //
-		doc.add(Field.Text("type", "application/msword"));
+		doc.add(Field.Text("type", mimetype));
 //		doc.add(Field.Text("icon", "icon data"));
 //		doc.add(Field.Text("url", "url data"));
 //		doc.add(Field.Text("from", ""));
@@ -103,39 +91,6 @@ public class ExcelDocument implements SearchDocument {
 	}
 
 
-	public ExcelDocument() {
-		try {
-
-			try {
-				File file = new File("/home/sorenm/Documents/masterproduct.xls");
-				
-				Magic parser = new Magic() ;
-//				 getMagicMatch accepts Files or byte[], 
-//				 which is nice if you want to test streams
-				MagicMatch match = null;
-				try {
-					match = parser.getMagicMatch(file);
-				} catch (MagicParseException e) {
-					e.printStackTrace();
-				} catch (MagicMatchNotFoundException e) {
-					e.printStackTrace();
-				} catch (MagicException e) {
-					e.printStackTrace();
-				}
-				System.out.println(match.getMimeType()) ;
-				Workbook w = Workbook.getWorkbook(file);
-				CSV(w, "afe", true);
-				features(w, "UTF-8");
-			} catch (BiffException e) {
-				e.printStackTrace();
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public static void main(String argv[]) {
 		

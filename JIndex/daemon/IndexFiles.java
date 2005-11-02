@@ -125,9 +125,12 @@ class IndexFiles extends Thread {
 				removeEntry(file.getAbsolutePath());
 
 			//if (writer == null)
-				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
-
 			try {
+				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
+			} catch(IOException e) {
+				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
+			}
+
 				AssociationService assocService = new AssociationService();
 				URL url = new URL(file.toURL().toString());
 				Association assoc = assocService.getAssociationByContent(url);
@@ -139,13 +142,13 @@ class IndexFiles extends Thread {
 						System.out.println("adding MP3 File" + file);
 						writer.addDocument(MP3Document.Document(file));
 					} else if (mimetype.equals("application/msword")) {
-						writer.addDocument(ExcelDocument.Document(file));
+						writer.addDocument(ExcelDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "image/")) {
-						writer.addDocument(ImageDocument.Document(file));
+						writer.addDocument(ImageDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "application/pdf")) {
-						writer.addDocument(PDFDocument.Document(file));
+						writer.addDocument(PDFDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "text/x-java")) {
-						writer.addDocument(JavaDocument.Document(file));
+						writer.addDocument(JavaDocument.Document(file, mimetype));
 					}
 
 					else {
@@ -176,10 +179,7 @@ class IndexFiles extends Thread {
 				if (writer != null) {
 					writer.close();
 				}
-			} catch (FileNotFoundException fnfe) {
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 		}
 	}
 

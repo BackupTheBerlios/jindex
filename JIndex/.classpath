@@ -35,5 +35,6 @@
 	<classpathentry kind="lib" path="libs/jai/jai_core.jar"/>
 	<classpathentry kind="lib" path="libs/jai/mlibwrapper_jai.jar"/>
 	<classpathentry kind="lib" path="libs/metadata-extractor-2.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/JFileWatch-1.0-dev.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>
