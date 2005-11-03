@@ -32,7 +32,11 @@ class Demo
   public static void main(String args[])
   {
 	  FileWatch fw = FileWatchFactory.create();
-      fw.addWatch(new File("/tmp"));
+	  File f = new File("/tmp/test.txt");
+	  if(f.canRead())
+		  fw.addWatch(f);
+	  else
+		  System.out.println("f doesnt exsits");
       fw.addListener(new FileWatchEventListener()
       {
           public void processFileWatchEvent(FileWatchEvent evt)
