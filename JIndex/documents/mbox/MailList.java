@@ -1,3 +1,4 @@
+package documents.mbox;
 import java.io.Serializable;
 import java.util.ArrayList;
 	class MailList extends ArrayList implements Serializable {

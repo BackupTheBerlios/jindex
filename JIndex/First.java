@@ -1,6 +1,7 @@
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
 import gui.MP3LogGUI;
+import gui.MailGUI;
 import gui.UnknownfiletypeGUI;
 
 import java.io.FileNotFoundException;
@@ -54,6 +55,7 @@ import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
+import documents.mbox.EvolutionMailDocument;
 
 public class First implements TreeViewListener {
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
@@ -144,6 +146,7 @@ public class First implements TreeViewListener {
 				fields = concatArrays(FileDocument.fields, fields);
 				fields = concatArrays(ImageDocument.fields, fields);
 				fields = concatArrays(PDFDocument.fields, fields);
+				fields = concatArrays(EvolutionMailDocument.fields, fields);
 
 				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
@@ -189,6 +192,8 @@ public class First implements TreeViewListener {
 					if (doc.get("type").equals("mail")) {
 						System.out.println("mail info");
 						// content += new MailGUI(doc).getHTML();
+						MailGUI gui = new MailGUI(doc);
+						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
 					} else {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);

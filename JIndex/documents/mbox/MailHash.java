@@ -1,3 +1,4 @@
+package documents.mbox;
 import java.io.Serializable;
  public class MailHash implements Serializable  {
 			private int length;

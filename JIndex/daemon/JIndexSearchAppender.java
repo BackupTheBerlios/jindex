@@ -25,7 +25,7 @@ public class JIndexSearchAppender extends Thread {
             String inputLine;
 
             while ((inputLine = in.readLine()) != null) {
-                System.out.println(inputLine);
+            		//System.out.println("Trying to add file '"+inputLine+"' to appendQueue");	
                 JIndexDaemon.appendToQueue(inputLine);
             }
             in.close();

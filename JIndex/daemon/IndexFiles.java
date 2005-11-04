@@ -24,6 +24,7 @@ import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
+import documents.mbox.EvolutionMailDocument;
 
 class IndexFiles extends Thread {
 	// static Logger log = Logger.getLogger(IndexFiles.class);
@@ -151,20 +152,17 @@ class IndexFiles extends Thread {
 						writer.addDocument(JavaDocument.Document(file, mimetype));
 					}
 
-					else {
-					 	 System.out.println("Skipping unknown file with file desc" + file);
-						//writer.addDocument(FileDocument.Document(file));
-					}
-				} else {
+					
+//				} else {
 					if (file.getName().equals("Inbox")) {
 						// MBoxProcessor.ProcessMBoxFile(file, writer);
-						// TestMain.indexMails(writer);
+						EvolutionMailDocument.indexMails(writer, file);
+						System.out.println("**** MailBox format: "+file.getName());
 					} else if (file.getName().equals("addressbook.db")) {
 						writer.addDocument(AddressBookDocument.Document(file));
 					}
 
-					else {
-						if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
+					else if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
 							// System.out.println("adding gaim log file"
 							// +
 							// file);
@@ -172,10 +170,14 @@ class IndexFiles extends Thread {
 						} else {
 							// System.out.println("adding as normal file
 							// with NO ile desc" + file);
-							writer.addDocument(FileDocument.Document(file));
+							//writer.addDocument(FileDocument.Document(file));
 						}
 					}
-				}
+					else {
+					 	 System.out.println("Skipping unknown file with file desc" + file);
+						//writer.addDocument(FileDocument.Document(file));
+					}
+//				}
 				if (writer != null) {
 					writer.close();
 				}

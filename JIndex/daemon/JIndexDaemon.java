@@ -2,6 +2,7 @@ package daemon;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,7 +34,18 @@ public class JIndexDaemon {
     }
 
     public static void appendToQueue(String inputLine) {
-        filequeue.add(new File(inputLine));
+    		File appendfile = new File(inputLine);
+    		Iterator ite = filequeue.iterator();
+    		boolean added = false;
+    		while(ite.hasNext()) {
+    			File file = (File) ite.next();
+    			if(file.getAbsoluteFile().equals(appendfile.getAbsoluteFile()))
+    					added = true;
+    		}
+        if(!added) {
+        		System.out.println("Adding file '"+inputLine+"' to appendQueue");
+        		filequeue.add(appendfile);
+        }
     }
 
     public static synchronized List getFileFromQueue() {

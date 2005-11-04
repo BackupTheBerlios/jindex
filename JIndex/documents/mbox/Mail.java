@@ -1,3 +1,4 @@
+package documents.mbox;
 public class Mail {
     /**
      * @return Returns the date.

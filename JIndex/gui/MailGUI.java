@@ -6,63 +6,38 @@
  */
 package gui;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
+
+import utils.JStringUtils;
 
 /**
  * @author sorenm
- * 
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class MailGUI extends MainContentsGUI  {
 	Document doc;
-	String filepath="file:///home/sorenm/workspace/Spider/";
 	public MailGUI(Document _doc) {
-		super();
+		super(_doc);
 		doc = _doc;
 	
 	}
-//		JPanel imgpane = getImagepane();
-//		JPanel infopane = getDescriptionpane();
-//		JTextArea textpane = getFreePane();
-//		
-//		JLabel imagelabel = null;
-//		imagelabel = new JLabel(new ImageIcon("emblem-sound.png"));
-//		imgpane.add(imagelabel, BorderLayout.CENTER);
-//		String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
-//		textpane.setText(result);
-//		infopane.add(new JLabel(doc.get("from")));
-//		return this;
-//	}
-	/**
-	 * @return
-	 */
-	public String getHTML() {
-		String result="";
-		
-		result += "<tr>";
-		String icon = doc.get("icon");
-		if(icon==null) {
-			icon = "im-"+doc.get("protocol")+".png";
-		}
-		result += "<td>";
-		result += "<img src='"+filepath+icon+"' height=24 width=24></img>";
-		result += "</td>";
-		String imwith = doc.get("alias");
-		//System.out.println("From= "+doc.get("from")+"\talias="+doc.get("alias"));
-		if(imwith != null) {
-		if (imwith.equals(""))
-			imwith = doc.get("from");
-		}
-		//if (imwith.equals(""))
-		//	System.out.println(doc.get("contents"));
-		result += "<td>";
-		result += " Conversation with " + imwith+"<br>\n";
-		result += " Started: " + doc.get("starttime")+" on the "+doc.get("startdate")+"<br>\n";
-		result += " Ended at " + doc.get("endtime")+"<br>\n<hr>";
-		result += "</td>";
-		result += "</tr>";
-		//System.out.println(result);
-		return result;
+	public String getTextContent() {
+		String from = JStringUtils.encodeXMLEntities(doc.get("from").trim());
+		String subject = JStringUtils.encodeXMLEntities(doc.get("subject"));
+		String textstring = "<span font_desc=\"sans bold 10\">" + from + "</span>\n";
+		textstring += subject;
+		return textstring;
 	}
+
+//	public byte[] getIcon() {
+//		String type = doc.get("type");
+//		type =type = StringUtils.replace(type,"/","-");
+//		File f = new File("images/mimetypes/gnome-mime-"+type+".png");
+//		try {
+//			return FileUtility.getBytesFromFile(f);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
 }
