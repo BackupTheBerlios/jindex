@@ -153,8 +153,7 @@ class IndexFiles extends Thread {
 					}
 
 					
-//				} else {
-					if (file.getName().equals("Inbox")) {
+					if (file.getName().endsWith("Inbox")) {
 						// MBoxProcessor.ProcessMBoxFile(file, writer);
 						EvolutionMailDocument.indexMails(writer, file);
 						System.out.println("**** MailBox format: "+file.getName());
