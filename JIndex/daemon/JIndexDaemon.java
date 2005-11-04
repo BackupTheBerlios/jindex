@@ -33,7 +33,7 @@ public class JIndexDaemon {
         serverSocket.close();
     }
 
-    public static void appendToQueue(String inputLine) {
+    public static synchronized void appendToQueue(String inputLine) {
     		File appendfile = new File(inputLine);
     		Iterator ite = filequeue.iterator();
     		boolean added = false;

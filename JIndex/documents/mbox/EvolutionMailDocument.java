@@ -12,12 +12,14 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 
+import utils.LuceneUtility;
+
 public class EvolutionMailDocument {
 	public static String[] fields = { "path", "type", "from", "subject", "mailcontents"};
-	public static void indexMails(IndexWriter writer, File inboxfile) {
-			
 
+	public static void indexMails(File inboxfile) {
 		int count = 0;
+		IndexWriter writer;
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(inboxfile));
 
@@ -72,10 +74,13 @@ public class EvolutionMailDocument {
 
 			}
 			in.close();
+			LuceneUtility.removeEntry(inboxfile.getAbsolutePath());
+			writer = LuceneUtility.getWriter();
 			Iterator ite = docs.iterator();
 			while(ite.hasNext()) {
 				Document newdoc = (Document) ite.next();
-				writer.addDocument(newdoc);
+				if(newdoc != null)
+					writer.addDocument(newdoc);
 			}
 			writer.optimize();
 			System.out.println("Done");

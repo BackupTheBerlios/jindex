@@ -16,6 +16,8 @@ import org.apache.lucene.index.Term;
 import org.jdesktop.jdic.filetypes.Association;
 import org.jdesktop.jdic.filetypes.AssociationService;
 
+import utils.LuceneUtility;
+
 import documents.AddressBookDocument;
 import documents.ExcelDocument;
 import documents.FileDocument;
@@ -121,16 +123,6 @@ class IndexFiles extends Thread {
 
 		for (int j = 0; j < filelist.size(); j++) {
 			File file = (File) filelist.get(j);
-		
-			if (updateindex)
-				removeEntry(file.getAbsolutePath());
-
-			//if (writer == null)
-			try {
-				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
-			} catch(IOException e) {
-				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
-			}
 
 				AssociationService assocService = new AssociationService();
 				URL url = new URL(file.toURL().toString());
@@ -141,24 +133,24 @@ class IndexFiles extends Thread {
 				if (mimetype != null) {
 					if (mimetype.equals("audio/mpeg")) {
 						System.out.println("adding MP3 File" + file);
-						writer.addDocument(MP3Document.Document(file));
+						LuceneUtility.addDocument(MP3Document.Document(file));
 					} else if (mimetype.equals("application/msword")) {
-						writer.addDocument(ExcelDocument.Document(file, mimetype));
+						LuceneUtility.addDocument(ExcelDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "image/")) {
-						writer.addDocument(ImageDocument.Document(file, mimetype));
+						LuceneUtility.addDocument(ImageDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "application/pdf")) {
-						writer.addDocument(PDFDocument.Document(file, mimetype));
+						LuceneUtility.addDocument(PDFDocument.Document(file, mimetype));
 					} else if (StringUtils.contains(mimetype, "text/x-java")) {
-						writer.addDocument(JavaDocument.Document(file, mimetype));
+						LuceneUtility.addDocument(JavaDocument.Document(file, mimetype));
 					}
 
 					
 					if (file.getName().endsWith("Inbox")) {
 						// MBoxProcessor.ProcessMBoxFile(file, writer);
-						EvolutionMailDocument.indexMails(writer, file);
+						EvolutionMailDocument.indexMails(file);
 						System.out.println("**** MailBox format: "+file.getName());
 					} else if (file.getName().equals("addressbook.db")) {
-						writer.addDocument(AddressBookDocument.Document(file));
+						LuceneUtility.addDocument(AddressBookDocument.Document(file));
 					}
 
 					else if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
