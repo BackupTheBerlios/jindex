@@ -5,9 +5,16 @@
 /* $Id$ */
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
 
 // FAM imports
 import com.arosii.io.fam.*;
@@ -25,9 +32,10 @@ public class DirectoryMonitor implements Runnable {
 	private String path = null;
 
 	private FAMConnection fam = null;
-	private FAMRequest famreq = null;
 
-	
+
+	private Map monitorlist = null;
+	 
 
 	public static List updateIndex(List filelist) {
 		List completefileslist = new LinkedList();
@@ -65,6 +73,7 @@ public class DirectoryMonitor implements Runnable {
 			throw new IOException(path + ": not a directory");
 
 		this.path = directory.getCanonicalPath();
+		monitorlist  = new IdentityHashMap();
 	}
 
 	/**
@@ -81,7 +90,8 @@ public class DirectoryMonitor implements Runnable {
 //			File f = (File) ite.next();
 //			fam.monitorFile(f.getAbsolutePath());	
 //		}
-		famreq = fam.monitorDirectory(path, null);
+		FAMRequest famreq = fam.monitorDirectory(path, null);
+		monitorlist.put(path,famreq);
 		
 		thread = new Thread(this);
 		thread.start();
@@ -91,8 +101,15 @@ public class DirectoryMonitor implements Runnable {
 	 *
 	 */
 	public synchronized void stop() {
-
-		famreq.cancelMonitor();
+		Set set = monitorlist.keySet();
+		Iterator ite = set.iterator();
+		while(ite.hasNext()) {
+			String watchpath  = (String) ite.next();
+			System.out.println("Shutting down watch for: "+watchpath);
+			FAMRequest famreq =(FAMRequest) monitorlist.get(watchpath);
+			//FAMRequest famreq = (FAMRequest) ite.next();
+			famreq.cancelMonitor();
+		}
 		fam.close();
 		
 		Thread moribund = thread;
@@ -120,6 +137,8 @@ public class DirectoryMonitor implements Runnable {
 			if (event == null) {
 				continue;
 			}
+			File f = new File(event.getFilename());
+			
 			if(event.getCode() == FAM.Changed) {
 				// write event, used for files not directories since creating a directory
 				// doesnt fire this code..
@@ -132,11 +151,18 @@ public class DirectoryMonitor implements Runnable {
 				System.out.println("Delete: "+event.getFilename());
 //				System.out.println("Received event: " + event.getCode());
 //				System.out.println("Received event: " + event.getFilename());
+				
 			}
 			if(event.getCode() == FAM.Created) {
 				// called when ever a files is created, should be used for 
 				// directories. 
 				System.out.println("Make dir: "+event.getFilename());
+				if(f.isDirectory()) {
+					FAMRequest request = fam.monitorDirectory("/home/sorenm/indextest/"+event.getFilename());
+					monitorlist.put(event.getFilename(), request);
+					
+				}
+				
 //				
 //				System.out.println(".."+FAM.Acknowledge);
 //				System.out.println(".."+FAM.Changed);
@@ -147,7 +173,10 @@ public class DirectoryMonitor implements Runnable {
 //				System.out.println(".."+FAM.Moved);
 //				System.out.println(".."+FAM.StartExecuting);
 //				System.out.println(".."+FAM.StopExecuting);
-				fam.monitorDirectory("/home/sorenm/indextest/"+event.getFilename());
+				
+			}
+			if(event.getCode() == FAM.Exists) {
+				// check for sub dirs and create listener...
 			}
 			System.out.println("Received event: " + event.getCode());
 			
