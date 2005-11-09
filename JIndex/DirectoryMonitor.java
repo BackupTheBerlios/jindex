@@ -73,15 +73,15 @@ public class DirectoryMonitor implements Runnable {
 	public void start() {
 
 		fam = FAM.open();
-		List tmp = new LinkedList();
-		tmp.add(new File(path));
-		List tmp1 = updateIndex(tmp);
-		Iterator ite = tmp1.iterator();
-		while(ite.hasNext()) {
-			File f = (File) ite.next();
-			fam.monitorFile(f.getAbsolutePath());	
-		}
-		//famreq = fam.monitorDirectory(path, null);
+//		List tmp = new LinkedList();
+//		tmp.add(new File(path));
+//		List tmp1 = updateIndex(tmp);
+//		Iterator ite = tmp1.iterator();
+//		while(ite.hasNext()) {
+//			File f = (File) ite.next();
+//			fam.monitorFile(f.getAbsolutePath());	
+//		}
+		famreq = fam.monitorDirectory(path, null);
 		
 		thread = new Thread(this);
 		thread.start();
@@ -120,8 +120,38 @@ public class DirectoryMonitor implements Runnable {
 			if (event == null) {
 				continue;
 			}
-			
+			if(event.getCode() == FAM.Changed) {
+				// write event, used for files not directories since creating a directory
+				// doesnt fire this code..
+				System.out.println("Write: "+event.getFilename());
+//				System.out.println("Received event: " + event.getCode());
+//				System.out.println("Received event: " + event.getFilename());
+			}
+			if(event.getCode() == FAM.Deleted) {
+				// delete event'
+				System.out.println("Delete: "+event.getFilename());
+//				System.out.println("Received event: " + event.getCode());
+//				System.out.println("Received event: " + event.getFilename());
+			}
+			if(event.getCode() == FAM.Created) {
+				// called when ever a files is created, should be used for 
+				// directories. 
+				System.out.println("Make dir: "+event.getFilename());
+//				
+//				System.out.println(".."+FAM.Acknowledge);
+//				System.out.println(".."+FAM.Changed);
+//				System.out.println(".."+FAM.Created);
+//				System.out.println(".."+FAM.Deleted);
+//				System.out.println(".."+FAM.EndExist);
+//				System.out.println(".."+FAM.Exists);
+//				System.out.println(".."+FAM.Moved);
+//				System.out.println(".."+FAM.StartExecuting);
+//				System.out.println(".."+FAM.StopExecuting);
+				fam.monitorDirectory("/home/sorenm/indextest/"+event.getFilename());
+			}
 			System.out.println("Received event: " + event.getCode());
+			
+			
 		}
 	}
 
