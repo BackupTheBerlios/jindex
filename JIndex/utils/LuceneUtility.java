@@ -41,7 +41,6 @@ public class LuceneUtility {
 			removeEntry(document.get("path"));
 			IndexWriter writer = getWriter();
 			writer.addDocument(document);
-			System.out.println("Number of docs -> "+writer.docCount());
 			writer.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -62,7 +61,6 @@ public class LuceneUtility {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
