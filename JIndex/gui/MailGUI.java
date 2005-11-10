@@ -19,7 +19,7 @@ public class MailGUI extends MainContentsGUI  {
 	public MailGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
-	
+		setOpenAction(doc.get("path"));
 	}
 	public String getTextContent() {
 		String from = JStringUtils.encodeXMLEntities(doc.get("from").trim());

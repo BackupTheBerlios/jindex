@@ -13,37 +13,43 @@ import org.apache.lucene.index.Term;
 
 public class LuceneUtility {
 	private final static String HOME = System.getProperty("HOME");
-	
-    public static String getText(Document doc, String name) {
-        String result = doc.get(name);
-      if(result == null)
-          return "";
-      return result.trim();
-        
-    }
-    public static synchronized IndexWriter getWriter() {
-    		IndexWriter writer = null;
+
+	public static String getText(Document doc, String name) {
+		String result = doc.get(name);
+		if (result == null)
+			return "";
+		return result.trim();
+
+	}
+
+	public static synchronized IndexWriter getWriter() {
+		IndexWriter writer = null;
 		try {
 			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
-		} catch(IOException e) {
+		} catch (IOException e) {
 			try {
-			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
-			} catch(IOException e1) { }
+				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
+			} catch (IOException e1) {
+				e.printStackTrace();
+			}
 		}
-    		return writer;
-    }
-    public static synchronized void addDocument(Document document) {
-				try {
-					removeEntry(document.get("path"));
-					IndexWriter writer = getWriter();
-					writer.addDocument(document);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-   
-    }
-    
-    public static void removeEntry(String filename) {
+		return writer;
+	}
+
+	public static synchronized void addDocument(Document document) {
+		try {
+			removeEntry(document.get("path"));
+			IndexWriter writer = getWriter();
+			writer.addDocument(document);
+			System.out.println("Number of docs -> "+writer.docCount());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void removeEntry(String filename) {
 
 		try {
 			IndexReader reader = IndexReader.open(HOME + "/index");
@@ -61,5 +67,5 @@ public class LuceneUtility {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -42,10 +42,10 @@ class IndexFiles extends Thread {
 		updateindex = true;
 
 		while (true) {
-			System.out.println("Sleeping...");
+			//System.out.println("IndexFiles Sleeping...");
 			try {
 				Thread.sleep(numMillisecondsToSleep);
-				List files = JIndexDaemon.getFileFromQueue();
+				List files = DirectoryMonitor.getFileFromQueue();
 				if (files.size() > 0) {
 					indexDocs(updateIndex(files));
 				}

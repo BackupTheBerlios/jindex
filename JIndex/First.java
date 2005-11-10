@@ -53,6 +53,7 @@ import org.gnu.gtk.event.TreeViewListener;
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
+import documents.JavaDocument;
 import documents.MP3Document;
 import documents.PDFDocument;
 import documents.mbox.EvolutionMailDocument;
@@ -147,6 +148,7 @@ public class First implements TreeViewListener {
 				fields = concatArrays(ImageDocument.fields, fields);
 				fields = concatArrays(PDFDocument.fields, fields);
 				fields = concatArrays(EvolutionMailDocument.fields, fields);
+				fields = concatArrays(JavaDocument.fields, fields);
 
 				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
@@ -190,7 +192,6 @@ public class First implements TreeViewListener {
 					else
 
 					if (doc.get("type").equals("mail")) {
-						System.out.println("mail info");
 						// content += new MailGUI(doc).getHTML();
 						MailGUI gui = new MailGUI(doc);
 						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
@@ -199,7 +200,6 @@ public class First implements TreeViewListener {
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
 					}
-					System.out.println("found file of type: " + doc.get("type"));
 				}
 
 				searcher.close();
@@ -287,6 +287,7 @@ public class First implements TreeViewListener {
 		if (event.getTreeIter() != null) {
 			String command = (String) ls.getData("openCommand" + event.getTreeIter().toString());
 			try {
+				System.out.println(command);
 				Runtime.getRuntime().exec("gnome-open " + command);
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -16,13 +16,11 @@ public class JavaDocument implements SearchDocument {
 		try {
 		Document doc = new Document();
 		
-		
 		doc.add(Field.Keyword("path", f.getPath()));
 		java.lang.String path = f.getParent();
-		doc.add(Field.Text("absolutepath", path, true));
+		doc.add(Field.Keyword("absolutepath", path));
 
 		doc.add(Field.Keyword("file-name", f.getName()));
-
 		doc.add(Field.Text("type", mimetype));
 		doc.add(Field.Text("icon", "icon data"));
 		doc.add(Field.Text("url", "url data"));
