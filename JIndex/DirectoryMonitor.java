@@ -90,7 +90,7 @@ public class DirectoryMonitor implements Runnable {
 //			File f = (File) ite.next();
 //			fam.monitorFile(f.getAbsolutePath());	
 //		}
-		FAMRequest famreq = fam.monitorDirectory(path, null);
+		FAMRequest famreq = fam.monitorDirectory(path,path);
 		monitorlist.put(path,famreq);
 		
 		thread = new Thread(this);
@@ -138,17 +138,21 @@ public class DirectoryMonitor implements Runnable {
 				continue;
 			}
 			File f = new File(event.getFilename());
+			if(!f.exists())
+				f = new File(event.getUserdata()+"/"+event.getFilename());
 			
 			if(event.getCode() == FAM.Changed) {
 				// write event, used for files not directories since creating a directory
 				// doesnt fire this code..
-				System.out.println("Write: "+event.getFilename());
+				System.out.println("Write: "+f.getAbsolutePath());
 //				System.out.println("Received event: " + event.getCode());
 //				System.out.println("Received event: " + event.getFilename());
 			}
 			if(event.getCode() == FAM.Deleted) {
 				// delete event'
-				System.out.println("Delete: "+event.getFilename());
+				System.out.println("Delete.: "+f.getAbsolutePath());
+				// try to remove it as a dir, might not work if is a file
+				removeDirectoryToMonitor(f.getAbsolutePath());
 //				System.out.println("Received event: " + event.getCode());
 //				System.out.println("Received event: " + event.getFilename());
 				
@@ -156,11 +160,9 @@ public class DirectoryMonitor implements Runnable {
 			if(event.getCode() == FAM.Created) {
 				// called when ever a files is created, should be used for 
 				// directories. 
-				System.out.println("Make dir: "+event.getFilename());
+				System.out.println("Make dir: "+f.getAbsolutePath());
 				if(f.isDirectory()) {
-					FAMRequest request = fam.monitorDirectory("/home/sorenm/indextest/"+event.getFilename());
-					monitorlist.put(event.getFilename(), request);
-					
+					addDirectoryToMonitor(f.getAbsolutePath());
 				}
 				
 //				
@@ -177,15 +179,48 @@ public class DirectoryMonitor implements Runnable {
 			}
 			if(event.getCode() == FAM.Exists) {
 				// check for sub dirs and create listener...
+//				System.out.println("FAM.Exists: "+f.getAbsolutePath());
+				if(f.isDirectory() &&  !f.getAbsolutePath().equals(path)) {
+					addDirectoryToMonitor(f.getAbsolutePath());
+					
+				}
 			}
-			System.out.println("Received event: " + event.getCode());
-			
-			
 		}
 	}
 
+	public boolean addDirectoryToMonitor(String path) {
+		Iterator ite = monitorlist.keySet().iterator();
+		while(ite.hasNext()) {
+			String name = (String) ite.next();
+			if(name.equals(path))
+				return false;
+		}
+		if (!monitorlist.containsKey(path)) {
+			FAMRequest request = fam.monitorDirectory(path, path);
+			monitorlist.put(path, request);
+			System.out.println("Directory added: "+path);
+			return true;
+		}
+		System.out.println("Directory skipped: "+path);
+		return false;
+
+	}
+	public boolean removeDirectoryToMonitor(String path) {
+		System.out.println("Delete dir: "+path);
+		Iterator ite = monitorlist.keySet().iterator();
+		while(ite.hasNext()) {
+			String name = (String) ite.next();
+			if(name.equals(path)) {
+				FAMRequest req  =(FAMRequest) monitorlist.get(name);
+				req.cancelMonitor();
+				return true;
+			}
+		}
+		return true;
+	}
+
 	/**
-	 *
+	 * 
 	 */
 	public static void main(String[] args) {
 
