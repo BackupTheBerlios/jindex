@@ -5,22 +5,20 @@ package daemon;
 
 /* $Id$ */
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
-// FAM imports
-import com.arosii.io.fam.*;
-
-import daemon.JIndexDaemon;
+import com.arosii.io.fam.FAM;
+import com.arosii.io.fam.FAMConnection;
+import com.arosii.io.fam.FAMEvent;
+import com.arosii.io.fam.FAMRequest;
 
 /**
  * DirectoryMonitor example
@@ -116,7 +114,7 @@ public class DirectoryMonitor implements Runnable {
 	 *
 	 */
 	public void run() {
-
+		int counter=0;
 		while (thread == Thread.currentThread()) {
 
 			boolean eventPending = fam.pending();
@@ -135,7 +133,6 @@ public class DirectoryMonitor implements Runnable {
 			File f = new File(event.getFilename());
 			if(!f.exists())
 				f = new File(event.getUserdata()+"/"+event.getFilename());
-			
 			if(event.getCode() == FAM.Changed) {
 				// write event, used for files not directories since creating a directory
 				// doesnt fire this code..
@@ -175,11 +172,13 @@ public class DirectoryMonitor implements Runnable {
 			}
 			if(event.getCode() == FAM.Exists) {
 				// check for sub dirs and create listener...
-//				System.out.println("FAM.Exists: "+f.getAbsolutePath());
 				if(f.isDirectory() &&  !f.getAbsolutePath().equals(path)) {
 					addDirectoryToMonitor(f.getAbsolutePath());
 					
 				}
+			}
+			if(event.getCode() == FAM.EndExist) {
+				//System.out.println("FAM.EndExist");
 			}
 		}
 	}

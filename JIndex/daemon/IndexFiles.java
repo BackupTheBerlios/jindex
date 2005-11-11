@@ -1,7 +1,6 @@
 package daemon;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
@@ -9,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
@@ -17,10 +15,8 @@ import org.jdesktop.jdic.filetypes.Association;
 import org.jdesktop.jdic.filetypes.AssociationService;
 
 import utils.LuceneUtility;
-
 import documents.AddressBookDocument;
 import documents.ExcelDocument;
-import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
@@ -34,15 +30,10 @@ class IndexFiles extends Thread {
 
 	private final static String HOME = System.getProperty("HOME");
 
-	private static boolean updateindex = false;
-
 	static IndexWriter writer = null;
 
 	public void run() {
-		updateindex = true;
-
 		while (true) {
-			//System.out.println("IndexFiles Sleeping...");
 			try {
 				Thread.sleep(numMillisecondsToSleep);
 				List files = DirectoryMonitor.getFileFromQueue();
@@ -68,11 +59,7 @@ class IndexFiles extends Thread {
 			System.exit(-1);
 		}
 		Date start = new Date();
-		// indexDocs(writer, new File(HOME+"/mp3"));
-		if (args[0].equals("updateindex"))
-			updateindex = true;
 
-		// indexDocs(new File(args[1]));
 		try {
 			indexDocs(new File(args[1]));
 		} catch (IOException e) {
