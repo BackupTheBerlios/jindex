@@ -1,13 +1,12 @@
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
-import gui.MP3LogGUI;
 import gui.MailGUI;
 import gui.UnknownfiletypeGUI;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.swing.text.html.ListView;
+import javax.swing.ImageIcon;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -33,22 +32,19 @@ import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.ListStore;
 import org.gnu.gtk.TreeIter;
-import org.gnu.gtk.TreePath;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.TreeViewColumn;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Viewport;
 import org.gnu.gtk.Window;
-import org.gnu.gtk.event.ContainerEvent;
-import org.gnu.gtk.event.ContainerListener;
 import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
-import org.gnu.gtk.event.TreeSelectionEvent;
-import org.gnu.gtk.event.TreeSelectionListener;
 import org.gnu.gtk.event.TreeViewEvent;
 import org.gnu.gtk.event.TreeViewListener;
+import org.jdesktop.jdic.tray.SystemTray;
+import org.jdesktop.jdic.tray.TrayIcon;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;
@@ -104,12 +100,23 @@ public class First implements TreeViewListener {
 	}
 
 	public static void main(String[] args) {
+
+		SystemTray trayicon = SystemTray.getDefaultSystemTray();
+		ImageIcon icon = new ImageIcon("images/stock_search.png");
+		TrayIcon ticon = new TrayIcon(icon);
+		
+		ticon.setCaption("JIndex");
 		try {
-			Gtk.init(args);
-			new First();
-			Gtk.main();
-		} catch (Exception e) {
-			e.printStackTrace();
+			trayicon.addTrayIcon(ticon);
+			try {
+				Gtk.init(args);
+				new First();
+				Gtk.main();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} finally {
+			trayicon.removeTrayIcon(ticon);
 		}
 	}
 
