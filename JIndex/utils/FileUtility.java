@@ -4,6 +4,19 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+
+import org.apache.commons.lang.StringUtils;
+import org.jdesktop.jdic.filetypes.Association;
+import org.jdesktop.jdic.filetypes.AssociationService;
+
+import documents.ExcelDocument;
+import documents.ImageDocument;
+import documents.JavaDocument;
+import documents.MP3Document;
+import documents.PDFDocument;
 
 public class FileUtility {
 	 public static byte[] getBytesFromFile(File file) throws IOException {
@@ -40,4 +53,27 @@ public class FileUtility {
 	        is.close();
 	        return bytes;
 	    }
+	 public static boolean isFileFormatSupport(File file) {
+		 	ArrayList formats = new ArrayList();
+		 	formats.add("audio/mpeg");
+		 	formats.add("application/msword");
+		 	formats.add("image/jpeg");
+		 	formats.add("application/pdf");
+		 	formats.add("text/x-java");
+		 	
+		 	AssociationService assocService = new AssociationService();
+			URL url=null;
+			try {
+				url = new URL(file.toURL().toString());
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+			Association assoc = assocService.getAssociationByContent(url);
+			System.out.println("foud mime type: " + assoc.getMimeType());
+			String mimetype = assoc.getMimeType();
+			if(formats.contains(mimetype))
+				return true;
+					
+				return false;
+	 }
 }

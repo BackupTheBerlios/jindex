@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import utils.FileUtility;
+
 import com.arosii.io.fam.FAM;
 import com.arosii.io.fam.FAMConnection;
 import com.arosii.io.fam.FAMEvent;
@@ -41,7 +43,6 @@ public class DirectoryMonitor implements Runnable {
 	public static List updateIndex(List filelist) {
 		List completefileslist = new LinkedList();
 		for (int j = 0; j < filelist.size(); j++) {
-//			System.out.println(filelist.get(j).getClass());
 			File file = (File) filelist.get(j);
 			if (file.canRead()) {
 				if (file.isDirectory()) {
@@ -62,9 +63,7 @@ public class DirectoryMonitor implements Runnable {
 		return completefileslist;
 	}
 	
-	/**
-	 *
-	 */
+	
 	public DirectoryMonitor(String path) throws IOException {
 		new IndexFiles().start();
 		File directory = new File(path);
@@ -78,9 +77,7 @@ public class DirectoryMonitor implements Runnable {
 		monitorlist  = new IdentityHashMap();
 	}
 
-	/**
-	 *
-	 */
+	
 	public void start() {
 		fam = FAM.open();
 		FAMRequest famreq = fam.monitorDirectory(path,path);
@@ -90,9 +87,7 @@ public class DirectoryMonitor implements Runnable {
 		thread.start();
 	}
 
-	/**
-	 *
-	 */
+	
 	public synchronized void stop() {
 		Set set = monitorlist.keySet();
 		Iterator ite = set.iterator();
@@ -100,7 +95,6 @@ public class DirectoryMonitor implements Runnable {
 			String watchpath  = (String) ite.next();
 			System.out.println("Shutting down watch for: "+watchpath);
 			FAMRequest famreq =(FAMRequest) monitorlist.get(watchpath);
-			//FAMRequest famreq = (FAMRequest) ite.next();
 			famreq.cancelMonitor();
 		}
 		fam.close();
@@ -114,15 +108,12 @@ public class DirectoryMonitor implements Runnable {
 	 *
 	 */
 	public void run() {
-		int counter=0;
 		while (thread == Thread.currentThread()) {
-
 			boolean eventPending = fam.pending();
 			if (!eventPending) {
 				try {
-					thread.sleep(sleepInterval);
+					Thread.sleep(sleepInterval);
 				} catch (InterruptedException e) {}
-				
 				continue;
 			}
 
@@ -137,17 +128,17 @@ public class DirectoryMonitor implements Runnable {
 				// write event, used for files not directories since creating a directory
 				// doesnt fire this code..
 				System.out.println("Write: "+f.getAbsolutePath());
-				appendToQueue(f.getAbsolutePath());
-//				System.out.println("Received event: " + event.getCode());
-//				System.out.println("Received event: " + event.getFilename());
+				if(FileUtility.isFileFormatSupport(f))
+					appendToQueue(f.getAbsolutePath());
+				else
+					System.out.println("File format not support, no need to watch it.");
 			}
+			
 			if(event.getCode() == FAM.Deleted) {
 				// delete event'
 				System.out.println("Delete.: "+f.getAbsolutePath());
 				// try to remove it as a dir, might not work if is a file
 				removeDirectoryToMonitor(f.getAbsolutePath());
-//				System.out.println("Received event: " + event.getCode());
-//				System.out.println("Received event: " + event.getFilename());
 				
 			}
 			if(event.getCode() == FAM.Created) {
