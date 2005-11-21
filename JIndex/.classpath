@@ -36,5 +36,10 @@
 	<classpathentry kind="lib" path="libs/jai/mlibwrapper_jai.jar"/>
 	<classpathentry kind="lib" path="libs/metadata-extractor-2.2.2.jar"/>
 	<classpathentry kind="lib" path="libs/java-fam.jar"/>
+	<classpathentry kind="lib" path="libs/xstream-1.1.2.jar"/>
+	<classpathentry kind="lib" path="libs/mail/gnumail.jar"/>
+	<classpathentry kind="lib" path="libs/mail/gnumail-providers.jar"/>
+	<classpathentry kind="lib" path="libs/mail/inetlib.jar"/>
+	<classpathentry kind="lib" path="libs/mail/activation.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>

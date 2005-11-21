@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
@@ -48,6 +49,8 @@ public class EvolutionMailDocument {
 						doc.add(Field.Text("subject", mail.getSubject()));
 
 						doc.add(Field.Text("maillcontents", msg.toString()));
+						System.out.println("Found UID: "+mail.getUid());
+						doc.add(Field.Text("uid",mail.getUid()));
 						// doc.add(Field.Keyword("modified",
 						// DateField.timeToString(f.lastModified())));
 						// writer.addDocument(doc);
@@ -69,6 +72,12 @@ public class EvolutionMailDocument {
 				if (str.startsWith("Subject:")) {
 					mail.setSubject(str);
 				}
+				if (str.startsWith("X-Evolution:")) {
+					//X-Evolution: 000050d3-0010
+					String tmp = str.substring(str.indexOf(": ")+2,str.lastIndexOf("-"));
+					mail.setUid(""+Integer.parseInt(tmp, 16));
+				}
+				
 				// msg.append(str);
 				// System.out.println(msg.length());
 

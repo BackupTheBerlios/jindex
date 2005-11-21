@@ -20,6 +20,7 @@ public class MailGUI extends MainContentsGUI  {
 		super(_doc);
 		doc = _doc;
 		setOpenAction(doc.get("path"));
+		setOpenAction("evolution \"email://local@local/Inbox;uid="+doc.get("uid")+"\"");
 	}
 	public String getTextContent() {
 		String from = JStringUtils.encodeXMLEntities(doc.get("from").trim());

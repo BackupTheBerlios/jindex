@@ -55,6 +55,7 @@ public class Mail {
     String to;
     String date;
     String subject;
+	private String uid;
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append(date+"\n");
@@ -63,5 +64,11 @@ public class Mail {
         result.append(subject+"\n");
         return result.toString();
     }
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
    
 }
