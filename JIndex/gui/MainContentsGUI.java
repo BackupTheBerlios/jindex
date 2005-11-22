@@ -20,12 +20,6 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 		maindoc = doc;
 	}
 
-	/**
-	 * @return Returns the openAction.
-	 */
-	public String getOpenAction() {
-		return openAction;
-	}
 
 	/**
 	 * @param openAction
@@ -48,4 +42,6 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 		}
 		return null;
 	}
+
+	
 }

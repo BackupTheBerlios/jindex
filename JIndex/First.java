@@ -1,10 +1,14 @@
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
 import gui.MailGUI;
+import gui.MainContentsGUI;
+import gui.MainGUIInterface;
 import gui.UnknownfiletypeGUI;
 
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 
@@ -184,7 +188,7 @@ public class First implements TreeViewListener {
 						// false, true, 0);
 						// System.out.println("Added image");
 						ImageContentGUI gui = new ImageContentGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
+						addToTable(gui.getIcon(), "", i, gui);
 					} else if (doc.get("type").equals("application/pdf")) {
 						System.out.println("Added PDF");
 						// contentpane.packStart(new
@@ -193,7 +197,7 @@ public class First implements TreeViewListener {
 					} else if (doc.get("type").equals("text/x-java")) {
 						System.out.println("FOUND JAVA FILE");
 						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
+						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
 					}
 
 					else
@@ -201,11 +205,11 @@ public class First implements TreeViewListener {
 					if (doc.get("type").equals("mail")) {
 						// content += new MailGUI(doc).getHTML();
 						MailGUI gui = new MailGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), gui.getOpenAction(), i);
+						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
 					} else {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), "", i);
+						addToTable(gui.getIcon(),  "", i, gui);
 					}
 				}
 
@@ -268,7 +272,7 @@ public class First implements TreeViewListener {
 		searchtypecombo.showAll();
 	}
 
-	public void addToTable(byte[] image, String data, String openCommand, int commandNumber) {
+	public void addToTable(byte[] image, String data, int commandNumber, MainContentsGUI gui) {
 		TreeIter row = ls.appendRow();
 		if (!(image == null)) {
 			PixbufLoader test = new PixbufLoader();
@@ -285,17 +289,22 @@ public class First implements TreeViewListener {
 			}
 		}
 		ls.setValue(row, ColData, data);
-		ls.setData("openCommand" + commandNumber, openCommand);
+		//ls.setData("openCommand" + commandNumber, openCommand);
+		ls.setData("openCommand" + commandNumber, gui);
 		resulttable.showAll();
 
 	}
 
 	public void treeViewEvent(TreeViewEvent event) {
 		if (event.getTreeIter() != null) {
-			String command = (String) ls.getData("openCommand" + event.getTreeIter().toString());
+			MainGUIInterface command = (MainGUIInterface) ls.getData("openCommand" + event.getTreeIter().toString());
 			try {
-				System.out.println(command);
-				Runtime.getRuntime().exec("gnome-open " + command);
+				System.out.println(command.getOpenAction());
+				Process p = Runtime.getRuntime().exec(command.getOpenAction());
+				char[] error = new char[2048];
+				InputStreamReader isr = new InputStreamReader(p.getErrorStream());
+				isr.read(error);
+				System.out.println(error);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

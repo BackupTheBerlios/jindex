@@ -6,7 +6,6 @@
  */
 package gui;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 
 import utils.JStringUtils;
@@ -16,11 +15,14 @@ import utils.JStringUtils;
  */
 public class MailGUI extends MainContentsGUI  {
 	Document doc;
+	
 	public MailGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
 		setOpenAction(doc.get("path"));
-		setOpenAction("evolution \"email://local@local/Inbox;uid="+doc.get("uid")+"\"");
+		setOpenAction("evolution"); 
+
+//				" \"email://local@local/Inbox;uid="+doc.get("uid")+"\"");
 	}
 	public String getTextContent() {
 		String from = JStringUtils.encodeXMLEntities(doc.get("from").trim());
@@ -28,6 +30,13 @@ public class MailGUI extends MainContentsGUI  {
 		String textstring = "<span font_desc=\"sans bold 10\">" + from + "</span>\n";
 		textstring += subject;
 		return textstring;
+	}
+
+	public String[] getOpenAction() {
+		String[] value = new String[2]; 
+		value[0] = "evolution";
+		value[1] = "email://local@local/Inbox;uid="+doc.get("uid");
+		return value;
 	}
 
 //	public byte[] getIcon() {
