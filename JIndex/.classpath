@@ -4,7 +4,7 @@
 	<classpathentry kind="lib" path="libs/commons-lang.jar"/>
 	<classpathentry kind="lib" path="libs/jl1.0.jar"/>
 	<classpathentry kind="lib" path="libs/jmf.jar"/>
-	<classpathentry sourcepath="/home/sorenm/JavaLibs/lucene-1.4-final/lucene-1.4-final.jar" kind="lib" path="libs/lucene-1.4.3.jar">
+	<classpathentry sourcepath="/usr/share/lucene-1/source/lucene-src.zip" kind="lib" path="libs/lucene-1.4.3.jar">
 		<attributes>
 			<attribute value="http://lucene.apache.org/java/docs/api/http://lucene.apache.org/java/docs/api/package-list" name="javadoc_location"/>
 		</attributes>
@@ -26,7 +26,7 @@
 	<classpathentry kind="lib" path="libs/xmlParserAPIs.jar"/>
 	<classpathentry kind="lib" path="libs/PDFBox-0.7.1.jar"/>
 	<classpathentry kind="lib" path="libs/commons-codec.jar"/>
-	<classpathentry kind="var" path="JRE_LIB"/>
+	<classpathentry sourcepath="/JRESRC" kind="var" path="JRE_LIB"/>
 	<classpathentry kind="lib" path="libs/gnome-libs/gconf2.10.jar"/>
 	<classpathentry kind="lib" path="libs/gnome-libs/gnome2.10.jar"/>
 	<classpathentry kind="lib" path="libs/gnome-libs/gtk2.6.jar"/>

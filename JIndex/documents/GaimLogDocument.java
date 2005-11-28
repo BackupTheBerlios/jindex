@@ -3,6 +3,7 @@ package documents;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -13,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.lucene.document.DateField;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.NamedNodeMap;
@@ -23,11 +25,17 @@ import org.xml.sax.SAXException;
 public class GaimLogDocument implements SearchDocument {
 	public static String[] fields = { "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
 	private final static String HOME = System.getProperty("HOME");
-	public static org.apache.lucene.document.Document Document(File f) throws IOException {
+	public static org.apache.lucene.document.Document Document(File f)  {
+		
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
+		try {
 		doc.add(Field.Text("path", f.getPath()));
+		java.lang.String path = f.getParent();
+		doc.add(Field.Keyword("absolutepath", path));
 		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
-		FileInputStream is = new FileInputStream(f);
+		FileInputStream is;
+		
+			is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
 
 		BufferedReader in = new BufferedReader(reader);
@@ -86,20 +94,24 @@ public class GaimLogDocument implements SearchDocument {
 		} catch (SAXException se) {
 			se.printStackTrace();
 		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		is = new FileInputStream(f);
 		reader = new BufferedReader(new InputStreamReader(is));
-		doc.add(Field.Text("filecontents", reader));
+		
+		doc.add(Field.Text("filecontents", reader,true));
 
 		// return the document
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		return doc;
 	}
 
@@ -184,10 +196,14 @@ public class GaimLogDocument implements SearchDocument {
 		return "";
 	}
 
-	private GaimLogDocument() {
+	public String[] getSearchFields() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-    public String[] getSearchFields() {
-        return fields;
-    }
+
+    
+
+
+
 }

@@ -88,10 +88,13 @@ public class DirectoryMonitor implements Runnable {
 		Iterator ite = files.iterator();
 		while (ite.hasNext()) {
 			Watch w = (Watch) ite.next();
+			System.out.println("Read "+w.getFilename()+" from config file");
 			File file = new File(w.getFilename());
 			if (file.exists()) {
-				if (file.isFile())
+				if (file.isFile()) {
+					System.out.println("Added file monitor for file '"+file.getAbsolutePath()+"'");
 					famreq = fam.monitorFile(file.getAbsolutePath(), file.getAbsolutePath());
+				}
 				else if (file.isDirectory())
 					famreq = fam.monitorDirectory(file.getAbsolutePath(), file.getAbsolutePath());
 				else 
@@ -145,7 +148,7 @@ public class DirectoryMonitor implements Runnable {
 			if (!f.exists())
 				f = new File(event.getUserdata() + "/" + event.getFilename());
 
-			System.out.println("Got event '" + codeToString(event.getCode()) + "'");
+			//System.out.println("Got event '" + codeToString(event.getCode()) + "'");
 			if (event.getCode() == FAM.Changed) {
 				// write event, used for files not directories since creating a
 				// directory

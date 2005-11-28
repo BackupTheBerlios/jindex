@@ -1,6 +1,13 @@
 package documents.mbox;
-public class Mail {
+
+import java.io.Serializable;
+
+public class Mail implements Serializable {
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 7340505799552480597L;
+	/**
      * @return Returns the date.
      */
     public String getDate() {
@@ -55,7 +62,10 @@ public class Mail {
     String to;
     String date;
     String subject;
+    long startline;
+    int startHashCode;
 	private String uid;
+	private String internalFrom;
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append(date+"\n");
@@ -69,6 +79,25 @@ public class Mail {
 	}
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+	public int getStartHashCode() {
+		return startHashCode;
+	}
+
+	public long getStartline() {
+		return startline;
+	}
+	public void setStartline(long charcounter) {
+		this.startline = charcounter;
+	}
+	public void setInternalFrom(String str) {
+		internalFrom = str;
+		this.startHashCode = internalFrom.hashCode();
+		
+	}
+	public String getInternalFrom() {
+		return internalFrom;
+		
 	}
    
 }

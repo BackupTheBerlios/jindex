@@ -33,6 +33,11 @@ public class JavaDocumentGUI extends MainContentsGUI {
 		return textstring;
 	}
 
+	public String[] getOpenAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	public byte[] getIcon() {
 //		String type = doc.get("type");
 //		type =type = StringUtils.replace(type,"/","-");

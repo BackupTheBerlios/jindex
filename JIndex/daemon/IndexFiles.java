@@ -144,7 +144,7 @@ class IndexFiles extends Thread {
 							// System.out.println("adding gaim log file"
 							// +
 							// file);
-							writer.addDocument(GaimLogDocument.Document(file));
+						LuceneUtility.addDocument(GaimLogDocument.Document(file));
 						} else {
 							// System.out.println("adding as normal file
 							// with NO ile desc" + file);

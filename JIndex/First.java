@@ -1,3 +1,4 @@
+import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
 import gui.MailGUI;
@@ -175,6 +176,8 @@ public class First implements TreeViewListener {
 					doc = hits.doc(i);
 					// System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type").equals("text/gaimlog")) {
+						GaimLogGUI gui = new GaimLogGUI(doc);
+						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
 						// box.add(new GaimLogGUI(doc));
 						// box.add(new GaimLogGUI(doc).getGUI());
 						// box.add(new GaimLogGUI(doc));
