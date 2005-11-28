@@ -29,7 +29,7 @@ public class PDFContentGUI extends MainContentsGUI {
     public VBox imgcontent = new VBox(false, 0);
     public VBox maincontent = new VBox(true, 0);
 	public PDFContentGUI(Document _doc) {
-		super();
+		super(_doc);
 		doc = _doc;
 		setOpenAction(doc.get("path"));
 
@@ -68,7 +68,7 @@ public class PDFContentGUI extends MainContentsGUI {
 
       
         maincontent.add(textcontent);
-        maincontent.add(getOpenButton());
+        //maincontent.add(getOpenButton());
 
 		content.packStart(imgcontent, true, true, 1);
 		content.packStart(maincontent, false, false, 30);
@@ -76,6 +76,16 @@ public class PDFContentGUI extends MainContentsGUI {
 
 		return content;
 		// end contentpane design
+	}
+
+	public String getTextContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[] getOpenAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

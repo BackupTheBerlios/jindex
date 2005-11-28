@@ -17,13 +17,11 @@ import org.gnu.gtk.Widget;
 /**
  * @author sorenm
  * 
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
 public class MP3LogGUI extends MainContentsGUI {
 	Document doc;
 	public MP3LogGUI(Document _doc) {
-		super();
+		super(_doc);
 		doc = _doc;
 		setOpenAction(doc.get("path"));
 	}
@@ -49,6 +47,16 @@ public class MP3LogGUI extends MainContentsGUI {
         return content;
         // end contentpane design
     }
+
+	public String getTextContent() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String[] getOpenAction() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }

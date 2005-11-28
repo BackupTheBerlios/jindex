@@ -10,10 +10,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.lucene.document.Document;
 import org.gnu.gdk.Color;
 import org.gnu.gdk.PixbufLoader;
-import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.HBox;
-import org.gnu.gtk.IconSize;
-import org.gnu.gtk.Image;
 import org.gnu.gtk.Label;
 import org.gnu.gtk.StateType;
 import org.gnu.gtk.VBox;
@@ -27,7 +24,7 @@ public class ImageContentGUI extends MainContentsGUI {
     Document doc;
     String textstring = "";
     public ImageContentGUI(Document _doc) {
-        super();
+        super(_doc);
         doc = _doc;
         setOpenAction(doc.get("path"));
 
@@ -121,5 +118,9 @@ public class ImageContentGUI extends MainContentsGUI {
         
         byte [] image = b64.decode(code.getBytes());
         return image;
+	}
+	public String[] getOpenAction() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
