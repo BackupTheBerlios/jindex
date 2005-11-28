@@ -25,8 +25,6 @@ public class MailGUI extends MainContentsGUI {
 		doc = _doc;
 		setOpenAction(doc.get("path"));
 		setOpenAction("evolution");
-
-		// " \"email://local@local/Inbox;uid="+doc.get("uid")+"\"");
 	}
 
 	public String getTextContent() {
@@ -50,16 +48,4 @@ public class MailGUI extends MainContentsGUI {
 		value[1] = "email://local@local/Inbox;uid=" + doc.get("uid");
 		return value;
 	}
-
-	// public byte[] getIcon() {
-	// String type = doc.get("type");
-	// type =type = StringUtils.replace(type,"/","-");
-	// File f = new File("images/mimetypes/gnome-mime-"+type+".png");
-	// try {
-	// return FileUtility.getBytesFromFile(f);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// return null;
-	// }
 }
