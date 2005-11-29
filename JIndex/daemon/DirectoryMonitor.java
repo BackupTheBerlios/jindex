@@ -44,6 +44,9 @@ public class DirectoryMonitor implements Runnable {
 
 	private Map monitorlist = null;
 
+	private IndexFiles indexThread;
+
+
 	public static List updateIndex(List filelist) {
 		List completefileslist = new LinkedList();
 		for (int j = 0; j < filelist.size(); j++) {
@@ -68,7 +71,8 @@ public class DirectoryMonitor implements Runnable {
 	}
 
 	public DirectoryMonitor(String path) throws IOException {
-		new IndexFiles().start();
+		indexThread = new IndexFiles();
+		indexThread.start();
 		File directory = new File(path);
 		if (!directory.exists())
 			throw new FileNotFoundException(path);
@@ -121,6 +125,7 @@ public class DirectoryMonitor implements Runnable {
 		}
 		fam.close();
 
+		indexThread.interrupt();
 		Thread moribund = thread;
 		thread = null;
 		moribund.interrupt();
@@ -150,14 +155,8 @@ public class DirectoryMonitor implements Runnable {
 
 			//System.out.println("Got event '" + codeToString(event.getCode()) + "'");
 			if (event.getCode() == FAM.Changed) {
-				// write event, used for files not directories since creating a
-				// directory
-				// doesnt fire this code..
 				System.out.println("Write: " + f.getAbsolutePath());
-				//if (FileUtility.isFileFormatSupport(f))
-					appendToQueue(f.getAbsolutePath());
-//				else
-//					System.out.println("File format not support, no need to watch it.");
+				appendToQueue(f.getAbsolutePath());
 			}
 
 			if (event.getCode() == FAM.Deleted) {
@@ -192,8 +191,8 @@ public class DirectoryMonitor implements Runnable {
 				// check for sub dirs and create listener...
 				if (f.isDirectory() && !f.getAbsolutePath().equals(path)) {
 					addDirectoryToMonitor(f.getAbsolutePath());
-
 				}
+				appendToQueue(f.getAbsolutePath());
 			}
 			if (event.getCode() == FAM.EndExist) {
 				// System.out.println("FAM.EndExist");

@@ -14,7 +14,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.lucene.document.DateField;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.NamedNodeMap;
@@ -104,7 +103,6 @@ public class GaimLogDocument implements SearchDocument {
 		reader = new BufferedReader(new InputStreamReader(is));
 		
 		doc.add(Field.Text("filecontents", reader,true));
-
 		// return the document
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();

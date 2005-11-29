@@ -1,3 +1,4 @@
+import gnu.mail.util.QInputStream;
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
@@ -6,8 +7,9 @@ import gui.MainContentsGUI;
 import gui.MainGUIInterface;
 import gui.UnknownfiletypeGUI;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -16,6 +18,7 @@ import javax.swing.ImageIcon;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.search.Hits;
@@ -51,6 +54,8 @@ import org.gnu.gtk.event.TreeViewListener;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
+import com.sun.java.swing.plaf.windows.resources.windows;
+
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
@@ -60,10 +65,14 @@ import documents.PDFDocument;
 import documents.mbox.EvolutionMailDocument;
 
 public class First implements TreeViewListener {
+
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
 	private LibGlade firstApp;
 
+	Window window; // Main window
+	TrayIcon ticon;
+	SystemTray trayicon;
 	Viewport viewport;
 
 	VBox contentpane = null;
@@ -102,37 +111,51 @@ public class First implements TreeViewListener {
 			}
 
 		});
+		window.setBooleanProperty("hidden", false);
+		trayicon = SystemTray.getDefaultSystemTray();
+		ImageIcon icon = new ImageIcon("images/stock_search.png");
+		
+		ticon = new TrayIcon(icon);
+		ticon.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(window.getBooleanProperty("hidden")) {
+					window.setBooleanProperty("hidden", false);
+					window.show();
+				} else {
+					window.setBooleanProperty("hidden", true);
+					window.hide();
+				}
+			}
+
+		});
+		ticon.setCaption("JIndex");
+		trayicon.addTrayIcon(ticon);
+		
+		IndexReader reader = IndexReader.open(INDEXFILE);
+		System.out.println("Number of documents in index is "+reader.numDocs());
+		reader.close();
 	}
 
 	public static void main(String[] args) {
-
-		SystemTray trayicon = SystemTray.getDefaultSystemTray();
-		ImageIcon icon = new ImageIcon("images/stock_search.png");
-		TrayIcon ticon = new TrayIcon(icon);
-		
-		ticon.setCaption("JIndex");
 		try {
-			trayicon.addTrayIcon(ticon);
-			try {
-				Gtk.init(args);
-				new First();
-				Gtk.main();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} finally {
-			trayicon.removeTrayIcon(ticon);
+			Gtk.init(args);
+			new First();
+			Gtk.main();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 	}
 
 	public void addWindowCloser() {
-		Window window = (Window) firstApp.getWidget("mainwindow");
+		window = (Window) firstApp.getWidget("mainwindow");
 		window.addListener(new LifeCycleListener() {
 			public void lifeCycleEvent(LifeCycleEvent event) {
 			}
 
 			public boolean lifeCycleQuery(LifeCycleEvent event) {
 				Gtk.mainQuit();
+				trayicon.removeTrayIcon(ticon);
 				return false;
 			}
 		});
@@ -184,7 +207,8 @@ public class First implements TreeViewListener {
 					} else if (doc.get("type").equals("audio/mp3")) {
 						// System.out.println("Adding audio info");
 						// box.add(new MP3LogGUI(doc));
-//						contentpane.packStart(new MP3LogGUI(doc).getGnomeGUI(), false, true, 0);
+						// contentpane.packStart(new
+						// MP3LogGUI(doc).getGnomeGUI(), false, true, 0);
 					} else if (doc.get("type").equals("image")) {
 						// contentpane.packStart(new
 						// ImageContentGUI(doc).getGnomeGUI(alternaterow),
@@ -212,7 +236,7 @@ public class First implements TreeViewListener {
 					} else {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-						addToTable(gui.getIcon(),  "", i, gui);
+						addToTable(gui.getIcon(), "", i, gui);
 					}
 				}
 
@@ -292,7 +316,7 @@ public class First implements TreeViewListener {
 			}
 		}
 		ls.setValue(row, ColData, data);
-		//ls.setData("openCommand" + commandNumber, openCommand);
+		// ls.setData("openCommand" + commandNumber, openCommand);
 		ls.setData("openCommand" + commandNumber, gui);
 		resulttable.showAll();
 
