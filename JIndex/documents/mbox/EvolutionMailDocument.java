@@ -49,7 +49,6 @@ public class EvolutionMailDocument {
 						doc.add(Field.Text("subject", mail.getSubject()));
 
 						doc.add(Field.Text("maillcontents", msg.toString()));
-						System.out.println("Found UID: "+mail.getUid());
 						doc.add(Field.Text("uid",mail.getUid()));
 						// doc.add(Field.Keyword("modified",
 						// DateField.timeToString(f.lastModified())));

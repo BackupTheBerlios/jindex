@@ -15,7 +15,7 @@ import com.lowagie.text.pdf.PdfReader;
 public class PDFDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "file-name", "numberofpages", "producer", "creator", "creationdate" };	
 
-	public static Document Document(File f, String mimetype) {
+	public static Document getDocument(File f, String mimetype) {
 		try {
 		Document doc = new Document();
 		
@@ -37,7 +37,6 @@ public class PDFDocument implements SearchDocument {
 		
 		doc.add(Field.Keyword("path", f.getPath()));
 		java.lang.String path = f.getParent();
-//		path = path.substring(0, path.length() - 1);
 		doc.add(Field.Text("absolutepath", path, true));
 
 		doc.add(Field.Keyword("file-name", f.getName()));

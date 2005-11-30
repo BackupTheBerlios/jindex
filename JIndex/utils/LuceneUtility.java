@@ -3,6 +3,7 @@
  */
 package utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -58,12 +59,20 @@ public class LuceneUtility {
 				int delcounter = reader.delete(new Term("path", filename));
 				System.out.println("deleted " + delcounter + " documents");
 				reader.close();
+			} catch (FileNotFoundException fe) {
+				// skip might be the first run, so no index does exsits..
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		} catch (FileNotFoundException fe) {
+			// skip might be the first run, so no index does exsits..
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String getHOME() {
+		return HOME;
 	}
 
 }

@@ -1,4 +1,3 @@
-import gnu.mail.util.QInputStream;
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
@@ -53,8 +52,6 @@ import org.gnu.gtk.event.TreeViewEvent;
 import org.gnu.gtk.event.TreeViewListener;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
-
-import com.sun.java.swing.plaf.windows.resources.windows;
 
 import documents.FileDocument;
 import documents.GaimLogDocument;

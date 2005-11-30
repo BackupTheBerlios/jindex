@@ -8,15 +8,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import org.apache.commons.lang.StringUtils;
 import org.jdesktop.jdic.filetypes.Association;
 import org.jdesktop.jdic.filetypes.AssociationService;
-
-import documents.ExcelDocument;
-import documents.ImageDocument;
-import documents.JavaDocument;
-import documents.MP3Document;
-import documents.PDFDocument;
 
 public class FileUtility {
 	 public static byte[] getBytesFromFile(File file) throws IOException {

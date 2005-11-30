@@ -35,12 +35,13 @@ public class ImageDocument implements SearchDocument {
 	public static Document Document(File f, String mimetype) {
 
 		Document doc = new Document();
-		Metadata metadata = null;
+/*		Metadata metadata = null;
 		try {
 			metadata = JpegMetadataReader.readMetadata(f);
 		} catch (JpegProcessingException e1) {
 			e1.printStackTrace();
 		}
+		
 		if (metadata != null) {
 			Directory exifDirectory = metadata.getDirectory(ExifDirectory.class);
 			String cameraMake = exifDirectory.getString(ExifDirectory.TAG_MAKE);
@@ -56,6 +57,7 @@ public class ImageDocument implements SearchDocument {
 			System.out.println(artist);
 			System.out.println(created);
 			System.out.println(orientation);
+			*/
 			doc.add(Field.Keyword("path", f.getPath()));
 			String path = f.getParent();
 			// path = path.substring(0, path.length() - 1);
@@ -80,7 +82,7 @@ public class ImageDocument implements SearchDocument {
 				e.printStackTrace();
 			}
 			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
-		}
+//		}
 		return doc;
 	}
 

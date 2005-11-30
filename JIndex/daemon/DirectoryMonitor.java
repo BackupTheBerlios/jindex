@@ -1,11 +1,5 @@
 package daemon;
 
-/* Java FAM - 
- .
- */
-
-/* $Id$ */
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,18 +11,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import utils.FileUtility;
-
 import com.arosii.io.fam.FAM;
 import com.arosii.io.fam.FAMConnection;
 import com.arosii.io.fam.FAMEvent;
 import com.arosii.io.fam.FAMRequest;
 
-import documents.mbox.MBoxProcessor;
-
 /**
- * DirectoryMonitor example
- * 
+ *  
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
  */
 public class DirectoryMonitor implements Runnable {
@@ -36,7 +25,7 @@ public class DirectoryMonitor implements Runnable {
 
 	private volatile Thread thread = null;
 
-	private static final int sleepInterval = 500;
+	private static final int sleepInterval = 1500;
 
 	private String path = null;
 
@@ -45,7 +34,6 @@ public class DirectoryMonitor implements Runnable {
 	private Map monitorlist = null;
 
 	private IndexFiles indexThread;
-
 
 	public static List updateIndex(List filelist) {
 		List completefileslist = new LinkedList();
@@ -155,16 +143,14 @@ public class DirectoryMonitor implements Runnable {
 
 			//System.out.println("Got event '" + codeToString(event.getCode()) + "'");
 			if (event.getCode() == FAM.Changed) {
-				System.out.println("Write: " + f.getAbsolutePath());
 				appendToQueue(f.getAbsolutePath());
 			}
 
 			if (event.getCode() == FAM.Deleted) {
 				// delete event'
-				System.out.println("Delete: " + f.getAbsolutePath());
 				// try to remove it as a dir, might not work if is a file
 				boolean success = removeDirectoryToMonitor(f.getAbsolutePath());
-				System.out.println("Deleted with success: " + success);
+				System.out.println("Deleted '"+f.getAbsolutePath()+" with success: " + success);
 
 			}
 			if (event.getCode() == FAM.Created) {
@@ -278,19 +264,13 @@ public class DirectoryMonitor implements Runnable {
 			if (file.getAbsoluteFile().equals(appendfile.getAbsoluteFile()))
 				added = true;
 		}
-		if (!added) {
-			System.out.println("Adding file '" + inputLine + "' to appendQueue");
+		if (!added) 
 			filequeue.add(appendfile);
-		}
 	}
 
 	public static synchronized List getFileFromQueue() {
 		List value = new LinkedList();
 		value.addAll(filequeue);
-		for (int i = 0; i < value.size(); i++) {
-			System.out.println("Processing file " + value.get(i));
-		}
-
 		filequeue.clear();
 		return value;
 	}

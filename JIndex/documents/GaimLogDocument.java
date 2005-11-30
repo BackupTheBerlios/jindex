@@ -21,89 +21,87 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import utils.LuceneUtility;
+
 public class GaimLogDocument implements SearchDocument {
-	public static String[] fields = { "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
-	private final static String HOME = System.getProperty("HOME");
-	public static org.apache.lucene.document.Document Document(File f)  {
-		
+	public static String[] fields = { "path", "absolutepath", "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
+
+	public static org.apache.lucene.document.Document Document(File f) {
+
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		try {
-		doc.add(Field.Text("path", f.getPath()));
-		java.lang.String path = f.getParent();
-		doc.add(Field.Keyword("absolutepath", path));
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
-		FileInputStream is;
-		
-			is = new FileInputStream(f);
-		Reader reader = new BufferedReader(new InputStreamReader(is));
+			doc.add(Field.Keyword("path", f.getPath()));
+			doc.add(Field.Keyword("absolutepath", f.getParent()));
+			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
 
-		BufferedReader in = new BufferedReader(reader);
+			Reader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 
-		String imwith = "";
-		String line = in.readLine();
-		String lastline = line;
-		String tmpstr = "";
-		/*
-		 * TODO Optimize the readlast line function, this can't be good....
-		 */
+			BufferedReader in = new BufferedReader(reader);
 
-		while (lastline != null) {
-			tmpstr = lastline;
-			lastline = in.readLine();
-			if (lastline == null || lastline.equals(""))
-				break;
-		}
-		lastline = tmpstr;
+			String imwith = "";
+			String line = in.readLine();
+			String lastline = line;
+			String tmpstr = "";
+			/*
+			 * TODO Optimize the readlast line function, this can't be good....
+			 */
 
-		imwith = getName(line);
-		in.close();
+			while (lastline != null) {
+				tmpstr = lastline;
+				lastline = in.readLine();
+				if (lastline == null || lastline.equals(""))
+					break;
+			}
+			lastline = tmpstr;
 
-		doc.add(Field.Text("url", "url data"));
-		doc.add(Field.Text("type", "text/gaimlog"));
-		String protocol = getProtocol(line);
-		System.out.println("gaim protocol:" + protocol);
-		doc.add(Field.Text("protocol", protocol));
+			imwith = getName(line);
+			in.close();
 
-		String starttime[] = getStartTimes(line);
-		doc.add(Field.Text("startdate", starttime[0]));
-		doc.add(Field.Text("starttime", starttime[1]));
-		doc.add(Field.Text("endtime", getEndTime(lastline)));
+			doc.add(Field.Text("url", "url data"));
+			doc.add(Field.Text("type", "text/gaimlog"));
+			String protocol = getProtocol(line);
+			System.out.println("gaim protocol:" + protocol);
+			doc.add(Field.Text("protocol", protocol));
 
-		try {
+			String starttime[] = getStartTimes(line);
+			doc.add(Field.Text("startdate", starttime[0]));
+			doc.add(Field.Text("starttime", starttime[1]));
+			doc.add(Field.Text("endtime", getEndTime(lastline)));
 
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			File file = new File(HOME+"/.gaim/blist.xml");
-			org.w3c.dom.Document feed = factory.newDocumentBuilder().parse(file);
+			try {
 
-			NodeList nodelist = XPathAPI
-					.selectNodeList(feed, "gaim/blist/group/contact/buddy[name='" + imwith + "']/*");
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				File file = new File(LuceneUtility.getHOME() + "/.gaim/blist.xml");
+				org.w3c.dom.Document feed = factory.newDocumentBuilder().parse(file);
 
-			String buddyname = getNodeValue(nodelist, "name");
-			String alias = getNodeValue(nodelist, "alias");
-			String icon = getNodeValueBasedOnAttribute(nodelist, "setting", "name", "buddy_icon");
+				NodeList nodelist = XPathAPI.selectNodeList(feed, "gaim/blist/group/contact/buddy[name='" + imwith + "']/*");
 
-			if (!buddyname.equals(""))
-				doc.add(Field.Text("from", buddyname));
-			else
-				doc.add(Field.Text("from", imwith));
-			doc.add(Field.Text("alias", alias));
-			if (!icon.equals(""))
-				doc.add(Field.Text("icon", HOME+"/.gaim/icons/" + icon));
-			//}
-		} catch (SAXException se) {
-			se.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ParserConfigurationException e) {
-			e.printStackTrace();
-		}
-		is = new FileInputStream(f);
-		reader = new BufferedReader(new InputStreamReader(is));
-		
-		doc.add(Field.Text("filecontents", reader,true));
-		// return the document
+				String buddyname = getNodeValue(nodelist, "name");
+				String alias = getNodeValue(nodelist, "alias");
+				String icon = getNodeValueBasedOnAttribute(nodelist, "setting", "name", "buddy_icon");
+
+				if (!buddyname.equals(""))
+					doc.add(Field.Text("from", buddyname));
+				else
+					doc.add(Field.Text("from", imwith));
+				doc.add(Field.Text("alias", alias));
+				if (!icon.equals(""))
+					doc.add(Field.Text("icon", LuceneUtility.getHOME() + "/.gaim/icons/" + icon));
+				// }
+			} catch (SAXException se) {
+				se.printStackTrace();
+			} catch (TransformerException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+
+			doc.add(Field.Text("filecontents", reader, true));
+			// return the document
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
@@ -163,7 +161,7 @@ public class GaimLogDocument implements SearchDocument {
 		st.nextToken();
 		st.nextToken();
 		st.nextToken();
-		result[0] = st.nextToken(); //date
+		result[0] = st.nextToken(); // date
 		result[1] = st.nextToken(); // time
 		return result;
 	}
@@ -198,10 +196,5 @@ public class GaimLogDocument implements SearchDocument {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-    
-
-
 
 }

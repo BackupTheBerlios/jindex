@@ -9,14 +9,11 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
-import org.apache.lucene.index.Term;
 import org.jdesktop.jdic.filetypes.Association;
 import org.jdesktop.jdic.filetypes.AssociationService;
 
@@ -33,8 +30,6 @@ import documents.mbox.EvolutionMailDocument;
 class IndexFiles extends Thread {
 	// static Logger log = Logger.getLogger(IndexFiles.class);
 	long numMillisecondsToSleep = 5000; // 5 seconds sleep
-
-	private final static String HOME = System.getProperty("HOME");
 
 	static IndexWriter writer = null;
 
@@ -74,24 +69,7 @@ class IndexFiles extends Thread {
 		}
 	}
 
-	public synchronized static void removeEntry(String filename) {
-
-		try {
-			IndexReader reader = IndexReader.open(HOME + "/index");
-			try {
-				System.out.println("Index contains : " + reader.numDocs() + " documents");
-				System.out.println("Removing old entry: " + filename);
-				int delcounter = reader.delete(new Term("path", filename));
-				System.out.println("deleted " + delcounter + " documents");
-				reader.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+	
 
 	public synchronized static void indexDocs(File file) throws IOException {
 		LinkedList list = new LinkedList();
@@ -117,18 +95,24 @@ class IndexFiles extends Thread {
 					LuceneUtility.addDocument(MP3Document.Document(file));
 				} else if (mimetype.equals("application/msword")) {
 					LuceneUtility.addDocument(ExcelDocument.Document(file, mimetype));
+
+				} else if (mimetype.equals("application/vnd.ms-excel")) {
+					LuceneUtility.addDocument(ExcelDocument.Document(file, mimetype));
+					
 				} else if (StringUtils.contains(mimetype, "image/")) {
 					LuceneUtility.addDocument(ImageDocument.Document(file, mimetype));
+					
 				} else if (StringUtils.contains(mimetype, "application/pdf")) {
-					LuceneUtility.addDocument(PDFDocument.Document(file, mimetype));
+					LuceneUtility.addDocument(PDFDocument.getDocument(file, mimetype));
+					
 				} else if (StringUtils.contains(mimetype, "text/x-java")) {
 					LuceneUtility.addDocument(JavaDocument.Document(file, mimetype));
+					
 				}
 
 				if (file.getName().endsWith("Inbox")) {
 					// MBoxProcessor.ProcessMBoxFile(file, writer);
 					EvolutionMailDocument.indexMails(file);
-					System.out.println("**** MailBox format: " + file.getName());
 				} else if (file.getName().equals("addressbook.db")) {
 					LuceneUtility.addDocument(AddressBookDocument.Document(file));
 				}
@@ -171,7 +155,7 @@ class IndexFiles extends Thread {
 					}
 				} else {
 					JFile jfile = new JFile(file.getAbsolutePath(), file.lastModified());
-					if(isFileUpdateAccordingToList(jfile))
+					if (isFileUpdateAccordingToList(jfile))
 						completefileslist.add(file);
 					allreadyIndexedFiles.add(jfile);
 				}
@@ -180,23 +164,26 @@ class IndexFiles extends Thread {
 		}
 		return completefileslist;
 	}
+
 	/**
 	 * Is file in list, if so remove it
+	 * 
 	 * @param file
 	 * @return
 	 */
 	public static boolean isFileUpdateAccordingToList(JFile file) {
-		for(int i=0; i < allreadyIndexedFiles.size(); i++) {
+		for (int i = 0; i < allreadyIndexedFiles.size(); i++) {
 			JFile tmp = (JFile) allreadyIndexedFiles.get(i);
-			if(tmp.getFilename().equals(file.getFilename())) {
+			if (tmp.getFilename().equals(file.getFilename())) {
 				allreadyIndexedFiles.remove(i);
-				if(tmp.getLastmodified() != file.getLastmodified()) {
-					System.out.println("File was modified: "+tmp.getLastmodified()+" != "+file.getLastmodified());
+				if (tmp.getLastmodified() != file.getLastmodified()) {
+					System.out.println("File was modified: " + tmp.getLastmodified() + " != " + file.getLastmodified());
 					return true;
-				}
+				} 
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public static void writeObject(ArrayList list) throws IOException {

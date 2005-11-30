@@ -27,10 +27,6 @@
 	<classpathentry kind="lib" path="libs/PDFBox-0.7.1.jar"/>
 	<classpathentry kind="lib" path="libs/commons-codec.jar"/>
 	<classpathentry sourcepath="/JRESRC" kind="var" path="JRE_LIB"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gconf2.10.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gnome2.10.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gtk2.6.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/glade2.10.jar"/>
 	<classpathentry kind="lib" path="libs/jai/jai_codec.jar"/>
 	<classpathentry kind="lib" path="libs/jai/jai_core.jar"/>
 	<classpathentry kind="lib" path="libs/jai/mlibwrapper_jai.jar"/>
@@ -41,5 +37,11 @@
 	<classpathentry kind="lib" path="libs/mail/gnumail-providers.jar"/>
 	<classpathentry kind="lib" path="libs/mail/inetlib.jar"/>
 	<classpathentry kind="lib" path="libs/mail/activation.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/cairo1.0.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/gconf2.12.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/glade2.12.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/glib0.2.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/gnome2.12.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/gtk2.8.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>

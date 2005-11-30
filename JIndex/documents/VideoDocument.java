@@ -14,9 +14,6 @@ import java.io.IOException;
 
 import javax.swing.ImageIcon;
 
-import net.sourceforge.jffmpeg.CodecManager;
-import net.sourceforge.jffmpeg.codecs.utils.FFMpegException;
-
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -32,8 +29,7 @@ public class VideoDocument implements SearchDocument {
     public static String[] fields = { "path", "absolutepath", "type", "url",
             "modified", "name", "image-width", "image-height" };
 
-    public static Document Document(File f)
-            throws java.io.FileNotFoundException {
+    public static Document Document(File f) {
 
         Document doc = new Document();
 
@@ -106,7 +102,7 @@ public class VideoDocument implements SearchDocument {
         JPEGEncodeParam param = encoder.getDefaultJPEGEncodeParam(thumbImage);
         int quality = 75;
         quality = Math.max(0, Math.min(quality, 100));
-        param.setQuality((float) quality / 100.0f, false);
+        param.setQuality(quality / 100.0f, false);
         encoder.setJPEGEncodeParam(param);
         encoder.encode(thumbImage);
         return bout.toByteArray();

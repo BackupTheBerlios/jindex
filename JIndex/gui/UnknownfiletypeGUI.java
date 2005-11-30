@@ -30,7 +30,9 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 		}
 
 		public String[] getOpenAction() {
-			// TODO Auto-generated method stub
-			return null;
+			String[] value = new String[2];
+			value[0] = "gnome-open";
+			value[1] = doc.get("path");
+			return value;
 		}
 }

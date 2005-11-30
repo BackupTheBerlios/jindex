@@ -6,14 +6,7 @@
  */
 package gui;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
-import org.apache.poi.util.StringUtil;
-
-import utils.FileUtility;
 
 /**
  * @author sorenm
@@ -34,8 +27,10 @@ public class JavaDocumentGUI extends MainContentsGUI {
 	}
 
 	public String[] getOpenAction() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] value = new String[2];
+		value[0] = "gnome-open";
+		value[1] = doc.get("path");
+		return value;
 	}
 
 //	public byte[] getIcon() {

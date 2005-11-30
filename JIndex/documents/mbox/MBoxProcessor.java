@@ -3,15 +3,19 @@ package documents.mbox;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
 
-import javax.mail.*;
-import javax.mail.event.MessageChangedListener;
-import javax.mail.internet.InternetAddress;
+import javax.mail.Address;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Provider;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.URLName;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;

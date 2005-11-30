@@ -51,10 +51,6 @@ public class JIndexDaemon {
     public static synchronized List getFileFromQueue() {
         List value = new LinkedList();
         value.addAll(filequeue);
-        for (int i = 0; i < value.size(); i++) {
-			System.out.println("Processing file " + value.get(i));
-		}
-        
         filequeue.clear();
         return value;
     }
