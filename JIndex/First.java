@@ -4,6 +4,8 @@ import gui.JavaDocumentGUI;
 import gui.MailGUI;
 import gui.MainContentsGUI;
 import gui.MainGUIInterface;
+import gui.OpenOfficeDocumentGUI;
+import gui.PDFContentGUI;
 import gui.UnknownfiletypeGUI;
 
 import java.awt.event.ActionEvent;
@@ -14,6 +16,7 @@ import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -29,16 +32,21 @@ import org.gnu.gdk.PixbufLoader;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
 import org.gnu.glib.JGException;
+import org.gnu.gnome.AppBar;
+import org.gnu.gnome.Program;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
 import org.gnu.gtk.ComboBox;
 import org.gnu.gtk.DataColumn;
+import org.gnu.gtk.DataColumnObject;
 import org.gnu.gtk.DataColumnPixbuf;
 import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.ListStore;
+import org.gnu.gtk.StatusBar;
 import org.gnu.gtk.TreeIter;
+import org.gnu.gtk.TreePath;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.TreeViewColumn;
 import org.gnu.gtk.VBox;
@@ -53,11 +61,14 @@ import org.gnu.gtk.event.TreeViewListener;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
+import utils.LuceneUtility;
+
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
+import documents.OpenOfficeDocument;
 import documents.PDFDocument;
 import documents.mbox.EvolutionMailDocument;
 
@@ -68,9 +79,10 @@ public class First implements TreeViewListener {
 	private LibGlade firstApp;
 
 	Window window; // Main window
+
 	TrayIcon ticon;
+
 	SystemTray trayicon;
-	Viewport viewport;
 
 	VBox contentpane = null;
 
@@ -83,14 +95,21 @@ public class First implements TreeViewListener {
 
 	DataColumnString ColData;
 
+	DataColumnObject ColObj;
+
 	ComboBox searchtypecombo;
+
+	private AppBar statusbar;
 
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
 		firstApp = new LibGlade("glade/jindex.glade", this);
 		addWindowCloser();
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
 		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
-		viewport = (Viewport) firstApp.getWidget("viewport1");
+		
+//		statusbar = (AppBar) firstApp.getWidget("statusbar");
+//		statusbar.setStatusText("Appliction loaded");
+		
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		resulttable.setHoverSelection(true);
 		resulttable.addListener(this);
@@ -111,11 +130,11 @@ public class First implements TreeViewListener {
 		window.setBooleanProperty("hidden", false);
 		trayicon = SystemTray.getDefaultSystemTray();
 		ImageIcon icon = new ImageIcon("images/stock_search.png");
-		
+
 		ticon = new TrayIcon(icon);
 		ticon.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(window.getBooleanProperty("hidden")) {
+				if (window.getBooleanProperty("hidden")) {
 					window.setBooleanProperty("hidden", false);
 					window.show();
 				} else {
@@ -127,9 +146,9 @@ public class First implements TreeViewListener {
 		});
 		ticon.setCaption("JIndex");
 		trayicon.addTrayIcon(ticon);
-		
+
 		IndexReader reader = IndexReader.open(INDEXFILE);
-		System.out.println("Number of documents in index is "+reader.numDocs());
+		System.out.println("Number of documents in index is " + reader.numDocs());
 		reader.close();
 	}
 
@@ -141,7 +160,7 @@ public class First implements TreeViewListener {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void addWindowCloser() {
@@ -197,10 +216,7 @@ public class First implements TreeViewListener {
 					// System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type").equals("text/gaimlog")) {
 						GaimLogGUI gui = new GaimLogGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
-						// box.add(new GaimLogGUI(doc));
-						// box.add(new GaimLogGUI(doc).getGUI());
-						// box.add(new GaimLogGUI(doc));
+						addToTable(i, gui);
 					} else if (doc.get("type").equals("audio/mp3")) {
 						// System.out.println("Adding audio info");
 						// box.add(new MP3LogGUI(doc));
@@ -212,16 +228,18 @@ public class First implements TreeViewListener {
 						// false, true, 0);
 						// System.out.println("Added image");
 						ImageContentGUI gui = new ImageContentGUI(doc);
-						addToTable(gui.getIcon(), "", i, gui);
+						addToTable(i, gui);
 					} else if (doc.get("type").equals("application/pdf")) {
-						System.out.println("Added PDF");
-						// contentpane.packStart(new
-						// PDFContentGUI(doc).getGnomeGUI(alternaterow), false,
-						// true, 0);
+						PDFContentGUI gui = new PDFContentGUI(doc);
+						addToTable(i, gui);
 					} else if (doc.get("type").equals("text/x-java")) {
 						System.out.println("FOUND JAVA FILE");
 						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
+						addToTable(i, gui);
+					}
+					else if(doc.get("type").equals("application/vnd.sun.xml.writer")) {
+						OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
+						addToTable(i, gui);
 					}
 
 					else
@@ -229,11 +247,11 @@ public class First implements TreeViewListener {
 					if (doc.get("type").equals("mail")) {
 						// content += new MailGUI(doc).getHTML();
 						MailGUI gui = new MailGUI(doc);
-						addToTable(gui.getIcon(), gui.getTextContent(), i, gui);
+						addToTable(i, gui);
 					} else {
 						System.out.println("found unknown file");
 						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-						addToTable(gui.getIcon(), "", i, gui);
+						addToTable(i, gui);
 					}
 				}
 
@@ -265,7 +283,8 @@ public class First implements TreeViewListener {
 	public void initTable() {
 		ColThumbImage = new DataColumnPixbuf();
 		ColData = new DataColumnString();
-		ls = new ListStore(new DataColumn[] { ColThumbImage, ColData });
+		ColObj = new DataColumnObject();
+		ls = new ListStore(new DataColumn[] { ColThumbImage, ColData, ColObj });
 
 		resulttable.setEnableSearch(true); /*
 											 * allows to use keyboard to search
@@ -286,21 +305,28 @@ public class First implements TreeViewListener {
 		col2.packStart(render2, true);
 		col2.addAttributeMapping(render2, CellRendererText.Attribute.MARKUP, ColData);
 
+		TreeViewColumn col3 = new TreeViewColumn();
+		CellRendererText render3 = new CellRendererText();
+		col3.packStart(render3, true);
+		col3.setVisible(false);
+
 		resulttable.setSearchDataColumn(ColData);
 		/* append columns */
 		resulttable.appendColumn(col0);
 		resulttable.appendColumn(col2);
+		resulttable.appendColumn(col3);
 	}
 
 	public void initCombo() {
 		searchtypecombo.showAll();
 	}
 
-	public void addToTable(byte[] image, String data, int commandNumber, MainContentsGUI gui) {
+	public void addToTable(int commandNumber, MainContentsGUI gui) {
+		
 		TreeIter row = ls.appendRow();
-		if (!(image == null)) {
+		if (!(gui.getIcon() == null)) {
 			PixbufLoader test = new PixbufLoader();
-			test.write(image);
+			test.write(gui.getIcon());
 
 			ls.setValue(row, ColThumbImage, test.getPixbuf());
 		} else {
@@ -312,27 +338,27 @@ public class First implements TreeViewListener {
 				e.printStackTrace();
 			}
 		}
-		ls.setValue(row, ColData, data);
-		// ls.setData("openCommand" + commandNumber, openCommand);
-		ls.setData("openCommand" + commandNumber, gui);
+		ls.setValue(row, ColData, gui.getTextContent());
+		ls.setValue(row, ColObj, gui);
 		resulttable.showAll();
-
 	}
 
 	public void treeViewEvent(TreeViewEvent event) {
 		if (event.getTreeIter() != null) {
-			MainGUIInterface command = (MainGUIInterface) ls.getData("openCommand" + event.getTreeIter().toString());
-			try {
-				System.out.println(command.getOpenAction());
-				Process p = Runtime.getRuntime().exec(command.getOpenAction());
-				char[] error = new char[2048];
-				InputStreamReader isr = new InputStreamReader(p.getErrorStream());
-				isr.read(error);
-				System.out.println(error);
-			} catch (IOException e) {
-				e.printStackTrace();
+			TreePath[] tp = resulttable.getSelection().getSelectedRows();
+			if (tp.length == 1) {
+				TreeIter item = ls.getIter(tp[0].toString());
+				MainContentsGUI command = (MainContentsGUI) ls.getValue(item, ColObj);
+				try {
+					System.out.println(command);
+					Process p = Runtime.getRuntime().exec(command.getOpenAction());
+					char[] error = new char[2048];
+					InputStreamReader isr = new InputStreamReader(p.getErrorStream());
+					isr.read(error);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
-
 }

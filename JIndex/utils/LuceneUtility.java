@@ -3,6 +3,7 @@
  */
 package utils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -28,10 +29,12 @@ public class LuceneUtility {
 		try {
 			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
 		} catch (IOException e) {
-			try {
-				writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
-			} catch (IOException e1) {
-				e.printStackTrace();
+			if (!new File(HOME + "/index").exists()) {
+				try {
+					writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 		return writer;

@@ -24,6 +24,7 @@ import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
+import documents.OpenOfficeDocument;
 import documents.PDFDocument;
 import documents.mbox.EvolutionMailDocument;
 
@@ -108,6 +109,8 @@ class IndexFiles extends Thread {
 				} else if (StringUtils.contains(mimetype, "text/x-java")) {
 					LuceneUtility.addDocument(JavaDocument.Document(file, mimetype));
 					
+				} else if(StringUtils.contains(mimetype, "application/vnd.sun.xml.writer")) {
+					LuceneUtility.addDocument(OpenOfficeDocument.Document(file, mimetype));
 				}
 
 				if (file.getName().endsWith("Inbox")) {

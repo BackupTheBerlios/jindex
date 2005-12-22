@@ -1,5 +1,5 @@
 #!/bin/bash
-
+JAVA_HOME=/opt/sun-jdk-1.5.0.03
 LIBDIR=libs
 COMMON_CP=.:binout
 
@@ -8,4 +8,4 @@ do
         COMMON_CP="$i:$COMMON_CP"
 done
 
-java -Djava.library.path=libs -DHOME=/home/sorenm -classpath $COMMON_CP daemon.DirectoryMonitor .
+$JAVA_HOME/bin/java -Djava.library.path=/opt/sun-jdk-1.5.0.03/jre/lib/i386/:libs/native/i386 -DHOME=/home/sorenm -classpath $COMMON_CP daemon.DirectoryMonitor .

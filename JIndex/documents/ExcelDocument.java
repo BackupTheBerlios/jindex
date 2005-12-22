@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import jxl.Cell;
-import jxl.CellFeatures;
 import jxl.CellReferenceHelper;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -75,7 +74,6 @@ public class ExcelDocument implements SearchDocument {
 				}
 			}
 		}
-		System.out.println("LIST == "+list.toString());
 		doc.add(Field.Text("filecontents", list.toString()));
 		doc.add(Field.Keyword("name", name));
 		return doc;
@@ -92,8 +90,6 @@ public class ExcelDocument implements SearchDocument {
 			Sheet s = w.getSheet(sheet);
 
 			if (!(hide && s.getSettings().isHidden())) {
-				System.out.println(s.getName());
-
 				Cell[] row = null;
 
 				for (int i = 0; i < s.getRows(); i++) {
@@ -101,7 +97,7 @@ public class ExcelDocument implements SearchDocument {
 
 					if (row.length > 0) {
 						if (!(hide && row[0].isHidden())) {
-							System.out.println(row[0].getContents());
+//							System.out.println(row[0].getContents());
 							// Java 1.4 code to handle embedded commas
 							// bw.write("\"" +
 							// row[0].getContents().replaceAll("\"","\"\"") +
@@ -111,7 +107,7 @@ public class ExcelDocument implements SearchDocument {
 						for (int j = 1; j < row.length; j++) {
 							// System.out.println(',');
 							if (!(hide && row[j].isHidden())) {
-								System.out.println(row[j].getContents());
+							//	System.out.println(row[j].getContents());
 								// Java 1.4 code to handle embedded quotes
 								// bw.write("\"" +
 								// row[j].getContents().replaceAll("\"","\"\"")
@@ -144,13 +140,13 @@ public class ExcelDocument implements SearchDocument {
 				for (int j = 0; j < row.length; j++) {
 					c = row[j];
 					if (c.getCellFeatures() != null) {
-						CellFeatures features = c.getCellFeatures();
+						//CellFeatures features = c.getCellFeatures();
 						StringBuffer sb = new StringBuffer();
 						CellReferenceHelper.getCellReference(c.getColumn(), c.getRow(), sb);
 
-						System.out.println("Cell " + sb.toString() + " contents:  " + c.getContents());
+						//System.out.println("Cell " + sb.toString() + " contents:  " + c.getContents());
 
-						System.out.println(" comment: " + features.getComment());
+						//System.out.println(" comment: " + features.getComment());
 					}
 				}
 			}

@@ -26,27 +26,30 @@ public class GaimLogGUI extends MainContentsGUI {
 	}
 
 	public byte[] getIcon() {
+		byte[] outicon=null;
+		
 		String icon = doc.get("icon");
-		 if (icon == null) {
-			icon = new File(".").getAbsolutePath() + "/images/gaim/im-" + doc.get("protocol") + ".png";
-		} else {
+		if(icon != null) {
 			try {
-				System.out.println(new URL(icon).openStream().available());
-			} catch (MalformedURLException e1) {
-			} catch (IOException e1) {
-				icon = new File(".").getAbsolutePath() + "/images/gaim/im-" + doc.get("protocol") + ".png";
+				outicon = FileUtility.getBytesFromFile(new URL("file://"+icon).openStream());
+			} catch (MalformedURLException e) {
+			} catch (IOException e) {
 			}
 		}
-		 System.out.println(icon);
 		
-		byte[] image=null;
-		try {
-			image = FileUtility.getBytesFromFile(new File(icon));
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(outicon == null) {
+			System.out.println("Getting image via protocal '"+doc.get("protocol")+"'.");
+			icon = new File(".").getAbsolutePath() + "/images/gaim/im-" + doc.get("protocol") + ".png";
+			try {
+				outicon = FileUtility.getBytesFromFile(new File(icon));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 		}
-		return image;
+		return outicon;
 	}
+	
 
 	public String getTextContent() {
 		String imwith = doc.get("alias");
@@ -59,52 +62,9 @@ public class GaimLogGUI extends MainContentsGUI {
 	}
 
 	public String[] getOpenAction() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] value = new String[2];
+		value[0] = "gnome-open";
+		value[1] = doc.get("path");
+		return value;
 	}
-
-	// public JPanel getGUI() {
-	// JPanel imgpane = getImagepane();
-	// JPanel infopane = getDescriptionpane();
-	// JTextArea textpane = getFreePane();
-	//		
-	// String result="";
-	//		
-	// String icon = doc.get("icon");
-	// if(icon==null) {
-	// icon = "file://"+new
-	// File(".").getAbsolutePath()+"/images/gaim/im-"+doc.get("protocol")+".png";
-	// } else {
-	// icon = "file://"+icon;
-	// try {
-	// System.out.println(new URL(icon).openStream().available());
-	// } catch (MalformedURLException e1) {
-	// } catch (IOException e1) {
-	// icon = "file://"+new
-	// File(".").getAbsolutePath()+"/images/gaim/im-"+doc.get("protocol")+".png";
-	// }
-	// }
-	//			
-	// JLabel imagelabel = null;
-	// try {
-	// imagelabel = new JLabel(new ImageIcon(new URL(icon)));
-	// } catch (MalformedURLException e) {
-	// e.printStackTrace();
-	// }
-	// imgpane.add(imagelabel, BorderLayout.CENTER);
-	// String imwith = doc.get("alias");
-	// if (imwith.equals(""))
-	// imwith = doc.get("from");
-	//		
-	// result = "";
-	//
-	// result += " Conversation with " + imwith+"\n";
-	// result += " Started: " + doc.get("starttime")+" on the
-	// "+doc.get("startdate")+"\n";
-	// result += " Ended at " + doc.get("endtime")+"\n";
-	// textpane.setText(result);
-	// infopane.add(new JLabel(imwith));
-	// return null;
-	// }
-
 }
