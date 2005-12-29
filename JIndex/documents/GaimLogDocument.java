@@ -27,9 +27,9 @@ public class GaimLogDocument implements SearchDocument {
 	public static String[] fields = { "path", "absolutepath", "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
 
 	public static org.apache.lucene.document.Document Document(File f) {
-
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		try {
+
 			doc.add(Field.Keyword("path", f.getPath()));
 			doc.add(Field.Keyword("absolutepath", f.getParent()));
 			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));

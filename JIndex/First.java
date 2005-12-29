@@ -70,6 +70,7 @@ import documents.JavaDocument;
 import documents.MP3Document;
 import documents.OpenOfficeDocument;
 import documents.PDFDocument;
+import documents.SearchDocument;
 import documents.mbox.EvolutionMailDocument;
 
 public class First implements TreeViewListener {
@@ -201,6 +202,7 @@ public class First implements TreeViewListener {
 				fields = concatArrays(EvolutionMailDocument.fields, fields);
 				fields = concatArrays(JavaDocument.fields, fields);
 
+				
 				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
 

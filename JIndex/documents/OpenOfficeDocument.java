@@ -1,30 +1,27 @@
-	package documents;
+package documents;
 
-	import java.io.File;
-	import java.io.FileReader;
-	import java.io.IOException;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import org.apache.commons.codec.binary.Base64;
-	import org.apache.lucene.document.DateField;
-	import org.apache.lucene.document.Document;
+import org.apache.lucene.document.DateField;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import utils.FileUtility;
 
-
-	
 public class OpenOfficeDocument {
 
-		public static String[] fields = { "path", "type", "url", "modified", "filecontents", "file-name" };	
+	public static String[] fields = { "absolutepath", "path", "type", "modified", "filecontents", "file-name" };
 
-		public static Document Document(File f, String mimetype) {
-			try {
+	public static Document Document(File f, String mimetype) {
+		try {
 			Document doc = new Document();
-			
+
 			doc.add(Field.Keyword("path", f.getPath()));
 			java.lang.String path = f.getParent();
 			doc.add(Field.Keyword("absolutepath", path));
@@ -34,29 +31,27 @@ public class OpenOfficeDocument {
 
 			ZipFile zipfile = new ZipFile(f);
 			ZipEntry thumbnail = zipfile.getEntry("Thumbnails/thumbnail.png");
-			InputStream is = zipfile.getInputStream(thumbnail);
-			
-			Base64 b64E = new Base64();
-			byte[] encoded = b64E.encode(FileUtility.getBytesFromFile(is));
-			doc.add(Field.UnIndexed("thumbnail", new String(encoded)));
-			
+			if (thumbnail != null) {
+				InputStream is = zipfile.getInputStream(thumbnail);
+
+				Base64 b64E = new Base64();
+				byte[] encoded = b64E.encode(FileUtility.getBytesFromFile(is));
+				doc.add(Field.UnIndexed("thumbnail", new String(encoded)));
+			}
 			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
 			doc.add(Field.Text("filecontents", new FileReader(f)));
 			return doc;
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
-
-		private OpenOfficeDocument() {
-		}
-
-	    public String[] getSearchFields() {
-	       return fields;
-	    }
-			
-
+		return null;
 	}
 
+	private OpenOfficeDocument() {
+	}
 
+	public String[] getSearchFields() {
+		return fields;
+	}
+
+}

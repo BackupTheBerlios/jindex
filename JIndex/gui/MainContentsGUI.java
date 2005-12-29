@@ -32,8 +32,15 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 	public byte[] getIcon() {
 		if (maindoc != null) {
 			String type = maindoc.get("type");
+			String path = FileUtility.getIconFromMimeType(type);
 			type = type = StringUtils.replace(type, "/", "-");
-			File f = new File("images/mimetypes/gnome-mime-" + type + ".png");
+			File f;
+			if(path != null) {
+				System.out.println("Special path: "+path);
+				 f = new File(path);
+			}
+			else 
+				f = new File("images/mimetypes/gnome-mime-" + type + ".png");
 			try {
 				return FileUtility.getBytesFromFile(f);
 			} catch (IOException e) {

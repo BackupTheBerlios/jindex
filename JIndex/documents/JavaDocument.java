@@ -10,20 +10,17 @@ import org.apache.lucene.document.Field;
 
 
 public class JavaDocument implements SearchDocument {
-	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "file-name" };	
+	public static String[] fields = { "path", "absolutepath", "type",  "modified", "filecontents", "file-name" };	
 
 	public static Document Document(File f, String mimetype) {
 		try {
 		Document doc = new Document();
 		
 		doc.add(Field.Keyword("path", f.getPath()));
-		java.lang.String path = f.getParent();
-		doc.add(Field.Keyword("absolutepath", path));
+		doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
 
 		doc.add(Field.Keyword("file-name", f.getName()));
 		doc.add(Field.Text("type", mimetype));
-		doc.add(Field.Text("icon", "icon data"));
-		doc.add(Field.Text("url", "url data"));
 		
 		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
 		doc.add(Field.Text("filecontents", new FileReader(f)));

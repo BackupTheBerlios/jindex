@@ -44,15 +44,21 @@ public class LuceneUtility {
 		try {
 			removeEntry(document.get("path"));
 			IndexWriter writer = getWriter();
-			writer.addDocument(document);
-			writer.close();
+			if(writer != null)  {
+				writer.addDocument(document);
+				writer.close();
+			}
+			else {
+				System.out.println("Writer is null, this is vey bad...");
+			}
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public static void removeEntry(String filename) {
+	public static synchronized void removeEntry(String filename) {
 
 		try {
 			IndexReader reader = IndexReader.open(HOME + "/index");

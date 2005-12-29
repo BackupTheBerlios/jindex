@@ -19,12 +19,6 @@ import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-import com.drew.imaging.jpeg.JpegMetadataReader;
-import com.drew.imaging.jpeg.JpegProcessingException;
-import com.drew.metadata.Directory;
-import com.drew.metadata.Metadata;
-import com.drew.metadata.exif.ExifDirectory;
-import com.drew.metadata.iptc.IptcDirectory;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
@@ -59,9 +53,7 @@ public class ImageDocument implements SearchDocument {
 			System.out.println(orientation);
 			*/
 			doc.add(Field.Keyword("path", f.getPath()));
-			String path = f.getParent();
-			// path = path.substring(0, path.length() - 1);
-			doc.add(Field.Keyword("absolutepath", path));
+			doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
 
 			doc.add(Field.Keyword("name", f.getName()));
 
@@ -138,7 +130,7 @@ public class ImageDocument implements SearchDocument {
 		JPEGEncodeParam param1 = encoder1.getDefaultJPEGEncodeParam(thumbImage);
 		int quality = 75;
 		quality = Math.max(0, Math.min(quality, 100));
-		param1.setQuality((float) quality / 100.0f, false);
+		param1.setQuality(quality / 100.0f, false);
 		encoder1.setJPEGEncodeParam(param1);
 		encoder1.encode(thumbImage);
 

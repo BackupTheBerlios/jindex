@@ -14,7 +14,14 @@ import org.jdesktop.jdic.filetypes.Association;
 import org.jdesktop.jdic.filetypes.AssociationService;
 
 public class FileUtility {
-
+	static {
+		System.out.println("loading library");
+		System.load("/home/sorenm/workspace.stable/JIndex/libs/native/i386/libJIndex.so");
+		System.out.println("Done");
+	}
+	public static native String getMimeType(String file);
+	public static native String getIconFromMimeType(String mimetype);
+	
 	public static byte[] getBytesFromFile(File file) throws IOException {
 		InputStream is = new FileInputStream(file);
 
