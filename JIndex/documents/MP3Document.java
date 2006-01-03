@@ -10,7 +10,7 @@ import sabercat.Sabercat;
 public class MP3Document implements SearchDocument {
 	public static String fields[] = { "modified", "path", "album", "title", "comment", "year", "artist", "genre" };
 
-	public static org.apache.lucene.document.Document Document(File f) {
+	public static org.apache.lucene.document.Document Document(File f, String mimetype) {
 
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		doc.add(Field.Text("path", f.getPath()));
@@ -23,7 +23,7 @@ public class MP3Document implements SearchDocument {
 		doc.add(Field.Text("comment", sabercat.getComment()));
 		doc.add(Field.Text("title", sabercat.getTitle()));
 		doc.add(Field.Text("genre", sabercat.getGenre()));
-		doc.add(Field.Text("type", "audio/mp3"));
+		doc.add(Field.Text("type", mimetype));
 		return doc;
 	}
 

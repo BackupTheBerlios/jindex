@@ -17,7 +17,7 @@ import com.arosii.io.fam.FAMEvent;
 import com.arosii.io.fam.FAMRequest;
 
 /**
- *  
+ * 
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
  */
 public class DirectoryMonitor implements Runnable {
@@ -61,14 +61,14 @@ public class DirectoryMonitor implements Runnable {
 	public DirectoryMonitor(String path) throws IOException {
 		indexThread = new IndexFiles();
 		indexThread.start();
-		File directory = new File(path);
-		if (!directory.exists())
-			throw new FileNotFoundException(path);
+		// File directory = new File(path);
+		// if (!directory.exists())
+		// throw new FileNotFoundException(path);
+		//
+		// if (!directory.isDirectory())
+		// throw new IOException(path + ": not a directory");
 
-		if (!directory.isDirectory())
-			throw new IOException(path + ": not a directory");
-
-		this.path = directory.getCanonicalPath();
+		// this.path = directory.getCanonicalPath();
 		monitorlist = new IdentityHashMap();
 	}
 
@@ -80,17 +80,16 @@ public class DirectoryMonitor implements Runnable {
 		Iterator ite = files.iterator();
 		while (ite.hasNext()) {
 			Watch w = (Watch) ite.next();
-			System.out.println("Read "+w.getFilename()+" from config file");
+			System.out.println("Read " + w.getFilename() + " from config file");
 			File file = new File(w.getFilename());
 			if (file.exists()) {
 				if (file.isFile()) {
-					System.out.println("Added file monitor for file '"+file.getAbsolutePath()+"'");
+					System.out.println("Added file monitor for file '" + file.getAbsolutePath() + "'");
 					famreq = fam.monitorFile(file.getAbsolutePath(), file.getAbsolutePath());
-				}
-				else if (file.isDirectory())
+				} else if (file.isDirectory())
 					famreq = fam.monitorDirectory(file.getAbsolutePath(), file.getAbsolutePath());
-				else 
-					System.out.println("Error does file exsists ? "+file.exists());
+				else
+					System.out.println("Error does file exsists ? " + file.exists());
 				monitorlist.put(file.getAbsolutePath(), famreq);
 			}
 		}
@@ -141,7 +140,8 @@ public class DirectoryMonitor implements Runnable {
 			if (!f.exists())
 				f = new File(event.getUserdata() + "/" + event.getFilename());
 
-			//System.out.println("Got event '" + codeToString(event.getCode()) + "'");
+			// System.out.println("Got event '" + codeToString(event.getCode())
+			// + "'");
 			if (event.getCode() == FAM.Changed) {
 				appendToQueue(f.getAbsolutePath());
 			}
@@ -150,7 +150,7 @@ public class DirectoryMonitor implements Runnable {
 				// delete event'
 				// try to remove it as a dir, might not work if is a file
 				boolean success = removeDirectoryToMonitor(f.getAbsolutePath());
-				System.out.println("Deleted '"+f.getAbsolutePath()+" with success: " + success);
+				System.out.println("Deleted '" + f.getAbsolutePath() + " with success: " + success);
 
 			}
 			if (event.getCode() == FAM.Created) {
@@ -226,33 +226,44 @@ public class DirectoryMonitor implements Runnable {
 			System.err.println("Usage: DirectoryMonitor <directory>");
 			System.exit(0);
 		}
+		final String path = args[0];
+		System.out.println("Running on path: " + path);
 
+		DirectoryMonitor mon;
 		try {
-			DirectoryMonitor mon = new DirectoryMonitor(args[0]);
+			mon = new DirectoryMonitor(path);
 			mon.start();
-
-			boolean loop = true;
-			while (loop) {
-				System.out.println("");
-				System.out.println("Enter 'q' to Quit");
-
-				try {
-					int c = System.in.read();
-
-					switch (c) {
-					case 'q':
-						loop = false;
-						break;
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+			while (true) {
+				Thread.sleep(10000);
 			}
-
-			mon.stop();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+
+		// try {
+		//			
+		//
+		// boolean loop = true;
+		// while (loop) {
+		// System.out.println("");
+		// System.out.println("Enter 'q' to Quit");
+		// Thread.sleep(10000);
+		// try {
+		// int c = System.in.read();
+		//
+		// switch (c) {
+		// case 'q':
+		// loop = false;
+		// break;
+		// }
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// mon.stop();
+
 	}
 
 	public static synchronized void appendToQueue(String inputLine) {
@@ -264,7 +275,7 @@ public class DirectoryMonitor implements Runnable {
 			if (file.getAbsoluteFile().equals(appendfile.getAbsoluteFile()))
 				added = true;
 		}
-		if (!added) 
+		if (!added)
 			filequeue.add(appendfile);
 	}
 

@@ -7,12 +7,6 @@
 package gui;
 
 import org.apache.lucene.document.Document;
-import org.gnu.gdk.Color;
-import org.gnu.gtk.HBox;
-import org.gnu.gtk.Label;
-import org.gnu.gtk.StateType;
-import org.gnu.gtk.VBox;
-import org.gnu.gtk.Widget;
 
 /**
  * @author sorenm
@@ -26,37 +20,24 @@ public class MP3LogGUI extends MainContentsGUI {
 		setOpenAction(doc.get("path"));
 	}
 	
-    public Widget getGnomeGUI(boolean alternaterow) {
-        // start contentpane design
-        HBox content = new HBox(true, 0);
-        VBox textcontent = new VBox(false, 0);
-        org.gnu.gtk.Image img = new org.gnu.gtk.Image("emblem-sound.png");
-    
-        String result = doc.get("title").trim()+" performed by "+doc.get("artist").trim()+"\n";
-        Label fileinfo = new Label(result);
-        Label fileinfo1 = new Label(doc.get("title").trim());
-        textcontent.add(fileinfo);
-        textcontent.add(fileinfo1);
-        
-        
-        content.add(img);
-        content.add(textcontent);
-        if(alternaterow) {
-            content.setBackgroundColor(StateType.NORMAL, new Color(23,23,23));
-        }
-        return content;
-        // end contentpane design
-    }
 
-	public String getTextContent() {
-		// TODO Auto-generated method stub
-		return null;
+    public String getTextContent() {
+		String textstring = "Wrong mimeencoding";
+		String artist = doc.get("artist").trim();
+		String title = doc.get("title").trim();
+		String album = doc.get("album").trim();
+		textstring = "<span font_desc=\"sans bold 10\">" + title + "</span>\n";
+		textstring = "<span font_desc=\"sans 10\">Sent:" + artist + "</span>\n";
+		textstring += album;
+
+		return textstring;
 	}
 
 	public String[] getOpenAction() {
-		// TODO Auto-generated method stub
-		return null;
+		String[] value = new String[2];
+		value[0] = "gnome-open";
+		value[1] = doc.get("path");
+		return value;
 	}
-	
 	
 }

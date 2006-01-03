@@ -31,8 +31,10 @@ public class MailGUI extends MainContentsGUI {
 		String textstring = "Wrong mimeencoding";
 		try {
 			String from = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("from").trim()));
+			String date = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("date").trim()));
 			String subject = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("subject")));
 			textstring = "<span font_desc=\"sans bold 10\">" + from + "</span>\n";
+			textstring += "<span font_desc=\"sans 10\">Sent:" + date + "</span>\n";
 			textstring += subject;
 
 		} catch (UnsupportedEncodingException e) {

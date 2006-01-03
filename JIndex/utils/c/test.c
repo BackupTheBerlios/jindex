@@ -1,5 +1,16 @@
 #include <stdio.h>
 #include <gnome.h>
+#include <libgnomeui/libgnomeui.h>
+
+
+#include <libgnomeui/gnome-icon-lookup.h>
+#include <libgnomeui/gnome-icon-theme.h>
+
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
+
+
+
 #include "utils_FileUtility.h"
 
 JNIEXPORT jstring JNICALL Java_utils_FileUtility_getMimeType
@@ -23,11 +34,17 @@ JNIEXPORT jstring JNICALL Java_utils_FileUtility_getIconFromMimeType
 
 
 void main() {
-	printf("Testing...\n");
-	
-	char *mimetype;
-	char *filename = "/tmp/test.txt";
-        mimetype = gnome_mime_type(filename);
-	printf("mime type: %s\n", mimetype);
+	GnomeIconTheme *theme;
+	char *icon, *path;
+	theme = gnome_icon_theme_new ();
+ 	gnome_icon_theme_set_allow_svg (theme, TRUE);
+ 
+ 	icon = gnome_icon_lookup (theme, NULL, NULL, NULL, NULL,
+ 				  "text/plain",
+ 				  GNOME_ICON_LOOKUP_FLAGS_NONE, NULL);
+ 
+ 	path = gnome_icon_theme_lookup_icon (theme, icon, 24, NULL, NULL);
+
+printf("mime type: %s\n", path);
 
 }

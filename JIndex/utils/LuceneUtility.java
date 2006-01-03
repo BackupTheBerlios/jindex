@@ -6,6 +6,8 @@ package utils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -24,10 +26,11 @@ public class LuceneUtility {
 
 	}
 
-	public static synchronized IndexWriter getWriter() {
+	public synchronized static IndexWriter getWriter() {
 		IndexWriter writer = null;
 		try {
 			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
+			System.out.println("opened writer");
 		} catch (IOException e) {
 			if (!new File(HOME + "/index").exists()) {
 				try {
@@ -41,21 +44,7 @@ public class LuceneUtility {
 	}
 
 	public static synchronized void addDocument(Document document) {
-		try {
-			removeEntry(document.get("path"));
-			IndexWriter writer = getWriter();
-			if(writer != null)  {
-				writer.addDocument(document);
-				writer.close();
-			}
-			else {
-				System.out.println("Writer is null, this is vey bad...");
-			}
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		addDocument(document, true);
 	}
 
 	public static synchronized void removeEntry(String filename) {
@@ -67,11 +56,13 @@ public class LuceneUtility {
 				System.out.println("Removing old entry: " + filename);
 				int delcounter = reader.delete(new Term("path", filename));
 				System.out.println("deleted " + delcounter + " documents");
-				reader.close();
 			} catch (FileNotFoundException fe) {
 				// skip might be the first run, so no index does exsits..
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				System.out.println("closing writer..");
+				reader.close();
 			}
 		} catch (FileNotFoundException fe) {
 			// skip might be the first run, so no index does exsits..
@@ -84,4 +75,48 @@ public class LuceneUtility {
 		return HOME;
 	}
 
+	public static void addDocument(Document document, boolean removeOldDoc) {
+		try {
+			if(removeOldDoc)
+				removeEntry(document.get("path"));
+			IndexWriter writer = getWriter();
+			try {
+				if (writer != null) {
+					writer.addDocument(document);
+				} else {
+					System.out.println("Writer is null, this is vey bad...");
+				}
+			} finally {
+				System.out.println("closing writer..");
+				if (writer != null)
+					writer.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void addDocuments(List documents) {
+		try {
+		
+			IndexWriter writer = getWriter();
+			try {
+				if (writer != null) {
+					Iterator ite = documents.iterator();
+					while (ite.hasNext()) {
+						Document newdoc = (Document) ite.next();
+						writer.addDocument(newdoc);
+					}
+				} else {
+					System.out.println("Writer is null, this is vey bad...");
+				}
+			} finally {
+				writer.optimize();
+				System.out.println("closing writer..");
+				if (writer != null)
+					writer.close();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }

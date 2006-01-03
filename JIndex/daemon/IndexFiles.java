@@ -99,7 +99,7 @@ class IndexFiles extends Thread {
 			if (mimetype != null) {
 				if (mimetype.equals("audio/mpeg")) {
 					System.out.println("adding MP3 File" + file);
-					LuceneUtility.addDocument(MP3Document.Document(file));
+					LuceneUtility.addDocument(MP3Document.Document(file,  mimetype));
 				} else if (mimetype.equals("application/msword")) {
 					LuceneUtility.addDocument(ExcelDocument.Document(file, mimetype));
 

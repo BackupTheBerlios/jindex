@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
@@ -16,7 +15,7 @@ import org.apache.lucene.index.IndexWriter;
 import utils.LuceneUtility;
 
 public class EvolutionMailDocument {
-	public static String[] fields = { "path", "type", "from", "subject", "mailcontents"};
+	public static String[] fields = { "path", "type", "date", "from", "subject", "mailcontents" };
 
 	public static void indexMails(File inboxfile) {
 		int count = 0;
@@ -37,21 +36,15 @@ public class EvolutionMailDocument {
 					count++;
 					if (count > 1) {
 						list.add(msg);
-						//System.out.println(mail);
+						// System.out.println(mail);
 						doc = new Document();
-						// TODO Path in mail needs to be fixed
-						// doc.add(Field.Keyword("path", f.getPath()));
-
 						doc.add(Field.Text("type", "mail"));
-						// doc.add(Field.Text("icon", "icon data"));
 						doc.add(Field.Keyword("path", inboxfile.getAbsolutePath()));
-						doc.add(Field.Text("from", mail.getFrom()));
-						doc.add(Field.Text("subject", mail.getSubject()));
-
-						doc.add(Field.Text("maillcontents", msg.toString()));
-						doc.add(Field.Text("uid",mail.getUid()));
-						// doc.add(Field.Keyword("modified",
-						// DateField.timeToString(f.lastModified())));
+						doc.add(Field.Keyword("from", mail.getFrom()));
+						doc.add(Field.Keyword("subject", mail.getSubject()));
+						doc.add(Field.Keyword("date", mail.getDate()));
+						doc.add(Field.Keyword("maillcontents", msg.toString()));
+						doc.add(Field.Text("uid", mail.getUid()));
 						// writer.addDocument(doc);
 						docs.add(doc);
 					}
@@ -61,36 +54,25 @@ public class EvolutionMailDocument {
 				}
 				if (str.startsWith("From:")) {
 					mail.setFrom(str);
-				}
-				if (str.startsWith("To:")) {
+				} else if (str.startsWith("To:")) {
 					mail.setTo(str);
-				}
-				if (str.startsWith("Date:")) {
+				} else if (str.startsWith("Date:")) {
 					mail.setDate(str);
-				}
-				if (str.startsWith("Subject:")) {
+				} else if (str.startsWith("Subject:")) {
 					mail.setSubject(str);
+				} else if (str.startsWith("X-Evolution:")) {
+					// X-Evolution: 000050d3-0010
+					String tmp = str.substring(str.indexOf(": ") + 2, str.lastIndexOf("-"));
+					mail.setUid("" + Integer.parseInt(tmp, 16));
+				} else {
+					//msg.append(str);
 				}
-				if (str.startsWith("X-Evolution:")) {
-					//X-Evolution: 000050d3-0010
-					String tmp = str.substring(str.indexOf(": ")+2,str.lastIndexOf("-"));
-					mail.setUid(""+Integer.parseInt(tmp, 16));
-				}
-				
-				// msg.append(str);
 				// System.out.println(msg.length());
 
 			}
 			in.close();
 			LuceneUtility.removeEntry(inboxfile.getAbsolutePath());
-			writer = LuceneUtility.getWriter();
-			Iterator ite = docs.iterator();
-			while(ite.hasNext()) {
-				Document newdoc = (Document) ite.next();
-				if(newdoc != null)
-					writer.addDocument(newdoc);
-			}
-			writer.optimize();
+			LuceneUtility.addDocuments(docs);
 			System.out.println("Done");
 		} catch (IOException e) {
 			e.printStackTrace();
