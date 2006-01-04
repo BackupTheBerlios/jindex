@@ -29,7 +29,7 @@ public class MailGUI extends MainContentsGUI {
 
 	public String getTextContent() {
 		String textstring = "Wrong mimeencoding";
-		try {
+		try {System.out.println(MimeUtility.decodeText(doc.get("from")));
 			String from = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("from").trim()));
 			String date = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("date").trim()));
 			String subject = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("subject")));

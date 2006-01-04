@@ -42,8 +42,6 @@ public class PDFDocument implements SearchDocument {
 		doc.add(Field.Keyword("file-name", f.getName()));
 
 		doc.add(Field.Text("type", mimetype));
-		doc.add(Field.Text("icon", "icon data"));
-		doc.add(Field.Text("url", "url data"));
 		
 		doc.add(Field.Text("numberofpages", ""+numberofpages));
 		doc.add(Field.Text("producer", ""+producer));

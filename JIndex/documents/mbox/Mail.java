@@ -6,24 +6,30 @@ public class Mail implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7340505799552480597L;
+	public Mail() {
+		from = "";
+		to = "";
+		date = "";
+		subject = "";
+		uid = "";
+	}
 
 
-	String from = "";
+	String from;
 
-	String to = "";
+	String to;
 
-	String date = "";
+	String date;
 
-	String subject = "";
+	String subject;
 
 	long startline;
 
 	int startHashCode;
 
-	private String uid = "";
+	private String uid;
 
-	private String internalFrom = "";
+	private String internalFrom;
 	/**
 	 * @return Returns the date.
 	 */
@@ -36,7 +42,8 @@ public class Mail implements Serializable {
 	 *            The date to set.
 	 */
 	public void setDate(String date) {
-		this.date = date;
+		date = date.replaceAll("Date:", "");
+		this.date = date.trim();
 	}
 
 	/**
@@ -69,7 +76,8 @@ public class Mail implements Serializable {
 	 *            The subject to set.
 	 */
 	public void setSubject(String subject) {
-		this.subject = subject;
+		subject = subject.replaceAll("Subject:", "");
+		this.subject = subject.trim();
 	}
 
 	/**
@@ -84,7 +92,8 @@ public class Mail implements Serializable {
 	 *            The to to set.
 	 */
 	public void setTo(String to) {
-		this.to = to;
+		to =to.replaceAll("To:", "");
+		this.to = to.trim();
 	}
 
 

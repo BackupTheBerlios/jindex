@@ -1,12 +1,14 @@
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
+import gui.MP3LogGUI;
 import gui.MailGUI;
 import gui.MainContentsGUI;
-import gui.MainGUIInterface;
 import gui.OpenOfficeDocumentGUI;
 import gui.PDFContentGUI;
+import gui.TomboyDocumentGUI;
 import gui.UnknownfiletypeGUI;
+import gui.trayicon.TrayIconPopupMenu;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +18,8 @@ import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
@@ -33,7 +34,6 @@ import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
 import org.gnu.glib.JGException;
 import org.gnu.gnome.AppBar;
-import org.gnu.gnome.Program;
 import org.gnu.gtk.CellRendererPixbuf;
 import org.gnu.gtk.CellRendererText;
 import org.gnu.gtk.ComboBox;
@@ -44,13 +44,11 @@ import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.ListStore;
-import org.gnu.gtk.StatusBar;
 import org.gnu.gtk.TreeIter;
 import org.gnu.gtk.TreePath;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.TreeViewColumn;
 import org.gnu.gtk.VBox;
-import org.gnu.gtk.Viewport;
 import org.gnu.gtk.Window;
 import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
@@ -61,23 +59,20 @@ import org.gnu.gtk.event.TreeViewListener;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
-import utils.LuceneUtility;
-
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
-import documents.OpenOfficeDocument;
 import documents.PDFDocument;
-import documents.SearchDocument;
+import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
 
 public class First implements TreeViewListener {
 
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
-	private LibGlade firstApp;
+	private static LibGlade firstApp;
 
 	Window window; // Main window
 
@@ -104,13 +99,14 @@ public class First implements TreeViewListener {
 
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
 		firstApp = new LibGlade("glade/jindex.glade", this);
+		window = (Window) firstApp.getWidget("mainwindow");
 		addWindowCloser();
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
 		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
-		
-//		statusbar = (AppBar) firstApp.getWidget("statusbar");
-//		statusbar.setStatusText("Appliction loaded");
-		
+
+		// statusbar = (AppBar) firstApp.getWidget("statusbar");
+		// statusbar.setStatusText("Appliction loaded");
+
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		resulttable.setHoverSelection(true);
 		resulttable.addListener(this);
@@ -132,12 +128,21 @@ public class First implements TreeViewListener {
 		trayicon = SystemTray.getDefaultSystemTray();
 		ImageIcon icon = new ImageIcon("images/stock_search.png");
 
-		ticon = new TrayIcon(icon);
+		ticon = new TrayIcon(icon, "JIndex Desktop Search");
+		ticon.addBalloonActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Action!!!");
+			}
+
+		});
 		ticon.addActionListener(new ActionListener() {
+
 			public void actionPerformed(ActionEvent e) {
 				if (window.getBooleanProperty("hidden")) {
 					window.setBooleanProperty("hidden", false);
 					window.show();
+					window.activate();
 				} else {
 					window.setBooleanProperty("hidden", true);
 					window.hide();
@@ -145,6 +150,7 @@ public class First implements TreeViewListener {
 			}
 
 		});
+		ticon.setPopupMenu(new TrayIconPopupMenu(firstApp));
 		ticon.setCaption("JIndex");
 		trayicon.addTrayIcon(ticon);
 
@@ -165,15 +171,16 @@ public class First implements TreeViewListener {
 	}
 
 	public void addWindowCloser() {
-		window = (Window) firstApp.getWidget("mainwindow");
 		window.addListener(new LifeCycleListener() {
 			public void lifeCycleEvent(LifeCycleEvent event) {
 			}
 
 			public boolean lifeCycleQuery(LifeCycleEvent event) {
-				Gtk.mainQuit();
-				trayicon.removeTrayIcon(ticon);
-				return false;
+				window.setBooleanProperty("hidden", true);
+				window.hide();
+				// Gtk.mainQuit();
+				// trayicon.removeTrayIcon(ticon);
+				return true;
 			}
 		});
 	}
@@ -190,7 +197,8 @@ public class First implements TreeViewListener {
 					ls.removeRow(item);
 				}
 				Searcher searcher = new IndexSearcher(INDEXFILE);
-				Analyzer analyzer = new StandardAnalyzer();
+				// Analyzer analyzer = new StandardAnalyzer();
+				Analyzer analyzer = new StopAnalyzer();
 
 				String[] fields = new String[0];
 
@@ -201,8 +209,8 @@ public class First implements TreeViewListener {
 				fields = concatArrays(PDFDocument.fields, fields);
 				fields = concatArrays(EvolutionMailDocument.fields, fields);
 				fields = concatArrays(JavaDocument.fields, fields);
+				fields = concatArrays(TomboyDocument.fields, fields);
 
-				
 				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
 
@@ -219,11 +227,12 @@ public class First implements TreeViewListener {
 					if (doc.get("type").equals("text/gaimlog")) {
 						GaimLogGUI gui = new GaimLogGUI(doc);
 						addToTable(i, gui);
+					} else if (doc.get("type").equals("text/tomboy")) {
+						TomboyDocumentGUI gui = new TomboyDocumentGUI(doc);
+						addToTable(i, gui);
 					} else if (doc.get("type").equals("audio/mp3")) {
-						// System.out.println("Adding audio info");
-						// box.add(new MP3LogGUI(doc));
-						// contentpane.packStart(new
-						// MP3LogGUI(doc).getGnomeGUI(), false, true, 0);
+						MP3LogGUI gui = new MP3LogGUI(doc);
+						addToTable(i, gui);
 					} else if (doc.get("type").equals("image")) {
 						// contentpane.packStart(new
 						// ImageContentGUI(doc).getGnomeGUI(alternaterow),
@@ -238,8 +247,7 @@ public class First implements TreeViewListener {
 						System.out.println("FOUND JAVA FILE");
 						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
 						addToTable(i, gui);
-					}
-					else if(doc.get("type").equals("application/vnd.sun.xml.writer")) {
+					} else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
 						OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
 						addToTable(i, gui);
 					}
@@ -324,7 +332,7 @@ public class First implements TreeViewListener {
 	}
 
 	public void addToTable(int commandNumber, MainContentsGUI gui) {
-		
+
 		TreeIter row = ls.appendRow();
 		if (!(gui.getIcon() == null)) {
 			PixbufLoader test = new PixbufLoader();
@@ -363,4 +371,5 @@ public class First implements TreeViewListener {
 			}
 		}
 	}
+
 }

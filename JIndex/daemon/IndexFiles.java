@@ -7,15 +7,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.IndexWriter;
-import org.jdesktop.jdic.filetypes.Association;
-import org.jdesktop.jdic.filetypes.AssociationService;
 
 import utils.FileUtility;
 import utils.LuceneUtility;
@@ -27,6 +24,7 @@ import documents.JavaDocument;
 import documents.MP3Document;
 import documents.OpenOfficeDocument;
 import documents.PDFDocument;
+import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
 
 class IndexFiles extends Thread {
@@ -131,6 +129,8 @@ class IndexFiles extends Thread {
 					// +
 					// file);
 					LuceneUtility.addDocument(GaimLogDocument.Document(file));
+				} else if (file.getAbsolutePath().indexOf("/.tomboy/") > 0) {
+					LuceneUtility.addDocument(TomboyDocument.Document(file));
 				} else {
 					// System.out.println("adding as normal file
 					// with NO ile desc" + file);

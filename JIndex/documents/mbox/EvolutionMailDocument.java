@@ -24,10 +24,10 @@ public class EvolutionMailDocument {
 			BufferedReader in = new BufferedReader(new FileReader(inboxfile));
 
 			StringBuffer msg = new StringBuffer();
-			MailList list = null;
+//			MailList list = null;
 
 			String str;
-			list = new MailList();
+//			list = new MailList();
 			Mail mail = null;
 			Document doc;
 			List docs = new LinkedList();
@@ -35,15 +35,14 @@ public class EvolutionMailDocument {
 				if (str.startsWith("From ")) {
 					count++;
 					if (count > 1) {
-						list.add(msg);
 						// System.out.println(mail);
 						doc = new Document();
 						doc.add(Field.Text("type", "mail"));
 						doc.add(Field.Keyword("path", inboxfile.getAbsolutePath()));
-						doc.add(Field.Keyword("from", mail.getFrom()));
-						doc.add(Field.Keyword("subject", mail.getSubject()));
+						doc.add(Field.Text("from", mail.getFrom()));
+						doc.add(Field.Text("subject", mail.getSubject()));
 						doc.add(Field.Keyword("date", mail.getDate()));
-						doc.add(Field.Keyword("maillcontents", msg.toString()));
+						doc.add(Field.Text("maillcontents", msg.toString()));
 						doc.add(Field.Text("uid", mail.getUid()));
 						// writer.addDocument(doc);
 						docs.add(doc);
