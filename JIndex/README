@@ -1,3 +1,18 @@
 Java libraries used..
 
 Java desktop integration:	https://jdic.dev.java.net
+
+Installation (TODO)
+	1.
+		edit config to contain paths being watched
+	2.
+		./run.sh runs the "server / indexer "
+		
+	3.
+		runClient.sh runs the client..
+		
+		
+	4. It doesn't work :)
+		Edit the two shell scripts and setup the correct path for the jar files.
+		
+	
