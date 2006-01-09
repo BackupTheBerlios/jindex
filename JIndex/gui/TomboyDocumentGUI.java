@@ -6,7 +6,12 @@
  */
 package gui;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.apache.lucene.document.Document;
+
+import utils.FileUtility;
 
 /**
  * @author sorenm
@@ -33,15 +38,13 @@ public class TomboyDocumentGUI extends MainContentsGUI {
 		return value;
 	}
 
-//	public byte[] getIcon() {
-//		String type = doc.get("type");
-//		type =type = StringUtils.replace(type,"/","-");
-//		File f = new File("images/mimetypes/gnome-mime-"+type+".png");
-//		try {
-//			return FileUtility.getBytesFromFile(f);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	public byte[] getIcon() {
+		File f = new File("images/tomboy/stock_notes.png");
+		try {
+			return FileUtility.getBytesFromFile(f);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }
