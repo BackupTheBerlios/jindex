@@ -83,20 +83,9 @@ class IndexFiles extends Thread {
 		for (int j = 0; j < filelist.size(); j++) {
 			File file = (File) filelist.get(j);
 
-			
-//			
-//			AssociationService assocService = new AssociationService();
-//			URL url = new URL(file.toURL().toString());
-//			Association assoc = assocService.getAssociationByContent(url);
-//			System.out.println("foud mime type: " + assoc.getMimeType());
-//			String mimetype = assoc.getMimeType();
-			System.out.println("Getting mimeinfo for: "+file.getAbsolutePath());
 			String mimetype = FileUtility.getMimeType(file.getAbsolutePath());
-			System.out.println("---------->"+mimetype);
-			System.out.println("Icon ---------->"+FileUtility.getIconFromMimeType(mimetype));
 			if (mimetype != null) {
 				if (mimetype.equals("audio/mpeg")) {
-					System.out.println("adding MP3 File" + file);
 					LuceneUtility.addDocument(MP3Document.Document(file,  mimetype));
 				} else if (mimetype.equals("application/msword")) {
 					LuceneUtility.addDocument(ExcelDocument.Document(file, mimetype));

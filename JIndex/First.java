@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.swing.ImageIcon;
@@ -98,7 +99,8 @@ public class First implements TreeViewListener {
 	private AppBar statusbar;
 
 	public First() throws FileNotFoundException, GladeXMLException, IOException {
-		firstApp = new LibGlade("glade/jindex.glade", this);
+		InputStream is = this.getClass().getResourceAsStream("glade/jindex.glade");
+		firstApp = new LibGlade(is, this, null);
 		window = (Window) firstApp.getWidget("mainwindow");
 		addWindowCloser();
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
@@ -126,7 +128,8 @@ public class First implements TreeViewListener {
 		});
 		window.setBooleanProperty("hidden", false);
 		trayicon = SystemTray.getDefaultSystemTray();
-		ImageIcon icon = new ImageIcon("images/stock_search.png");
+		
+		ImageIcon icon = new ImageIcon(this.getClass().getResource("images/stock_search.png"));
 
 		ticon = new TrayIcon(icon, "JIndex Desktop Search");
 		ticon.addBalloonActionListener(new ActionListener() {
@@ -142,10 +145,10 @@ public class First implements TreeViewListener {
 				if (window.getBooleanProperty("hidden")) {
 					window.setBooleanProperty("hidden", false);
 					window.show();
-					window.activate();
+					window.deiconify();
 				} else {
 					window.setBooleanProperty("hidden", true);
-					window.hide();
+					window.iconify();
 				}
 			}
 

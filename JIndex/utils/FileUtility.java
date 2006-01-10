@@ -6,17 +6,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-
-import org.jdesktop.jdic.filetypes.Association;
-import org.jdesktop.jdic.filetypes.AssociationService;
 
 public class FileUtility {
 	static {
 		System.out.println("loading library");
-		System.load("/home/sorenm/workspace.stable/JIndex/libs/native/i386/libJIndex.so");
+		System.loadLibrary("libJIndex.so");
 		System.out.println("Done");
 	}
 	public static native String getMimeType(String file);
@@ -79,29 +73,5 @@ public class FileUtility {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	public static boolean isFileFormatSupport(File file) {
-		ArrayList formats = new ArrayList();
-		formats.add("audio/mpeg");
-		formats.add("application/msword");
-		formats.add("image/jpeg");
-		formats.add("application/pdf");
-		formats.add("text/x-java");
-
-		AssociationService assocService = new AssociationService();
-		URL url = null;
-		try {
-			url = new URL(file.toURL().toString());
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		Association assoc = assocService.getAssociationByContent(url);
-		System.out.println("foud mime type: " + assoc.getMimeType());
-		String mimetype = assoc.getMimeType();
-		if (formats.contains(mimetype))
-			return true;
-
-		return false;
 	}
 }
