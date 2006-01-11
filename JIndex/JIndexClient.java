@@ -69,7 +69,7 @@ import documents.PDFDocument;
 import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
 
-public class First implements TreeViewListener {
+public class JIndexClient implements TreeViewListener {
 
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
@@ -98,7 +98,7 @@ public class First implements TreeViewListener {
 
 	private AppBar statusbar;
 
-	public First() throws FileNotFoundException, GladeXMLException, IOException {
+	public JIndexClient() throws FileNotFoundException, GladeXMLException, IOException {
 		InputStream is = this.getClass().getResourceAsStream("glade/jindex.glade");
 		firstApp = new LibGlade(is, this, null);
 		window = (Window) firstApp.getWidget("mainwindow");
@@ -173,7 +173,7 @@ public class First implements TreeViewListener {
 	public static void main(String[] args) {
 		try {
 			Gtk.init(args);
-			new First();
+			new JIndexClient();
 			Gtk.main();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -9,8 +9,8 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="false">
-        <file path="/JIndex/.fbwarnings"/>
         <file path="/JIndex/filelist"/>
+        <file path="/JIndex/.fbwarnings"/>
         <file path="/JIndex/log4j.properties"/>
         <javaElement handleIdentifier="=JIndex/&lt;glade"/>
         <file path="/JIndex/.gcjbuilder"/>
@@ -25,13 +25,12 @@
         <file path="/JIndex/config.xml"/>
         <file path="/JIndex/JIndex"/>
         <file path="/JIndex/.project"/>
-        <javaElement handleIdentifier="=JIndex/&lt;utils.c"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
+        <javaElement handleIdentifier="=JIndex/&lt;utils.c"/>
         <javaElement handleIdentifier="=JIndex/&lt;daemon"/>
         <file path="/JIndex/JIndex.jardesc"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils"/>
         <javaElement handleIdentifier="=JIndex/&lt;images"/>
-        <folder path="/JIndex/.settings"/>
         <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
         <file path="/JIndex/mainprog.dia"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui.trayicon"/>
