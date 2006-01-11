@@ -1,5 +1,6 @@
 #!/bin/bash
 JAVA_HOME=/opt/sun-jdk-1.5.0.03
+JAVA_HOME=~/jdk1.5.0_05
 LIBDIR=libs
 COMMON_CP=.:binout
 
