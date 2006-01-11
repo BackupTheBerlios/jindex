@@ -129,7 +129,6 @@ public class JIndexClient implements TreeViewListener {
 			}
 
 		});
-		window.setBooleanProperty("hidden", false);
 		trayicon = SystemTray.getDefaultSystemTray();
 
 		ImageIcon icon = new ImageIcon(this.getClass().getResource("images/stock_search.png"));
@@ -145,14 +144,12 @@ public class JIndexClient implements TreeViewListener {
 		ticon.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (window.getBooleanProperty("hidden")) {
-					window.setBooleanProperty("hidden", false);
+				if (!window.isActive()) {
 					window.show();
-					window.deiconify();
 				} else {
-					window.setBooleanProperty("hidden", true);
-					window.iconify();
+					window.hide();
 				}
+
 			}
 
 		});
@@ -177,6 +174,8 @@ public class JIndexClient implements TreeViewListener {
 			Gtk.main();
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			System.out.println("Exit");
 		}
 
 	}
@@ -187,11 +186,8 @@ public class JIndexClient implements TreeViewListener {
 			}
 
 			public boolean lifeCycleQuery(LifeCycleEvent event) {
-				window.setBooleanProperty("hidden", true);
 				window.hide();
-				// Gtk.mainQuit();
-				// trayicon.removeTrayIcon(ticon);
-				return true;
+				return false;
 			}
 		});
 	}
