@@ -9,34 +9,31 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="false">
-        <file path="/JIndex/filelist"/>
         <file path="/JIndex/.fbwarnings"/>
+        <file path="/JIndex/filelist"/>
         <file path="/JIndex/log4j.properties"/>
         <javaElement handleIdentifier="=JIndex/&lt;glade"/>
         <file path="/JIndex/.gcjbuilder"/>
         <file path="/JIndex/mainprog.svg"/>
         <file path="/JIndex/README"/>
         <file path="/JIndex/.classpath"/>
-        <file path="/JIndex/config.xml~"/>
-        <javaElement handleIdentifier="=JIndex/&lt;etc"/>
         <file path="/JIndex/runClient.sh"/>
         <javaElement handleIdentifier="=JIndex/&lt;documents"/>
         <javaElement handleIdentifier="=JIndex/&lt;"/>
-        <file path="/JIndex/run.sh~"/>
         <file path="/JIndex/run.sh"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.gaim"/>
         <file path="/JIndex/config.xml"/>
         <file path="/JIndex/JIndex"/>
         <file path="/JIndex/.project"/>
-        <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils.c"/>
+        <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
         <javaElement handleIdentifier="=JIndex/&lt;daemon"/>
         <file path="/JIndex/JIndex.jardesc"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils"/>
-        <folder path="/JIndex/.settings"/>
         <javaElement handleIdentifier="=JIndex/&lt;images"/>
-        <file path="/JIndex/mainprog.dia"/>
+        <folder path="/JIndex/.settings"/>
         <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
+        <file path="/JIndex/mainprog.dia"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui.trayicon"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.mimetypes"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui"/>

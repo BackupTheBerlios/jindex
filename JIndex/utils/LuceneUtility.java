@@ -30,7 +30,6 @@ public class LuceneUtility {
 		IndexWriter writer = null;
 		try {
 			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
-			System.out.println("opened writer");
 		} catch (IOException e) {
 			if (!new File(HOME + "/index").exists()) {
 				try {
@@ -61,7 +60,6 @@ public class LuceneUtility {
 			} catch (IOException e) {
 				e.printStackTrace();
 			} finally {
-				System.out.println("closing writer..");
 				reader.close();
 			}
 		} catch (FileNotFoundException fe) {
@@ -87,7 +85,6 @@ public class LuceneUtility {
 					System.out.println("Writer is null, this is vey bad...");
 				}
 			} finally {
-				System.out.println("closing writer..");
 				if (writer != null)
 					writer.close();
 			}
@@ -111,7 +108,6 @@ public class LuceneUtility {
 				}
 			} finally {
 				writer.optimize();
-				System.out.println("closing writer..");
 				if (writer != null)
 					writer.close();
 			}

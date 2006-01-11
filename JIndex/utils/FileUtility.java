@@ -7,11 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
+
 public class FileUtility {
 	static {
 		System.out.println("loading library");
-		System.loadLibrary("libJIndex.so");
-		System.out.println("Done");
+		System.loadLibrary("JIndex");
 	}
 	public static native String getMimeType(String file);
 	public static native String getIconFromMimeType(String mimetype);
@@ -62,7 +63,20 @@ public class FileUtility {
 
 		return totalBytes;
 	}
-
+	
+	
+	/**
+	 * Get an icon from a path.
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static byte[] getIcon(String path) {
+//		System.out.println("path == "+path);
+//		System.out.println(FileUtility.class.getResource(path).getFile());
+		return getBytesFromFile(FileUtility.class.getResourceAsStream(path));
+	}
+	
 	public static byte[] getBytesFromFile(InputStream is) {
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream(4096);

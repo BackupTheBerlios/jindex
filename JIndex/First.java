@@ -106,12 +106,15 @@ public class First implements TreeViewListener {
 		final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
 		searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
 
-		// statusbar = (AppBar) firstApp.getWidget("statusbar");
+		// statusbar = (AppBar) firstApp.getWidget("ApplicationBar");
+		// if(statusbar == null)
+		// System.out.println("Statusbar is null..");
 		// statusbar.setStatusText("Appliction loaded");
 
 		resulttable = (TreeView) firstApp.getWidget("resultview");
 		resulttable.setHoverSelection(true);
 		resulttable.addListener(this);
+		resulttable.setHeadersVisible(false);
 		initTable();
 
 		initCombo();
@@ -128,7 +131,7 @@ public class First implements TreeViewListener {
 		});
 		window.setBooleanProperty("hidden", false);
 		trayicon = SystemTray.getDefaultSystemTray();
-		
+
 		ImageIcon icon = new ImageIcon(this.getClass().getResource("images/stock_search.png"));
 
 		ticon = new TrayIcon(icon, "JIndex Desktop Search");
@@ -160,6 +163,11 @@ public class First implements TreeViewListener {
 		IndexReader reader = IndexReader.open(INDEXFILE);
 		System.out.println("Number of documents in index is " + reader.numDocs());
 		reader.close();
+	}
+
+	public void on_exit_activate() {
+		System.out.println("on_exit_activate");
+
 	}
 
 	public static void main(String[] args) {

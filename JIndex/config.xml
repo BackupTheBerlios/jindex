@@ -4,11 +4,11 @@
                 <watch>
                         <filename>/home/sorenm/.tomboy</filename>
                 </watch>
-<!--
+
 		<watch>
 			<filename>/home/sorenm/indextest</filename>
 		</watch>
-		 
+<!--		 
 		<watch>
 			<filename>/home/sorenm/.gaim/logs</filename>
 		</watch>

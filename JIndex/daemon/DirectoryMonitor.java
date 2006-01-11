@@ -58,7 +58,7 @@ public class DirectoryMonitor implements Runnable {
 		return completefileslist;
 	}
 
-	public DirectoryMonitor(String path) throws IOException {
+	public DirectoryMonitor() {
 		indexThread = new IndexFiles();
 		indexThread.start();
 		// File directory = new File(path);
@@ -222,48 +222,20 @@ public class DirectoryMonitor implements Runnable {
 	 * 
 	 */
 	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.err.println("Usage: DirectoryMonitor <directory>");
-			System.exit(0);
-		}
-		final String path = args[0];
-		System.out.println("Running on path: " + path);
-
+		try {
 		DirectoryMonitor mon;
 		try {
-			mon = new DirectoryMonitor(path);
+			mon = new DirectoryMonitor();
 			mon.start();
 			while (true) {
 				Thread.sleep(10000);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		// try {
-		//			
-		//
-		// boolean loop = true;
-		// while (loop) {
-		// System.out.println("");
-		// System.out.println("Enter 'q' to Quit");
-		// Thread.sleep(10000);
-		// try {
-		// int c = System.in.read();
-		//
-		// switch (c) {
-		// case 'q':
-		// loop = false;
-		// break;
-		// }
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// mon.stop();
-
+		} finally {
+			System.out.println("Closing down indexer..");
+		}
 	}
 
 	public static synchronized void appendToQueue(String inputLine) {

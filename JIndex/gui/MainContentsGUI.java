@@ -3,9 +3,6 @@
  */
 package gui;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 
@@ -20,7 +17,6 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 		maindoc = doc;
 	}
 
-
 	/**
 	 * @param openAction
 	 *            The openAction to set.
@@ -34,21 +30,13 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 			String type = maindoc.get("type");
 			String path = FileUtility.getIconFromMimeType(type);
 			type = type = StringUtils.replace(type, "/", "-");
-			File f;
-			if(path != null) {
-				System.out.println("Special path: "+path);
-				 f = new File(path);
+			if (path != null) {
+				System.out.println("Special path: " + path);
+				return FileUtility.getIcon(path);
 			}
-			else 
-				f = new File("images/mimetypes/gnome-mime-" + type + ".png");
-			try {
-				return FileUtility.getBytesFromFile(f);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			return FileUtility.getIcon("/images/mimetypes/gnome-mime-" + type + ".png");
 		}
 		return null;
 	}
 
-	
 }

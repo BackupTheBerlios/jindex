@@ -5,8 +5,6 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import org.apache.lucene.document.Document;
 
@@ -30,11 +28,8 @@ public class GaimLogGUI extends MainContentsGUI {
 		
 		String icon = doc.get("icon");
 		if(icon != null) {
-			try {
-				outicon = FileUtility.getBytesFromFile(new URL("file://"+icon).openStream());
-			} catch (MalformedURLException e) {
-			} catch (IOException e) {
-			}
+			//outicon = FileUtility.getBytesFromFile(new URL("file://"+icon).openStream());
+			return FileUtility.getIcon(icon);
 		}
 		
 		if(outicon == null) {
@@ -42,6 +37,7 @@ public class GaimLogGUI extends MainContentsGUI {
 			icon = new File(".").getAbsolutePath() + "/images/gaim/im-" + doc.get("protocol") + ".png";
 			try {
 				outicon = FileUtility.getBytesFromFile(new File(icon));
+				return FileUtility.getIcon(icon);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

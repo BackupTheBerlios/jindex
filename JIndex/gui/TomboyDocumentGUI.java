@@ -8,6 +8,9 @@ package gui;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 
 import org.apache.lucene.document.Document;
 
@@ -39,12 +42,6 @@ public class TomboyDocumentGUI extends MainContentsGUI {
 	}
 
 	public byte[] getIcon() {
-		File f = new File("images/tomboy/stock_notes.png");
-		try {
-			return FileUtility.getBytesFromFile(f);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
+		 return FileUtility.getIcon("/images/tomboy/stock_notes.png");
 	}
 }
