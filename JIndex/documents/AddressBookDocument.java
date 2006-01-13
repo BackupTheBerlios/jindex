@@ -32,9 +32,7 @@ public class AddressBookDocument implements SearchDocument {
 			// There is no environment for this simple example.
 			DatabaseConfig dbConfig = new DatabaseConfig();
 			dbConfig.setErrorStream(System.err);
-			dbConfig.setErrorPrefix("AccessExample");
 			dbConfig.setType(DatabaseType.HASH);
-			dbConfig.setAllowCreate(true);
 			Database table;
 
 			table = new Database(databaseName, null, dbConfig);
@@ -74,7 +72,6 @@ public class AddressBookDocument implements SearchDocument {
 		StringTokenizer st = new StringTokenizer(string, "\n");
 		while (st.hasMoreTokens()) {
 			String line = st.nextToken().toString().trim();
-//			System.out.println("Line: "+line);
 			StringTokenizer st1 = new StringTokenizer(line, ":");
 			
 			if (st1.countTokens() >= 2) {
@@ -82,29 +79,23 @@ public class AddressBookDocument implements SearchDocument {
 					String key = st1.nextToken();
 					String data = st1.nextToken();
 					if ("EMAIL".equalsIgnoreCase(key)) {
-						System.out.println("Email >" + data);
 						doc.add(Field.Text("emailaddress", data));
 					}
 					if ("FN".equalsIgnoreCase(key)) {
 						doc.add(Field.Text("fullname", data));
-						System.out.println("Fullname >" + data);
 					}
 					if ("X-AIM".equalsIgnoreCase(key)) {
-						System.out.println("AIM >" + data);
 						doc.add(Field.Text("instantmessageaddress", data));
 					}
 					if (StringUtils.contains(key, "PHOTO;ENCODING=b;TYPE=")) {
-//						System.out.println("Photo >\n\n" + data+"\n\n");
 						inphotomode = true;
 						photo = data;
 						
 					}
 
 					if ("END".equalsIgnoreCase(key) && "VCARD".equalsIgnoreCase(data)) {
-						System.out.println("END ***************");
 						if(inphotomode) {
 							doc.add(Field.UnIndexed("photo", photo));
-							System.out.println("Added photo... \n"+photo);
 						}
 						doc.add(Field.Text("type", "EvolutionAddressBook"));
 						return doc;
