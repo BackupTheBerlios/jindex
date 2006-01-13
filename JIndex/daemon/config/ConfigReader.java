@@ -1,4 +1,4 @@
-package daemon;
+package daemon.config;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import daemon.Watch;
 
 public class ConfigReader {
 	static ArrayList list;

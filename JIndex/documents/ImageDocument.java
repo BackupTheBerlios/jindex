@@ -67,6 +67,7 @@ public class ImageDocument implements SearchDocument {
 			try {
 				Base64 b64E = new Base64();
 				byte[] encoded = b64E.encode(generateThumbnail(f.getPath()));
+				System.out.println(new String(encoded));
 				doc.add(Field.UnIndexed("thumbnail", new String(encoded)));
 			} catch (IOException e) {
 				e.printStackTrace();

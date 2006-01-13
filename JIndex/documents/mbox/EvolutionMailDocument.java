@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.index.IndexWriter;
 
 import utils.LuceneUtility;
 
@@ -19,7 +17,6 @@ public class EvolutionMailDocument {
 
 	public static void indexMails(File inboxfile) {
 		int count = 0;
-		IndexWriter writer;
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(inboxfile));
 
@@ -76,8 +73,6 @@ public class EvolutionMailDocument {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(count);
-
 	}
 
 }

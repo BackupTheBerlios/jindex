@@ -16,6 +16,8 @@ import com.arosii.io.fam.FAMConnection;
 import com.arosii.io.fam.FAMEvent;
 import com.arosii.io.fam.FAMRequest;
 
+import daemon.config.ConfigReader;
+
 /**
  * 
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>

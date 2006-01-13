@@ -2,6 +2,13 @@ Java libraries used..
 
 Java desktop integration:	https://jdic.dev.java.net
 
+Requirements.
+
+	Berkeley db version > 4.3.29
+	libgtkjava version > 2.6
+	
+	
+
 Installation (TODO)
 	1.
 		edit config to contain paths being watched

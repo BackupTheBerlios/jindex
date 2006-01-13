@@ -106,11 +106,13 @@ class IndexFiles extends Thread {
 					LuceneUtility.addDocument(OpenOfficeDocument.Document(file, mimetype));
 				}
 
-				if (file.getName().endsWith("Inbox")) {
+				if (StringUtils.contains(file.getName(),"/.evolution/mail/local")) {
 					// MBoxProcessor.ProcessMBoxFile(file, writer);
 					EvolutionMailDocument.indexMails(file);
 				} else if (file.getName().equals("addressbook.db")) {
-					LuceneUtility.addDocument(AddressBookDocument.Document(file));
+//					LuceneUtility.addDocument(AddressBookDocument.Document(file));
+					AddressBookDocument abook = new AddressBookDocument();
+					abook.run(file.getAbsolutePath());
 				}
 
 				else if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {

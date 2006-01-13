@@ -16,7 +16,18 @@
 		<watch>
 		<filename>/home/sorenm/.evolution/mail/local/Inbox</filename>
 		</watch>
+		<watch>
+		<filename>/home/sorenm/.evolution/mail/local/Sent</filename>
+		</watch>
+		<watch>
+		<filename>/home/sorenm/.evolution/addressbook/local/system/addressbook.db</filename>
+		</watch>
+
+
+
 <!--		
+
+
 		<watch>
 			<filename>/home/sorenm/Documents</filename>
 		</watch>

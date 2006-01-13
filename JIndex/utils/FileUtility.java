@@ -74,7 +74,10 @@ public class FileUtility {
 	public static byte[] getIcon(String path) {
 //		System.out.println("path == "+path);
 //		System.out.println(FileUtility.class.getResource(path).getFile());
-		return getBytesFromFile(FileUtility.class.getResourceAsStream(path));
+		InputStream is = FileUtility.class.getResourceAsStream(path);
+		if(is != null) 
+			return getBytesFromFile(is);
+		return null;
 	}
 	
 	public static byte[] getBytesFromFile(InputStream is) {

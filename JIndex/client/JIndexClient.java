@@ -1,4 +1,6 @@
 package client;
+
+import gui.EvolutionAddressBookGUI;
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
@@ -37,7 +39,9 @@ import org.gnu.gtk.DataColumnPixbuf;
 import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
+import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.ListStore;
+import org.gnu.gtk.StatusIcon;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Window;
@@ -48,6 +52,7 @@ import org.gnu.gtk.event.LifeCycleListener;
 import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
+import documents.AddressBookDocument;
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
@@ -57,7 +62,7 @@ import documents.PDFDocument;
 import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
 
-public class JIndexClient  {
+public class JIndexClient {
 
 	private static String INDEXFILE = System.getProperty("HOME") + "/index";
 
@@ -73,8 +78,9 @@ public class JIndexClient  {
 
 	// Tree view
 	SearchResultTable resulttable = null;
+
 	TreeView resulttable1 = null;
-	
+
 	ListStore ls = null;
 
 	DataColumnPixbuf ColThumbImage;
@@ -99,7 +105,6 @@ public class JIndexClient  {
 		// if(statusbar == null)
 		// System.out.println("Statusbar is null..");
 		// statusbar.setStatusText("Appliction loaded");
-
 		resulttable1 = (TreeView) firstApp.getWidget("resultview");
 		resulttable = new SearchResultTable(resulttable1);
 
@@ -142,6 +147,10 @@ public class JIndexClient  {
 		ticon.setPopupMenu(new TrayIconPopupMenu(firstApp));
 		ticon.setCaption("JIndex");
 		trayicon.addTrayIcon(ticon);
+
+		// StatusIcon statusicon = new
+		// StatusIcon(GtkStockItem.DIALOG_AUTHENTICATION);
+		// statusicon.setVisible(true);
 
 		IndexReader reader = IndexReader.open(INDEXFILE);
 		System.out.println("Number of documents in index is " + reader.numDocs());
@@ -198,6 +207,7 @@ public class JIndexClient  {
 				fields = concatArrays(EvolutionMailDocument.fields, fields);
 				fields = concatArrays(JavaDocument.fields, fields);
 				fields = concatArrays(TomboyDocument.fields, fields);
+				fields = concatArrays(AddressBookDocument.fields, fields);
 
 				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
@@ -211,50 +221,60 @@ public class JIndexClient  {
 				for (int i = 0; i < hits.length(); i++) {
 					Document doc = null;
 					doc = hits.doc(i);
-					// System.out.println("Found: " + doc.get("type"));
-					if (doc.get("type").equals("text/gaimlog")) {
-						GaimLogGUI gui = new GaimLogGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("text/tomboy")) {
-						TomboyDocumentGUI gui = new TomboyDocumentGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("audio/mp3")) {
-						MP3LogGUI gui = new MP3LogGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("image")) {
-						// contentpane.packStart(new
-						// ImageContentGUI(doc).getGnomeGUI(alternaterow),
-						// false, true, 0);
-						// System.out.println("Added image");
-						ImageContentGUI gui = new ImageContentGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("application/pdf")) {
-						PDFContentGUI gui = new PDFContentGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("text/x-java")) {
-						System.out.println("FOUND JAVA FILE");
-						JavaDocumentGUI gui = new JavaDocumentGUI(doc);
-						resulttable.addToTable(gui);
-					} else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
-						OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
-						resulttable.addToTable(gui);
-					}
+					System.out.println("Found: " + doc.get("type"));
+					if (doc.get("type") != null) {
+						if (doc.get("type").equals("text/gaimlog")) {
+							GaimLogGUI gui = new GaimLogGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("text/tomboy")) {
+							TomboyDocumentGUI gui = new TomboyDocumentGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("audio/mp3")) {
+							MP3LogGUI gui = new MP3LogGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("image")) {
+							// contentpane.packStart(new
+							// ImageContentGUI(doc).getGnomeGUI(alternaterow),
+							// false, true, 0);
+							// System.out.println("Added image");
+							ImageContentGUI gui = new ImageContentGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("application/pdf")) {
+							PDFContentGUI gui = new PDFContentGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("text/x-java")) {
+							System.out.println("FOUND JAVA FILE");
+							JavaDocumentGUI gui = new JavaDocumentGUI(doc);
+							resulttable.addToTable(gui);
+						} else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
+							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
+							resulttable.addToTable(gui);
+						}
 
-					else
+						else
 
-					if (doc.get("type").equals("mail")) {
-						// content += new MailGUI(doc).getHTML();
-						MailGUI gui = new MailGUI(doc);
-						resulttable.addToTable(gui);
+						if (doc.get("type").equals("mail")) {
+							// content += new MailGUI(doc).getHTML();
+							MailGUI gui = new MailGUI(doc);
+							resulttable.addToTable(gui);
+						}
+						if (doc.get("type").equals("EvolutionAddressBook")) {
+							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(doc);
+							resulttable.addToTable(gui);
+							System.out.println("Found EvolutionAddressBook");
+						} else {
+							System.out.println("found unknown file");
+							UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
+							resulttable.addToTable(gui);
+						}
+
 					} else {
-						System.out.println("found unknown file");
-						UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-						resulttable.addToTable(gui);
+						System.err.println("Document type is null");
+						System.err.println(doc);
 					}
 				}
 
-				searcher.close();
-
+				searcher.close();				
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			} catch (ParseException e) {
@@ -278,11 +298,8 @@ public class JIndexClient  {
 
 	}
 
-	
-
 	public void initCombo() {
 		searchtypecombo.showAll();
 	}
 
-	
 }
