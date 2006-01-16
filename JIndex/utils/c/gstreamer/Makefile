@@ -12,4 +12,4 @@ LDFLAGS = -Wl,--export-dynamic -pthread -lgconf-2 -lORBit-2 -ldl -lgthread-2.0 -
 
 # -shared 
 
-all: test
+all: test typefind

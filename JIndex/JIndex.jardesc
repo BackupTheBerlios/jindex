@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jardesc>
-    <jar path="/home/sorenm/workspace.stable/JIndex/dist/JIndex.jar"/>
+    <jar path="/home/sorenm/workspace.newstable/JIndex/dist/JIndex.jar"/>
     <options overwrite="false" compress="true" exportErrors="true" exportWarnings="true" saveDescription="true" descriptionLocation="/JIndex/JIndex.jardesc" useSourceFolders="false" buildIfNeeded="true" includeDirectoryEntries="false"/>
     <manifest manifestVersion="1.0" usesManifest="true" reuseManifest="false" saveManifest="false" generateManifest="true" manifestLocation="/JIndex/JIndex">
         <sealing sealJar="false">
@@ -9,14 +9,15 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportOutputFolder="false" exportJavaFiles="false">
-        <file path="/JIndex/filelist"/>
         <file path="/JIndex/.fbwarnings"/>
+        <file path="/JIndex/filelist"/>
         <file path="/JIndex/log4j.properties"/>
         <javaElement handleIdentifier="=JIndex/&lt;glade"/>
         <file path="/JIndex/.gcjbuilder"/>
         <file path="/JIndex/mainprog.svg"/>
         <file path="/JIndex/README"/>
         <file path="/JIndex/.classpath"/>
+        <javaElement handleIdentifier="=JIndex/&lt;daemon.config"/>
         <file path="/JIndex/runClient.sh"/>
         <javaElement handleIdentifier="=JIndex/&lt;documents"/>
         <javaElement handleIdentifier="=JIndex/&lt;"/>
@@ -25,14 +26,16 @@
         <file path="/JIndex/config.xml"/>
         <file path="/JIndex/JIndex"/>
         <file path="/JIndex/.project"/>
-        <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils.c"/>
+        <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
         <javaElement handleIdentifier="=JIndex/&lt;daemon"/>
+        <javaElement handleIdentifier="=JIndex/&lt;client"/>
         <file path="/JIndex/JIndex.jardesc"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils"/>
         <javaElement handleIdentifier="=JIndex/&lt;images"/>
-        <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
         <file path="/JIndex/mainprog.dia"/>
+        <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
+        <javaElement handleIdentifier="=JIndex/&lt;images.evolution"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui.trayicon"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.mimetypes"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui"/>

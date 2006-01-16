@@ -39,9 +39,7 @@ import org.gnu.gtk.DataColumnPixbuf;
 import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
-import org.gnu.gtk.GtkStockItem;
 import org.gnu.gtk.ListStore;
-import org.gnu.gtk.StatusIcon;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Window;
@@ -221,7 +219,7 @@ public class JIndexClient {
 				for (int i = 0; i < hits.length(); i++) {
 					Document doc = null;
 					doc = hits.doc(i);
-					System.out.println("Found: " + doc.get("type"));
+//					System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type") != null) {
 						if (doc.get("type").equals("text/gaimlog")) {
 							GaimLogGUI gui = new GaimLogGUI(doc);
@@ -258,7 +256,7 @@ public class JIndexClient {
 							MailGUI gui = new MailGUI(doc);
 							resulttable.addToTable(gui);
 						}
-						if (doc.get("type").equals("EvolutionAddressBook")) {
+						if (doc.get("type").equalsIgnoreCase("EvolutionAddressBook")) {
 							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(doc);
 							resulttable.addToTable(gui);
 							System.out.println("Found EvolutionAddressBook");

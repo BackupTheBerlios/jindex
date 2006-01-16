@@ -13,6 +13,7 @@ import javax.mail.internet.MimeUtility;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.lucene.document.Document;
 
+import utils.FileUtility;
 import utils.JStringUtils;
 
 /**
@@ -50,14 +51,13 @@ public class EvolutionAddressBookGUI extends MainContentsGUI {
 		Base64 b64 = new Base64();
 
 		String code = doc.get("photo");
-		if (code != null) {
+		if (code != null  && !"".equals(code)) {
 			System.out.println(code);
 			byte[] image = b64.decode(code.getBytes());
 			return image;
+		} else {
+			 return FileUtility.getIcon("/images/evolution/contact.png");
 		}
-
-		return super.getIcon();
-
 	}
 
 	public String[] getOpenAction() {

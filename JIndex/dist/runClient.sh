@@ -21,4 +21,4 @@ do
         COMMON_CP="$i:$COMMON_CP"
 done
 
-$JAVA_HOME/bin/java -Djava.library.path=/usr/lib/:/opt/sun-jdk-1.5.0.03/jre/lib/i386/:libs/native/i386 -DHOME=/home/sorenm -classpath $COMMON_CP:./JIndex.jar JIndexClient .
+$JAVA_HOME/bin/java -Djava.library.path=/usr/lib/:/opt/sun-jdk-1.5.0.03/jre/lib/i386/:libs/native/i386 -DHOME=/home/sorenm -classpath $COMMON_CP:./JIndex.jar client.JIndexClient .
