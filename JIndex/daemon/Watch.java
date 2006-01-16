@@ -19,6 +19,7 @@ public class Watch {
 	public void setDirectory(boolean isDirectory) {
 		this.isDirectory = isDirectory;
 	}
+
 	public String toString() {
 		return filename;
 	}

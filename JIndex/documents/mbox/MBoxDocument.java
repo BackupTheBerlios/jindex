@@ -9,8 +9,13 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.Properties;
 
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
+import javax.mail.Address;
+import javax.mail.Folder;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Provider;
+import javax.mail.Session;
+import javax.mail.Store;
 
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;

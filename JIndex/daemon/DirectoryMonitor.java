@@ -9,10 +9,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
+
 import com.arosii.io.fam.FAM;
 import com.arosii.io.fam.FAMConnection;
 import com.arosii.io.fam.FAMEvent;
 import com.arosii.io.fam.FAMRequest;
+import common.log.SimpleLogger;
 
 import daemon.config.ConfigReader;
 
@@ -21,6 +25,8 @@ import daemon.config.ConfigReader;
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
  */
 public class DirectoryMonitor implements Runnable {
+	static Logger log = Logger.getLogger(DirectoryMonitor.class);
+
 	static List filequeue = new LinkedList();
 
 	private volatile Thread thread = null;
@@ -80,16 +86,16 @@ public class DirectoryMonitor implements Runnable {
 		Iterator ite = files.iterator();
 		while (ite.hasNext()) {
 			Watch w = (Watch) ite.next();
-			System.out.println("Read " + w.getFilename() + " from config file");
+			log.debug("Read " + w.getFilename() + " from config file");
 			File file = new File(w.getFilename());
 			if (file.exists()) {
 				if (file.isFile()) {
-					System.out.println("Added file monitor for file '" + file.getAbsolutePath() + "'");
+					log.debug("Added file monitor for file '" + file.getAbsolutePath() + "'");
 					famreq = fam.monitorFile(file.getAbsolutePath(), file.getAbsolutePath());
 				} else if (file.isDirectory())
 					famreq = fam.monitorDirectory(file.getAbsolutePath(), file.getAbsolutePath());
 				else
-					System.out.println("Error does file exsists ? " + file.exists());
+					log.debug("Error does file exsists ? " + file.exists());
 				monitorlist.put(file.getAbsolutePath(), famreq);
 			}
 		}
@@ -106,7 +112,7 @@ public class DirectoryMonitor implements Runnable {
 		Iterator ite = set.iterator();
 		while (ite.hasNext()) {
 			String watchpath = (String) ite.next();
-			System.out.println("Shutting down watch for: " + watchpath);
+			log.debug("Shutting down watch for: " + watchpath);
 			FAMRequest famreq = (FAMRequest) monitorlist.get(watchpath);
 			famreq.cancelMonitor();
 		}
@@ -140,7 +146,7 @@ public class DirectoryMonitor implements Runnable {
 			if (!f.exists())
 				f = new File(event.getUserdata() + "/" + event.getFilename());
 
-			// System.out.println("Got event '" + codeToString(event.getCode())
+			// log.debug("Got event '" + codeToString(event.getCode())
 			// + "'");
 			if (event.getCode() == FAM.Changed) {
 				appendToQueue(f.getAbsolutePath());
@@ -150,27 +156,27 @@ public class DirectoryMonitor implements Runnable {
 				// delete event'
 				// try to remove it as a dir, might not work if is a file
 				boolean success = removeDirectoryToMonitor(f.getAbsolutePath());
-				System.out.println("Deleted '" + f.getAbsolutePath() + " with success: " + success);
+				log.debug("Deleted '" + f.getAbsolutePath() + " with success: " + success);
 
 			}
 			if (event.getCode() == FAM.Created) {
 				// called when ever a files is created, should be used for
 				// directories.
-				System.out.println("Make dir: " + f.getAbsolutePath());
+				log.debug("Make dir: " + f.getAbsolutePath());
 				if (f.isDirectory()) {
 					addDirectoryToMonitor(f.getAbsolutePath());
 				}
 
 				//				
-				// System.out.println(".."+FAM.Acknowledge);
-				// System.out.println(".."+FAM.Changed);
-				// System.out.println(".."+FAM.Created);
-				// System.out.println(".."+FAM.Deleted);
-				// System.out.println(".."+FAM.EndExist);
-				// System.out.println(".."+FAM.Exists);
-				// System.out.println(".."+FAM.Moved);
-				// System.out.println(".."+FAM.StartExecuting);
-				// System.out.println(".."+FAM.StopExecuting);
+				// log.debug(".."+FAM.Acknowledge);
+				// log.debug(".."+FAM.Changed);
+				// log.debug(".."+FAM.Created);
+				// log.debug(".."+FAM.Deleted);
+				// log.debug(".."+FAM.EndExist);
+				// log.debug(".."+FAM.Exists);
+				// log.debug(".."+FAM.Moved);
+				// log.debug(".."+FAM.StartExecuting);
+				// log.debug(".."+FAM.StopExecuting);
 
 			}
 			if (event.getCode() == FAM.Exists) {
@@ -181,7 +187,7 @@ public class DirectoryMonitor implements Runnable {
 				appendToQueue(f.getAbsolutePath());
 			}
 			if (event.getCode() == FAM.EndExist) {
-				// System.out.println("FAM.EndExist");
+				// log.debug("FAM.EndExist");
 			}
 		}
 	}
@@ -196,16 +202,16 @@ public class DirectoryMonitor implements Runnable {
 		if (!monitorlist.containsKey(path)) {
 			FAMRequest request = fam.monitorDirectory(path, path);
 			monitorlist.put(path, request);
-			System.out.println("Directory added: " + path);
+			log.debug("Directory added: " + path);
 			return true;
 		}
-		System.out.println("Directory skipped: " + path);
+		log.debug("Directory skipped: " + path);
 		return false;
 
 	}
 
 	public boolean removeDirectoryToMonitor(String path) {
-		System.out.println("Delete dir: " + path);
+		log.debug("Delete dir: " + path);
 		Iterator ite = monitorlist.keySet().iterator();
 		while (ite.hasNext()) {
 			String name = (String) ite.next();
@@ -222,19 +228,20 @@ public class DirectoryMonitor implements Runnable {
 	 * 
 	 */
 	public static void main(String[] args) {
+		BasicConfigurator.configure();
 		try {
-		DirectoryMonitor mon;
-		try {
-			mon = new DirectoryMonitor();
-			mon.start();
-			while (true) {
-				Thread.sleep(10000);
+			DirectoryMonitor mon;
+			try {
+				mon = new DirectoryMonitor();
+				mon.start();
+				while (true) {
+					Thread.sleep(10000);
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		} finally {
-			System.out.println("Closing down indexer..");
+			log.debug("Closing down indexer..");
 		}
 	}
 

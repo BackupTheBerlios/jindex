@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import sun.reflect.ReflectionFactory.GetReflectionFactoryAction;
-
 public class FileUtility {
 	static {
 		System.out.println("loading library");

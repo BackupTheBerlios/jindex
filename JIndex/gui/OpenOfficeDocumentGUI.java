@@ -31,6 +31,7 @@ public class OpenOfficeDocumentGUI extends MainContentsGUI {
 		return textstring;
 	}
 
+	
 	public byte[] getIcon() {
 		Base64 b64 = new Base64();
 

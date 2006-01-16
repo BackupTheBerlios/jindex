@@ -72,45 +72,13 @@ public class ImageContentGUI extends MainContentsGUI {
         return content;
         // end contentpane design
     }
-//    public ImageContentGUI getGUI() {
-//        JPanel imgpane = getImagepane();
-//        JPanel infopane = getDescriptionpane();
-//        JTextArea textpane = getFreePane();
-//
-//        JLabel imagelabel = null;
-//        try {
-//
-//            BASE64Decoder decoder = new BASE64Decoder();
-//            String code = doc.get("thumbnail").trim();
-//            ImageIcon icon = new ImageIcon(decoder.decodeBuffer(code));
-//            
-//            imagelabel = new JLabel(icon);
-//        } catch (ImageFormatException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        imgpane.add(imagelabel, BorderLayout.CENTER);
-//        String result = doc.get("contents");
-//        if (result != null) {
-//            textpane.setText(result.substring(100));
-//        }
-//
-//        infopane.add(new JLabel(doc.get("name").trim() + " in folder ("
-//                + doc.get("absolutepath") + " )"));
-//        infopane.add(new JLabel("Width: "+doc.get("image-width").trim()));
-//        infopane.add(new JLabel("Height: "+doc.get("image-height").trim()));
-//        infopane.validate();
-//        return this;
-//    }
-  
+
     public String getTextContent() {
 		return textstring;
 	}
 
 
-    public byte[] getIcon() {
+	public byte[] getIcon() {
        // org.gnu.gtk.Image img = new org.gnu.gtk.Image("images/gaim/im-icq.gif");
         Base64 b64 = new Base64();
         

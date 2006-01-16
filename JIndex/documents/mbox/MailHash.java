@@ -1,6 +1,10 @@
 package documents.mbox;
 import java.io.Serializable;
  public class MailHash implements Serializable  {
+			/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 			private int length;
 	        private int hashcode;
 	        public MailHash(int length, int hashcode) {

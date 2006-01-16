@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
@@ -20,6 +21,7 @@ import com.sleepycat.db.DatabaseType;
 import com.sleepycat.db.OperationStatus;
 
 public class AddressBookDocument implements SearchDocument {
+	Logger log = Logger.getLogger(AddressBookDocument.class);
 	public static String[] fields = { "emailaddress", "fullname", "instantmessageaddress", "path", "type", "modified", "filecontents", "name" };
 
 	public AddressBookDocument() {
@@ -60,7 +62,8 @@ public class AddressBookDocument implements SearchDocument {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 		}
-
+		log.debug("Adding "+docs.size()+" addressbook documents");
+		
 		LuceneUtility.removeEntry(databaseName);
 		LuceneUtility.addDocuments(docs);
 	}
