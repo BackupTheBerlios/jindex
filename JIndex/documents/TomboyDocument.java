@@ -22,8 +22,6 @@ public class TomboyDocument implements SearchDocument {
 		doc.add(Field.Keyword("absolutepath", f.getParent()));
 		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
 		doc.add(Field.Text("type", "text/tomboy"));
-
-
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();

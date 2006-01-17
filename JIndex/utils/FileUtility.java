@@ -7,7 +7,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import org.apache.log4j.Logger;
+
 public class FileUtility {
+	static Logger log  = Logger.getLogger(FileUtility.class);
 	static {
 		System.out.println("loading library");
 		System.loadLibrary("JIndex");
@@ -70,8 +73,6 @@ public class FileUtility {
 	 * @return
 	 */
 	public static byte[] getIcon(String path) {
-//		System.out.println("path == "+path);
-//		System.out.println(FileUtility.class.getResource(path).getFile());
 		InputStream is = FileUtility.class.getResourceAsStream(path);
 		if(is != null) 
 			return getBytesFromFile(is);

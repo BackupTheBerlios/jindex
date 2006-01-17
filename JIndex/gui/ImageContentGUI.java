@@ -48,8 +48,8 @@ public class ImageContentGUI extends MainContentsGUI {
         //img = new org.gnu.gtk.Image(icon);
          textstring = "Size: "+doc.get("image-height")+"x"+doc.get("image-width");
         Label fileinfo = new Label(textstring);
-        textstring += "\n"+doc.get("name");
-        Label filepath = new Label(doc.get("name"));
+        textstring += "\n"+doc.get("filename");
+        Label filepath = new Label(doc.get("filename"));
         fileinfo.setAlignment(0, 0);
         filepath.setAlignment(0, 0);
         textcontent.packStart(filepath,true, true, 1);
@@ -74,6 +74,8 @@ public class ImageContentGUI extends MainContentsGUI {
     }
 
     public String getTextContent() {
+   	   		String textstring = "Size: "+doc.get("image-height")+"x"+doc.get("image-width");
+           textstring += "\n"+doc.get("filename");
 		return textstring;
 	}
 

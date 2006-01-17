@@ -6,6 +6,7 @@ import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
 import gui.MP3LogGUI;
 import gui.MailGUI;
+import gui.MainContentsGUI;
 import gui.OpenOfficeDocumentGUI;
 import gui.PDFContentGUI;
 import gui.TomboyDocumentGUI;
@@ -91,8 +92,10 @@ public class JIndexClient {
 
 	private AppBar statusbar;
 
-	public JIndexClient() throws FileNotFoundException, GladeXMLException, IOException {
-		InputStream is = this.getClass().getResourceAsStream("/glade/jindex.glade");
+	public JIndexClient() throws FileNotFoundException, GladeXMLException,
+			IOException {
+		InputStream is = this.getClass().getResourceAsStream(
+				"/glade/jindex.glade");
 		firstApp = new LibGlade(is, this, null);
 		window = (Window) firstApp.getWidget("mainwindow");
 		addWindowCloser();
@@ -110,7 +113,8 @@ public class JIndexClient {
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
-				if (event.getKeyval() == 65293 && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
+				if (event.getKeyval() == 65293
+						&& event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
 					doSearchGUI(searchfield.getText());
 					return true;
 				}
@@ -120,7 +124,8 @@ public class JIndexClient {
 		});
 		trayicon = SystemTray.getDefaultSystemTray();
 
-		ImageIcon icon = new ImageIcon(this.getClass().getResource("/images/stock_search.png"));
+		ImageIcon icon = new ImageIcon(this.getClass().getResource(
+				"/images/stock_search.png"));
 
 		ticon = new TrayIcon(icon, "JIndex Desktop Search");
 		ticon.addBalloonActionListener(new ActionListener() {
@@ -151,7 +156,8 @@ public class JIndexClient {
 		// statusicon.setVisible(true);
 
 		IndexReader reader = IndexReader.open(INDEXFILE);
-		System.out.println("Number of documents in index is " + reader.numDocs());
+		System.out.println("Number of documents in index is "
+				+ reader.numDocs());
 		reader.close();
 	}
 
@@ -207,10 +213,12 @@ public class JIndexClient {
 				fields = concatArrays(TomboyDocument.fields, fields);
 				fields = concatArrays(AddressBookDocument.fields, fields);
 
-				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
+				query = MultiFieldQueryParser.parse(searchquery, fields,
+						analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
 
-				System.out.println("Searching for: " + query.toString("contents"));
+				System.out.println("Searching for: "
+						+ query.toString("contents"));
 
 				Hits hits = null;
 
@@ -219,7 +227,7 @@ public class JIndexClient {
 				for (int i = 0; i < hits.length(); i++) {
 					Document doc = null;
 					doc = hits.doc(i);
-//					System.out.println("Found: " + doc.get("type"));
+					// System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type") != null) {
 						if (doc.get("type").equals("text/gaimlog")) {
 							GaimLogGUI gui = new GaimLogGUI(doc);
@@ -231,10 +239,7 @@ public class JIndexClient {
 							MP3LogGUI gui = new MP3LogGUI(doc);
 							resulttable.addToTable(gui);
 						} else if (doc.get("type").equals("image")) {
-							// contentpane.packStart(new
-							// ImageContentGUI(doc).getGnomeGUI(alternaterow),
-							// false, true, 0);
-							// System.out.println("Added image");
+							System.out.println("Added image");
 							ImageContentGUI gui = new ImageContentGUI(doc);
 							resulttable.addToTable(gui);
 						} else if (doc.get("type").equals("application/pdf")) {
@@ -244,20 +249,18 @@ public class JIndexClient {
 							System.out.println("FOUND JAVA FILE");
 							JavaDocumentGUI gui = new JavaDocumentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
-							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
+						} else if (doc.get("type").equals(
+								"application/vnd.sun.xml.writer")) {
+							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(
+									doc);
 							resulttable.addToTable(gui);
-						}
-
-						else
-
-						if (doc.get("type").equals("mail")) {
-							// content += new MailGUI(doc).getHTML();
+						} else if (doc.get("type").equals("mail")) {
 							MailGUI gui = new MailGUI(doc);
 							resulttable.addToTable(gui);
-						}
-						if (doc.get("type").equalsIgnoreCase("EvolutionAddressBook")) {
-							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(doc);
+						} else if (doc.get("type").equalsIgnoreCase(
+								"EvolutionAddressBook")) {
+							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(
+									doc);
 							resulttable.addToTable(gui);
 							System.out.println("Found EvolutionAddressBook");
 						} else {
@@ -272,7 +275,7 @@ public class JIndexClient {
 					}
 				}
 
-				searcher.close();				
+				searcher.close();
 			} catch (IOException e2) {
 				e2.printStackTrace();
 			} catch (ParseException e) {

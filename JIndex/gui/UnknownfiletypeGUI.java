@@ -9,6 +9,8 @@ package gui;
 import org.apache.lucene.document.Document;
 import org.gnu.gtk.VBox;
 
+import utils.FileUtility;
+
 /**
  * @author sorenm
  */
@@ -36,4 +38,8 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 			value[1] = doc.get("path");
 			return value;
 		}
+		public byte[] getIcon() {
+			 return FileUtility.getIcon("/images/icon_missing.png");
+		}
+		 
 }

@@ -86,7 +86,7 @@ public class SearchResultTable extends TreeView implements TreeViewListener {
 			ls.setValue(row, ColThumbImage, test.getPixbuf());
 		} else {
 			try {
-				ls.setValue(row, ColThumbImage, new Pixbuf("images/icon_missing.svg"));
+				ls.setValue(row, ColThumbImage, new Pixbuf("images/icon_missing.png"));
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (JGException e) {

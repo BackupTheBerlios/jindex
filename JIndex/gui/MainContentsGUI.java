@@ -13,7 +13,13 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 
 	Document maindoc = null;
 
+	public MainContentsGUI() {
+		super();
+	}
 	public MainContentsGUI(Document doc) {
+		maindoc = doc;
+	}
+	public void setDocument(Document doc) {
 		maindoc = doc;
 	}
 
@@ -34,7 +40,7 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 				System.out.println("Special path: " + path);
 				return FileUtility.getIcon(path);
 			}
-			return FileUtility.getIcon("/images/mimetypes/gnome-mime-" + type + ".png");
+			return FileUtility.getIcon("/images/icon_missing.png");
 		}
 		return null;
 	}

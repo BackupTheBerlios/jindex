@@ -24,7 +24,7 @@ import com.sun.image.codec.jpeg.JPEGEncodeParam;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 public class ImageDocument implements SearchDocument {
-	public static String[] fields = { "path", "absolutepath", "type", "url", "modified", "name", "image-width", "image-height" };
+	public static String[] fields = { "path", "absolutepath", "type", "url", "modified", "filename", "image-width", "image-height" };
 
 	public static Document Document(File f, String mimetype) {
 
@@ -55,7 +55,7 @@ public class ImageDocument implements SearchDocument {
 			doc.add(Field.Keyword("path", f.getPath()));
 			doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
 
-			doc.add(Field.Keyword("name", f.getName()));
+			doc.add(Field.Keyword("filename", f.getName()));
 
 			doc.add(Field.Text("type", mimetype));
 

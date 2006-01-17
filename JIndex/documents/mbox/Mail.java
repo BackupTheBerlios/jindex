@@ -1,6 +1,8 @@
 package documents.mbox;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Mail implements Serializable {
 
@@ -32,6 +34,10 @@ public class Mail implements Serializable {
 	private String uid;
 
 	private String internalFrom;
+	
+	String hostname; 
+	
+	List received;
 	/**
 	 * @return Returns the date.
 	 */
@@ -62,6 +68,9 @@ public class Mail implements Serializable {
 	public void setFrom(String from) {
 		from = from.replaceAll("From:", "");
 		this.from = from.trim();
+		if(from.indexOf("<") > 0) {
+			this.from = from.substring(from.indexOf("<")+1, from.indexOf(">"));
+		}
 	}
 
 	/**
@@ -137,6 +146,28 @@ public class Mail implements Serializable {
 	public String getInternalFrom() {
 		return internalFrom;
 
+	}
+
+	public void addReceived(String host) {
+		if(received == null)
+			received = new LinkedList();
+		host = host.trim();
+		if(!host.equals("gw.propcard.dk"))
+			received.add(host);
+		
+	}
+
+	public void setHostname(String hostname) {
+		this.hostname = hostname;
+		
+	}
+
+	public String getHostname() {
+		return hostname;
+	}
+
+	public List getReceived() {
+		return received;
 	}
 
 }
