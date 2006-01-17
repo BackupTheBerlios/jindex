@@ -12,6 +12,7 @@ import javax.mail.internet.MimeUtility;
 
 import org.apache.lucene.document.Document;
 
+import utils.FileUtility;
 import utils.JStringUtils;
 
 /**
@@ -49,5 +50,9 @@ public class MailGUI extends MainContentsGUI {
 		value[0] = "evolution";
 		value[1] = "email://local@local/Inbox;uid=" + doc.get("uid");
 		return value;
+	}
+
+	public byte[] getIcon() {
+		 return FileUtility.getIcon("/images/evolution/email.png");
 	}
 }

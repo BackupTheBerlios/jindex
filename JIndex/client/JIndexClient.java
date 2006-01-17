@@ -1,6 +1,7 @@
 package client;
 
 import gui.EvolutionAddressBookGUI;
+import gui.ExcelDocumentGUI;
 import gui.GaimLogGUI;
 import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
@@ -227,7 +228,7 @@ public class JIndexClient {
 				for (int i = 0; i < hits.length(); i++) {
 					Document doc = null;
 					doc = hits.doc(i);
-					// System.out.println("Found: " + doc.get("type"));
+					 System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type") != null) {
 						if (doc.get("type").equals("text/gaimlog")) {
 							GaimLogGUI gui = new GaimLogGUI(doc);
@@ -254,7 +255,15 @@ public class JIndexClient {
 							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(
 									doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("mail")) {
+						} else if(doc.get("type").equals("application/vnd.ms-excel")) {
+							ExcelDocumentGUI gui = new ExcelDocumentGUI(
+									doc);
+							resulttable.addToTable(gui);
+							
+						}
+						
+						
+						else if (doc.get("type").equals("mail")) {
 							MailGUI gui = new MailGUI(doc);
 							resulttable.addToTable(gui);
 						} else if (doc.get("type").equalsIgnoreCase(
