@@ -1,25 +1,14 @@
 package documents;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.StringTokenizer;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.lucene.document.DateField;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.NamedNodeMap;
@@ -27,7 +16,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import utils.FileUtility;
 import utils.LuceneUtility;
 
 public class MozillaBookmarkDocument {

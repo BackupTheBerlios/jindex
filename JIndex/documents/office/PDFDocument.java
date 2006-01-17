@@ -1,4 +1,4 @@
-package documents;
+package documents.office;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,6 +10,8 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import com.lowagie.text.pdf.PdfReader;
+
+import documents.SearchDocument;
 
 
 public class PDFDocument implements SearchDocument {

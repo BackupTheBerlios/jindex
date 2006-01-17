@@ -16,7 +16,6 @@ import com.arosii.io.fam.FAM;
 import com.arosii.io.fam.FAMConnection;
 import com.arosii.io.fam.FAMEvent;
 import com.arosii.io.fam.FAMRequest;
-import common.log.SimpleLogger;
 
 import daemon.config.ConfigReader;
 

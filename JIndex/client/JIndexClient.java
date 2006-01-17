@@ -7,7 +7,6 @@ import gui.ImageContentGUI;
 import gui.JavaDocumentGUI;
 import gui.MP3LogGUI;
 import gui.MailGUI;
-import gui.MainContentsGUI;
 import gui.OpenOfficeDocumentGUI;
 import gui.PDFContentGUI;
 import gui.TomboyDocumentGUI;
@@ -58,9 +57,9 @@ import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
-import documents.PDFDocument;
 import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
+import documents.office.PDFDocument;
 
 public class JIndexClient {
 

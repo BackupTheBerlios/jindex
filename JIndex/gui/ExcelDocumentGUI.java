@@ -6,7 +6,6 @@
  */
 package gui;
 
-import org.apache.commons.codec.binary.Base64;
 import org.apache.lucene.document.Document;
 
 import utils.FileUtility;

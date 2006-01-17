@@ -1,4 +1,4 @@
-package documents;
+package documents.office;
 
 import java.io.File;
 import java.io.FileReader;

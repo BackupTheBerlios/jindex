@@ -17,15 +17,15 @@ import org.apache.lucene.index.IndexWriter;
 import utils.FileUtility;
 import utils.LuceneUtility;
 import documents.AddressBookDocument;
-import documents.ExcelDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
 import documents.MP3Document;
-import documents.OpenOfficeDocument;
-import documents.PDFDocument;
 import documents.TomboyDocument;
 import documents.mbox.EvolutionMailDocument;
+import documents.office.ExcelDocument;
+import documents.office.OpenOfficeDocument;
+import documents.office.PDFDocument;
 
 class IndexFiles extends Thread {
 	// static Logger log = Logger.getLogger(IndexFiles.class);

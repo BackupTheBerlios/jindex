@@ -1,4 +1,4 @@
-package documents;
+package documents.office;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +11,8 @@ import jxl.read.biff.BiffException;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+
+import documents.SearchDocument;
 
 public class ExcelDocument implements SearchDocument {
 	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
