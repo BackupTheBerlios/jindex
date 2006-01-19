@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,11 +41,17 @@ class IndexFiles extends Thread {
 			allreadyIndexedFiles = readObject();
 			if (allreadyIndexedFiles == null)
 				allreadyIndexedFiles = new ArrayList();
-			else
+			else {
 				System.out.println("We got old files...");
+				Iterator ite = allreadyIndexedFiles.iterator();
+				while(ite.hasNext()) {
+					JFile obj = (JFile)ite.next();
+					System.out.println("Old filename: "+obj.getFilename());
+				}
+				
+			}
 			try {
 				while (true && !interrupted()) {
-
 					try {
 						Thread.sleep(numMillisecondsToSleep);
 						List files = DirectoryMonitor.getFileFromQueue();

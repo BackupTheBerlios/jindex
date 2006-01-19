@@ -24,7 +24,7 @@ import daemon.config.ConfigReader;
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
  */
 public class DirectoryMonitor implements Runnable {
-//	public class DirectoryMonitor extends Thread {
+	// public class DirectoryMonitor extends Thread {
 	static Logger log = Logger.getLogger(DirectoryMonitor.class);
 
 	static List filequeue = new LinkedList();
@@ -90,15 +90,18 @@ public class DirectoryMonitor implements Runnable {
 			File file = new File(w.getFilename());
 			if (file.exists()) {
 				if (file.isFile()) {
-					log.debug("Added file monitor for file '"
+					log.debug("Added file monitor for file: '"
 							+ file.getAbsolutePath() + "'");
 					famreq = fam.monitorFile(file.getAbsolutePath(), file
 							.getAbsolutePath());
-				} else if (file.isDirectory())
+				} else if (file.isDirectory()) {
+					log.debug("Added Directory monitor for dir: '"
+							+ file.getAbsolutePath() + "'");
 					famreq = fam.monitorDirectory(file.getAbsolutePath(), file
 							.getAbsolutePath());
-				else
+				} else {
 					log.debug("Error does file exsists ? " + file.exists());
+				}
 				monitorlist.put(file.getAbsolutePath(), famreq);
 			}
 		}
@@ -131,7 +134,6 @@ public class DirectoryMonitor implements Runnable {
 			File f = new File(event.getFilename());
 			if (!f.exists())
 				f = new File(event.getUserdata() + "/" + event.getFilename());
-
 
 			// + "'");
 			if (event.getCode() == FAM.Changed) {
@@ -211,7 +213,6 @@ public class DirectoryMonitor implements Runnable {
 		return true;
 	}
 
-
 	/**
 	 * 
 	 */
@@ -222,8 +223,7 @@ public class DirectoryMonitor implements Runnable {
 			public void start() {
 				setPriority(8);
 				setDaemon(true);
-				
-				
+
 				Set set = monitorlist.keySet();
 				Iterator ite = set.iterator();
 				while (ite.hasNext()) {
@@ -233,7 +233,7 @@ public class DirectoryMonitor implements Runnable {
 					famreq.cancelMonitor();
 				}
 				fam.close();
-		
+
 				indexThread.interrupt();
 				Thread moribund = thread;
 				thread = null;
@@ -247,7 +247,6 @@ public class DirectoryMonitor implements Runnable {
 			DirectoryMonitor mon;
 			try {
 				mon = new DirectoryMonitor();
-//				mon.setDaemon(true);
 				mon.start();
 				while (true) {
 					Thread.sleep(10000);
