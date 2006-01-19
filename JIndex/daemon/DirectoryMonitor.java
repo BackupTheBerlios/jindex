@@ -23,8 +23,8 @@ import daemon.config.ConfigReader;
  * 
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
  */
-//public class DirectoryMonitor implements Runnable {
-	public class DirectoryMonitor extends Thread {
+public class DirectoryMonitor implements Runnable {
+//	public class DirectoryMonitor extends Thread {
 	static Logger log = Logger.getLogger(DirectoryMonitor.class);
 
 	static List filequeue = new LinkedList();
@@ -132,7 +132,7 @@ import daemon.config.ConfigReader;
 			if (!f.exists())
 				f = new File(event.getUserdata() + "/" + event.getFilename());
 
-			// log.debug("Got event '" + codeToString(event.getCode())
+
 			// + "'");
 			if (event.getCode() == FAM.Changed) {
 				appendToQueue(f.getAbsolutePath());
@@ -247,7 +247,7 @@ import daemon.config.ConfigReader;
 			DirectoryMonitor mon;
 			try {
 				mon = new DirectoryMonitor();
-				mon.setDaemon(true);
+//				mon.setDaemon(true);
 				mon.start();
 				while (true) {
 					Thread.sleep(10000);

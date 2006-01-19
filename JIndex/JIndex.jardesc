@@ -13,10 +13,10 @@
         <file path="/JIndex/.fbwarnings"/>
         <file path="/JIndex/log4j.properties"/>
         <javaElement handleIdentifier="=JIndex/&lt;glade"/>
-        <file path="/JIndex/.classpath"/>
-        <file path="/JIndex/mainprog.svg"/>
         <file path="/JIndex/README"/>
         <file path="/JIndex/.gcjbuilder"/>
+        <file path="/JIndex/.classpath"/>
+        <file path="/JIndex/mainprog.svg"/>
         <javaElement handleIdentifier="=JIndex/&lt;daemon.config"/>
         <file path="/JIndex/runClient.sh"/>
         <javaElement handleIdentifier="=JIndex/&lt;documents"/>
@@ -24,8 +24,9 @@
         <file path="/JIndex/run.sh"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.gaim"/>
         <file path="/JIndex/config.xml"/>
-        <file path="/JIndex/JIndex"/>
         <file path="/JIndex/.project"/>
+        <file path="/JIndex/JIndex"/>
+        <javaElement handleIdentifier="=JIndex/&lt;images.office"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.tomboy"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils.c"/>
         <javaElement handleIdentifier="=JIndex/&lt;daemon"/>
@@ -33,8 +34,9 @@
         <file path="/JIndex/JIndex.jardesc"/>
         <javaElement handleIdentifier="=JIndex/&lt;utils"/>
         <javaElement handleIdentifier="=JIndex/&lt;images"/>
-        <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
         <file path="/JIndex/mainprog.dia"/>
+        <javaElement handleIdentifier="=JIndex/&lt;documents.mbox"/>
+        <javaElement handleIdentifier="=JIndex/&lt;documents.office"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui.trayicon"/>
         <javaElement handleIdentifier="=JIndex/&lt;images.evolution"/>
         <javaElement handleIdentifier="=JIndex/&lt;gui"/>

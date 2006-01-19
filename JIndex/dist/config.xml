@@ -1,29 +1,25 @@
 <list>
-
-
-                <watch>
+<!--                <watch>
                         <filename>/home/sorenm/.tomboy</filename>
                 </watch>
-<!--
+-->
 		<watch>
 			<filename>/home/sorenm/indextest</filename>
 		</watch>
-		 
+<!--		 
 		<watch>
 			<filename>/home/sorenm/.gaim/logs</filename>
 		</watch>
--->
 		<watch>
 		<filename>/home/sorenm/.evolution/mail/local/Inbox</filename>
 		</watch>
-<!--		
 		<watch>
 			<filename>/home/sorenm/Documents</filename>
 		</watch>
 
--->
 	<watch>
 		<filename>/home/sorenm/Music</filename>
 	</watch>
+-->
 </list>
 
