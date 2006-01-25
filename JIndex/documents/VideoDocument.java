@@ -30,7 +30,6 @@ public class VideoDocument implements SearchDocument {
             "modified", "name", "image-width", "image-height" };
 
     public static Document Document(File f) {
-
         Document doc = new Document();
 
         doc.add(Field.Keyword("path", f.getPath()));

@@ -68,14 +68,14 @@ public class JIndexClient {
 	private static LibGlade firstApp;
 
 	Window window; // Main window
-
+    
 	TrayIcon ticon;
 
 	SystemTray trayicon;
 
 	VBox contentpane = null;
 
-	// Tree view
+    // Tree view
 	SearchResultTable resulttable = null;
 
 	TreeView resulttable1 = null;

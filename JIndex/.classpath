@@ -31,13 +31,13 @@
 	<classpathentry kind="lib" path="libs/mail/gnumail-providers.jar"/>
 	<classpathentry kind="lib" path="libs/mail/inetlib.jar"/>
 	<classpathentry kind="lib" path="libs/mail/activation.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/cairo1.0.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gconf2.12.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/glade2.12.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/glib0.2.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gnome2.12.jar"/>
-	<classpathentry kind="lib" path="libs/gnome-libs/gtk2.8.jar"/>
 	<classpathentry kind="lib" path="libs/jxl.jar"/>
-	<classpathentry kind="lib" path="/usr/lib/db-4.3.jar"/>
+	<classpathentry kind="lib" path="libs/db-4.3.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/cairo-java-1.0.2.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/glib-java-0.2.2.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/libgconf-java-2.12.1.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/libglade-java-2.12.1.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/libgnome-java-2.12.1.jar"/>
+	<classpathentry kind="lib" path="libs/gnome-libs/amd64/libgtk-java-2.8.2.jar"/>
 	<classpathentry kind="output" path="binout"/>
 </classpath>
