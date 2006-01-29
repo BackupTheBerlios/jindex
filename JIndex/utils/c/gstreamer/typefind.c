@@ -33,7 +33,7 @@ event_loop (GstElement * pipe)
     switch (message->type) {
       case GST_MESSAGE_EOS:
         gst_message_unref (message);
-        return;
+        return NULL;
       case GST_MESSAGE_WARNING:
       case GST_MESSAGE_ERROR:{
         GError *gerror;
@@ -44,7 +44,7 @@ event_loop (GstElement * pipe)
         gst_message_unref (message);
         g_error_free (gerror);
         g_free (debug);
-        return;
+        return NULL;
       }
       default:
         gst_message_unref (message);
