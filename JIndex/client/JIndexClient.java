@@ -1,5 +1,6 @@
 package client;
 
+import gui.ApplicationDocumentGUI;
 import gui.EvolutionAddressBookGUI;
 import gui.ExcelDocumentGUI;
 import gui.GaimLogGUI;
@@ -52,6 +53,7 @@ import org.jdesktop.jdic.tray.SystemTray;
 import org.jdesktop.jdic.tray.TrayIcon;
 
 import documents.AddressBookDocument;
+import documents.ApplicationDocument;
 import documents.FileDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
@@ -212,6 +214,7 @@ public class JIndexClient {
 				fields = concatArrays(JavaDocument.fields, fields);
 				fields = concatArrays(TomboyDocument.fields, fields);
 				fields = concatArrays(AddressBookDocument.fields, fields);
+				fields = concatArrays(ApplicationDocument.fields, fields);
 
 				query = MultiFieldQueryParser.parse(searchquery, fields,
 						analyzer);
@@ -259,9 +262,10 @@ public class JIndexClient {
 									doc);
 							resulttable.addToTable(gui);
 							
-						}
-						
-						
+						}if (doc.get("type").equals("Application")) {
+							ApplicationDocumentGUI gui = new ApplicationDocumentGUI(doc);
+							resulttable.addToTable(gui);
+						} 
 						else if (doc.get("type").equals("mail")) {
 							MailGUI gui = new MailGUI(doc);
 							resulttable.addToTable(gui);

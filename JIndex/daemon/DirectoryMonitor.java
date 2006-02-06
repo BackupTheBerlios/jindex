@@ -173,6 +173,7 @@ public class DirectoryMonitor implements Runnable {
 				if (f.isDirectory() && !f.getAbsolutePath().equals(path)) {
 					addDirectoryToMonitor(f.getAbsolutePath());
 				}
+				log.debug(f.getAbsolutePath());
 				appendToQueue(f.getAbsolutePath());
 			}
 			if (event.getCode() == FAM.EndExist) {
@@ -265,13 +266,17 @@ public class DirectoryMonitor implements Runnable {
 		boolean added = false;
 		while (ite.hasNext()) {
 			File file = (File) ite.next();
-			if (file.getAbsoluteFile().equals(appendfile.getAbsoluteFile()))
+			if (file.getAbsolutePath().equals(appendfile.getAbsolutePath())) {
 				added = true;
+			}
 		}
-		if (!added)
-			filequeue.add(appendfile);
+		if (!added) {
+			addTofileQueue(appendfile);
+		}
 	}
-
+	private synchronized static void addTofileQueue(File file) {
+		filequeue.add(file);
+	}
 	public static synchronized List getFileFromQueue() {
 		List value = new LinkedList();
 		value.addAll(filequeue);

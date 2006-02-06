@@ -1,0 +1,64 @@
+package documents;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+import org.apache.lucene.document.DateField;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+
+public class ApplicationDocument implements SearchDocument {
+	static Logger log = Logger.getLogger(ApplicationDocument.class);
+    public static String[] fields = {"exec-command", "applicationname", "path", "type", "url", "modified", "filecontents", "file-name" };
+	public static Document Document(File f) throws java.io.FileNotFoundException {
+		log.debug("Indexing application");
+		Document doc = new Document();
+
+		Properties prop = new Properties();
+		try {
+			prop.load(new FileInputStream(f));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+		doc.add(Field.Keyword("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name"))));
+		doc.add(Field.Keyword("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec"))));
+		doc.add(Field.Text("comment",StringUtils.trimToEmpty(prop.getProperty("Comment"))));
+		
+		doc.add(Field.Keyword("path", f.getPath()));
+		String path = f.getParent();
+//		path = path.substring(0, path.length() - 1);
+		doc.add(Field.Keyword("absolutepath", path));
+
+		doc.add(Field.Keyword("file-name", f.getName()));
+
+		doc.add(Field.Text("type", prop.getProperty("Type")));
+		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+
+		return doc;
+	}
+	public static void main(String argv[]) {
+		try {
+			Document(new File("/usr/share/applications/gthumb.desktop"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	private ApplicationDocument() {
+	}
+
+    public String[] getSearchFields() {
+        
+        System.out.println(fields);
+        return fields;
+    }
+}

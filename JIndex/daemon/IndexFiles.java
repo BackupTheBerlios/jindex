@@ -18,6 +18,7 @@ import org.apache.lucene.index.IndexWriter;
 import utils.FileUtility;
 import utils.LuceneUtility;
 import documents.AddressBookDocument;
+import documents.ApplicationDocument;
 import documents.GaimLogDocument;
 import documents.ImageDocument;
 import documents.JavaDocument;
@@ -119,6 +120,8 @@ class IndexFiles extends Thread {
 //					LuceneUtility.addDocument(AddressBookDocument.Document(file));
 					AddressBookDocument abook = new AddressBookDocument();
 					abook.run(file.getAbsolutePath());
+				}else if (file.getName().endsWith("desktop")) {
+					LuceneUtility.addDocument(ApplicationDocument.Document(file));
 				}
 
 				else if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
