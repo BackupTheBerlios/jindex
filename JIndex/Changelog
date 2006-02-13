@@ -1,3 +1,4 @@
 0.2
 
 Added support for gnome applications search
+Fixed possible bug in tray icon
