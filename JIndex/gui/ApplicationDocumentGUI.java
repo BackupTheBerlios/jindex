@@ -11,6 +11,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 
+import utils.JStringUtils;
+
 /**
  * @author sorenm
  */
@@ -24,8 +26,9 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 	}
 
 	public String getTextContent() {
-		String textstring = "<span font_desc=\"sans bold 10\">" + doc.get("applicationname").trim() + "</span>\n";
-		textstring += doc.get("comment");
+		String appname  = JStringUtils.encodeXMLEntities(doc.get("applicationname").trim())+"\n";
+		String textstring = "<span font_desc=\"sans bold 10\">" + appname + "</span>\n";
+		textstring += JStringUtils.encodeXMLEntities(StringUtils.trimToEmpty(doc.get("comment")));
 		return textstring;
 	}
 

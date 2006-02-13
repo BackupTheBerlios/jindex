@@ -188,7 +188,7 @@ public class JIndexClient {
 
 			public boolean lifeCycleQuery(LifeCycleEvent event) {
 				window.hide();
-				return false;
+				return true;
 			}
 		});
 	}

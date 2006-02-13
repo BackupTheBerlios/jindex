@@ -29,8 +29,8 @@ public class ApplicationDocument implements SearchDocument {
 		}
 		
 
-		doc.add(Field.Keyword("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name"))));
-		doc.add(Field.Keyword("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec"))));
+		doc.add(Field.Text("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name"))));
+		doc.add(Field.Text("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec"))));
 		doc.add(Field.Text("comment",StringUtils.trimToEmpty(prop.getProperty("Comment"))));
 		
 		doc.add(Field.Keyword("path", f.getPath()));
