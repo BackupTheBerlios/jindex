@@ -50,7 +50,7 @@ public class EvolutionMailDocument {
 						// writer.addDocument(doc);
 						docs.add(doc);
 						
-						checkMail(mail.getHostname(), mail.getFrom(), mail.getReceived());
+//						checkMail(mail.getHostname(), mail.getFrom(), mail.getReceived());
 					}
 
 					mail = new Mail();
@@ -64,12 +64,12 @@ public class EvolutionMailDocument {
 					System.out.println("Hostname: " + hostname);
 					mail.setHostname(hostname);
 				} else if (str.startsWith("Received:")) {
-					StringTokenizer st = new StringTokenizer(str, " ");
-					st.nextToken();
-					st.nextToken();
-					String host = st.nextToken();
-					System.out.println(host);
-					mail.addReceived(host);
+//					StringTokenizer st = new StringTokenizer(str, " ");
+//					st.nextToken();
+//					st.nextToken();
+//					String host = st.nextToken();
+//					System.out.println(host);
+//					mail.addReceived(host);
 
 				} else if (str.startsWith("To:")) {
 

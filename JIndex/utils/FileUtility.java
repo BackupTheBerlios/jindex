@@ -90,4 +90,12 @@ public class FileUtility {
 		}
 		return null;
 	}
+	public static byte[] getExternalIcon(String file) {
+		try {
+			return getBytesFromFile(new File(file));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

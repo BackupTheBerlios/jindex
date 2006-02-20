@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
@@ -29,11 +30,11 @@ public class LuceneUtility {
 	public synchronized static IndexWriter getWriter() {
 		IndexWriter writer = null;
 		try {
-			writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), false);
+			writer = new IndexWriter(HOME + "/index", new SimpleAnalyzer(), false);
 		} catch (IOException e) {
 			if (!new File(HOME + "/index").exists()) {
 				try {
-					writer = new IndexWriter(HOME + "/index", new StandardAnalyzer(), true);
+					writer = new IndexWriter(HOME + "/index", new SimpleAnalyzer(), true);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}

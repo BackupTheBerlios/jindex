@@ -31,7 +31,7 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 		this.openAction = openAction;
 	}
 
-	public byte[] getIcon() {
+	public byte[] getDefaultIcon() {
 		if (maindoc != null) {
 			String type = maindoc.get("type");
 			String path = FileUtility.getIconFromMimeType(type);

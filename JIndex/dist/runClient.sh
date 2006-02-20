@@ -1,5 +1,5 @@
 #!/bin/bash
-JAVA_HOME=/opt/sun-jdk-1.5.0.03
+JAVA_HOME=`java-config -O` 
 LIBDIR=libs
 COMMON_CP=.:binout
 
@@ -21,4 +21,4 @@ do
         COMMON_CP="$i:$COMMON_CP"
 done
 
-$JAVA_HOME/bin/java -Djava.library.path=/usr/lib/:/opt/sun-jdk-1.5.0.03/jre/lib/i386/:libs/native/i386 -DHOME=/home/sorenm -classpath $COMMON_CP:./JIndex.jar client.JIndexClient .
+$JAVA_HOME/bin/java -Djava.library.path=/usr/lib:libs/native/`uname -m` -DHOME=/home/sorenm -classpath $COMMON_CP:./JIndex.jar client.JIndexClient .

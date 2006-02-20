@@ -6,11 +6,13 @@
  */
 package gui;
 
+import java.io.File;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.document.Document;
 
+import utils.FileUtility;
 import utils.JStringUtils;
 
 /**
@@ -45,4 +47,18 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 		return value;
 	}
 
+	public byte[] getIcon() {
+		String icon = doc.get("icon");
+		System.out.println("Loading icon :"+icon);
+		if (icon != null) {
+				if (new File(icon).exists())
+					return FileUtility.getExternalIcon(icon);
+				else if (new File("/usr/share/pixmaps/" + icon).exists())
+					return FileUtility.getExternalIcon("/usr/share/pixmaps/" + icon);
+
+		} else
+			return super.getDefaultIcon();
+		return null;
+	}
+	
 }
