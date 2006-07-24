@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.index.IndexWriter;
 
+import sun.util.logging.resources.logging;
 import utils.FileUtility;
 import utils.LuceneUtility;
 import documents.AddressBookDocument;
@@ -92,6 +93,7 @@ class IndexFiles extends Thread {
 			File file = (File) filelist.get(j);
 
 			String mimetype = FileUtility.getMimeType(file.getAbsolutePath());
+			System.out.println("Mimetype: "+mimetype);
 			if (mimetype != null) {
 				if (mimetype.equals("audio/mpeg")) {
 					LuceneUtility.addDocument(MP3Document.Document(file,  mimetype));

@@ -39,5 +39,8 @@ public class MP3LogGUI extends MainContentsGUI {
 		value[1] = doc.get("path");
 		return value;
 	}
-	
+	public byte[] getIcon() {
+		return super.getDefaultIcon();
+	}
+
 }

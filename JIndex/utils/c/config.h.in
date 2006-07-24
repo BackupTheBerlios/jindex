@@ -1,0 +1,166 @@
+/* config.h.in.  Generated from configure.in by autoheader.  */
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+#undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `art_lgpl' library (-lart_lgpl). */
+#undef HAVE_LIBART_LGPL
+
+/* Define to 1 if you have the `art_lgpl_2' library (-lart_lgpl_2). */
+#undef HAVE_LIBART_LGPL_2
+
+/* Define to 1 if you have the `asound' library (-lasound). */
+#undef HAVE_LIBASOUND
+
+/* Define to 1 if you have the `audiofile' library (-laudiofile). */
+#undef HAVE_LIBAUDIOFILE
+
+/* Define to 1 if you have the `cairo' library (-lcairo). */
+#undef HAVE_LIBCAIRO
+
+/* Define to 1 if you have the `db1' library (-ldb1). */
+#undef HAVE_LIBDB1
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#undef HAVE_LIBDL
+
+/* Define to 1 if you have the `esd' library (-lesd). */
+#undef HAVE_LIBESD
+
+/* Define to 1 if you have the `gailutil' library (-lgailutil). */
+#undef HAVE_LIBGAILUTIL
+
+/* Define to 1 if you have the `gdk' library (-lgdk). */
+#undef HAVE_LIBGDK
+
+/* Define to 1 if you have the `gdk_imlib' library (-lgdk_imlib). */
+#undef HAVE_LIBGDK_IMLIB
+
+/* Define to 1 if you have the `gdk_pixbuf' library (-lgdk_pixbuf). */
+#undef HAVE_LIBGDK_PIXBUF
+
+/* Define to 1 if you have the `glib' library (-lglib). */
+#undef HAVE_LIBGLIB
+
+/* Define to 1 if you have the `gmodule' library (-lgmodule). */
+#undef HAVE_LIBGMODULE
+
+/* Define to 1 if you have the `gnome' library (-lgnome). */
+#undef HAVE_LIBGNOME
+
+/* Define to 1 if you have the `gnomesupport' library (-lgnomesupport). */
+#undef HAVE_LIBGNOMESUPPORT
+
+/* Define to 1 if you have the `gnomeui' library (-lgnomeui). */
+#undef HAVE_LIBGNOMEUI
+
+/* Define to 1 if you have the `gnomevfs' library (-lgnomevfs). */
+#undef HAVE_LIBGNOMEVFS
+
+/* Define to 1 if you have the `gthread' library (-lgthread). */
+#undef HAVE_LIBGTHREAD
+
+/* Define to 1 if you have the `gtk' library (-lgtk). */
+#undef HAVE_LIBGTK
+
+/* Define to 1 if you have the `ICE' library (-lICE). */
+#undef HAVE_LIBICE
+
+/* Define to 1 if you have the `IIOP' library (-lIIOP). */
+#undef HAVE_LIBIIOP
+
+/* Define to 1 if you have the `m' library (-lm). */
+#undef HAVE_LIBM
+
+/* Define to 1 if you have the `nsl' library (-lnsl). */
+#undef HAVE_LIBNSL
+
+/* Define to 1 if you have the `oaf' library (-loaf). */
+#undef HAVE_LIBOAF
+
+/* Define to 1 if you have the `ORBit' library (-lORBit). */
+#undef HAVE_LIBORBIT
+
+/* Define to 1 if you have the `ORBitCosNaming' library (-lORBitCosNaming). */
+#undef HAVE_LIBORBITCOSNAMING
+
+/* Define to 1 if you have the `ORBitutil' library (-lORBitutil). */
+#undef HAVE_LIBORBITUTIL
+
+/* Define to 1 if you have the `popt' library (-lpopt). */
+#undef HAVE_LIBPOPT
+
+/* Define to 1 if you have the `pthread' library (-lpthread). */
+#undef HAVE_LIBPTHREAD
+
+/* Define to 1 if you have the `SM' library (-lSM). */
+#undef HAVE_LIBSM
+
+/* Define to 1 if you have the `X11' library (-lX11). */
+#undef HAVE_LIBX11
+
+/* Define to 1 if you have the `Xext' library (-lXext). */
+#undef HAVE_LIBXEXT
+
+/* Define to 1 if you have the `Xi' library (-lXi). */
+#undef HAVE_LIBXI
+
+/* Define to 1 if you have the `xml' library (-lxml). */
+#undef HAVE_LIBXML
+
+/* Define to 1 if you have the `xml2' library (-lxml2). */
+#undef HAVE_LIBXML2
+
+/* Define to 1 if you have the `z' library (-lz). */
+#undef HAVE_LIBZ
+
+/* Define to 1 if you have the <locale.h> header file. */
+#undef HAVE_LOCALE_H
+
+/* Define to 1 if you have the <memory.h> header file. */
+#undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `setlocale' function. */
+#undef HAVE_SETLOCALE
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#undef HAVE_STDINT_H
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#undef HAVE_STDLIB_H
+
+/* Define to 1 if you have the <strings.h> header file. */
+#undef HAVE_STRINGS_H
+
+/* Define to 1 if you have the <string.h> header file. */
+#undef HAVE_STRING_H
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#undef HAVE_SYS_STAT_H
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#undef HAVE_SYS_TYPES_H
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#undef HAVE_UNISTD_H
+
+/* Define to the address where bug reports for this package should be sent. */
+#undef PACKAGE_BUGREPORT
+
+/* Define to the full name of this package. */
+#undef PACKAGE_NAME
+
+/* Define to the full name and version of this package. */
+#undef PACKAGE_STRING
+
+/* Define to the one symbol short name of this package. */
+#undef PACKAGE_TARNAME
+
+/* Define to the version of this package. */
+#undef PACKAGE_VERSION
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* Define to empty if `const' does not conform to ANSI C. */
+#undef const

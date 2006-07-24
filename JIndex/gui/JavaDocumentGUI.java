@@ -33,15 +33,7 @@ public class JavaDocumentGUI extends MainContentsGUI {
 		return value;
 	}
 
-//	public byte[] getIcon() {
-//		String type = doc.get("type");
-//		type =type = StringUtils.replace(type,"/","-");
-//		File f = new File("images/mimetypes/gnome-mime-"+type+".png");
-//		try {
-//			return FileUtility.getBytesFromFile(f);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
+	public byte[] getIcon() {
+		return super.getDefaultIcon();
+	}
 }

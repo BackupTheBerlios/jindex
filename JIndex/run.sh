@@ -1,6 +1,7 @@
 #!/bin/bash
-JAVA_HOME=/opt/sun-jdk-1.5.0.03
-JAVA_HOME=~/jdk1.5.0_05
+JAVA_HOME=`java-config -O`
+#JAVA_HOME=~/jdk1.5.0_05
+ARCH=amd64
 LIBDIR=libs
 COMMON_CP=.:binout
 
@@ -15,4 +16,4 @@ do
 done
 
 
-$JAVA_HOME/bin/java -Djava.library.path=/opt/sun-jdk-1.5.0.03/jre/lib/i386/:libs/native/i386 -DHOME=/home/sorenm -classpath $COMMON_CP daemon.DirectoryMonitor .
+$JAVA_HOME/bin/java -Djava.library.path=libs/native/$ARCH -DHOME=/home/sorenm -classpath $COMMON_CP daemon.DirectoryMonitor .

@@ -1,0 +1,100 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+AC_PREREQ(2.60)
+AC_INIT(FULL-PACKAGE-NAME, VERSION, BUG-REPORT-ADDRESS)
+AC_CONFIG_SRCDIR([test.c])
+AC_CONFIG_HEADER([config.h])
+
+# Checks for programs.
+AC_PROG_CC
+
+# Checks for libraries.
+# FIXME: Replace `main' with a function in `-lICE':
+AC_CHECK_LIB([ICE], [main])
+# FIXME: Replace `main' with a function in `-lIIOP':
+AC_CHECK_LIB([IIOP], [main])
+# FIXME: Replace `main' with a function in `-lORBit':
+AC_CHECK_LIB([ORBit], [main])
+# FIXME: Replace `main' with a function in `-lORBitCosNaming':
+AC_CHECK_LIB([ORBitCosNaming], [main])
+# FIXME: Replace `main' with a function in `-lORBitutil':
+AC_CHECK_LIB([ORBitutil], [main])
+# FIXME: Replace `main' with a function in `-lSM':
+AC_CHECK_LIB([SM], [main])
+# FIXME: Replace `main' with a function in `-lX11':
+AC_CHECK_LIB([X11], [main])
+# FIXME: Replace `main' with a function in `-lXext':
+AC_CHECK_LIB([Xext], [main])
+# FIXME: Replace `main' with a function in `-lXi':
+AC_CHECK_LIB([Xi], [main])
+# FIXME: Replace `main' with a function in `-lart_lgpl':
+AC_CHECK_LIB([art_lgpl], [main])
+# FIXME: Replace `main' with a function in `-lart_lgpl_2':
+AC_CHECK_LIB([art_lgpl_2], [main])
+# FIXME: Replace `main' with a function in `-lasound':
+AC_CHECK_LIB([asound], [main])
+# FIXME: Replace `main' with a function in `-laudiofile':
+AC_CHECK_LIB([audiofile], [main])
+# FIXME: Replace `main' with a function in `-lcairo':
+AC_CHECK_LIB([cairo], [main])
+# FIXME: Replace `main' with a function in `-ldb1':
+AC_CHECK_LIB([db1], [main])
+# FIXME: Replace `main' with a function in `-ldl':
+AC_CHECK_LIB([dl], [main])
+# FIXME: Replace `main' with a function in `-lesd':
+AC_CHECK_LIB([esd], [main])
+# FIXME: Replace `main' with a function in `-lgailutil':
+AC_CHECK_LIB([gailutil], [main])
+# FIXME: Replace `main' with a function in `-lgdk':
+AC_CHECK_LIB([gdk], [main])
+# FIXME: Replace `main' with a function in `-lgdk_imlib':
+AC_CHECK_LIB([gdk_imlib], [main])
+# FIXME: Replace `main' with a function in `-lgdk_pixbuf':
+AC_CHECK_LIB([gdk_pixbuf], [main])
+# FIXME: Replace `main' with a function in `-lglib':
+AC_CHECK_LIB([glib], [main])
+# FIXME: Replace `main' with a function in `-lgmodule':
+AC_CHECK_LIB([gmodule], [main])
+# FIXME: Replace `main' with a function in `-lgnome':
+AC_CHECK_LIB([gnome], [main])
+# FIXME: Replace `main' with a function in `-lgnomesupport':
+AC_CHECK_LIB([gnomesupport], [main])
+# FIXME: Replace `main' with a function in `-lgnomeui':
+AC_CHECK_LIB([gnomeui], [main])
+# FIXME: Replace `main' with a function in `-lgnomevfs':
+AC_CHECK_LIB([gnomevfs], [main])
+# FIXME: Replace `main' with a function in `-lgthread':
+AC_CHECK_LIB([gthread], [main])
+# FIXME: Replace `main' with a function in `-lgtk':
+AC_CHECK_LIB([gtk], [main])
+# FIXME: Replace `main' with a function in `-lm':
+AC_CHECK_LIB([m], [main])
+# FIXME: Replace `main' with a function in `-lnsl':
+AC_CHECK_LIB([nsl], [main])
+# FIXME: Replace `main' with a function in `-loaf':
+AC_CHECK_LIB([oaf], [main])
+# FIXME: Replace `main' with a function in `-lpopt':
+AC_CHECK_LIB([popt], [main])
+# FIXME: Replace `main' with a function in `-lpthread':
+AC_CHECK_LIB([pthread], [main])
+# FIXME: Replace `main' with a function in `-lxml':
+AC_CHECK_LIB([xml], [main])
+# FIXME: Replace `main' with a function in `-lxml2':
+AC_CHECK_LIB([xml2], [main])
+# FIXME: Replace `main' with a function in `-lz':
+AC_CHECK_LIB([z], [main])
+
+# Checks for header files.
+AC_HEADER_STDC
+AC_CHECK_HEADERS([locale.h stdlib.h string.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+AC_C_CONST
+
+# Checks for library functions.
+AC_CHECK_FUNCS([setlocale])
+
+AC_CONFIG_FILES([Makefile
+                 gstreamer/Makefile])
+AC_OUTPUT

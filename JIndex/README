@@ -1,25 +1,17 @@
-Java libraries used..
-
-Java desktop integration:	https://jdic.dev.java.net
-
-Requirements.
-
-	Berkeley db version > 4.3.29
-	libgtkjava version > 2.6
-	
-	
-
 Installation (TODO)
 	1.
-		edit config to contain paths being watched
+		Make sure you have jdk 1.5
+
 	2.
+		edit config to contain paths being watched
+	3.
 		./run.sh runs the "server / indexer "
 		
-	3.
+	4.
 		runClient.sh runs the client..
 		
 		
-	4. It doesn't work :)
+	5. It doesn't work :)
 		Edit the two shell scripts and setup the correct path for the jar files.
 		
 	
