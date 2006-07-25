@@ -10,20 +10,31 @@ https://stage.maemo.org/svn/maemo/projects/haf/trunk/osso-gnome-vfs2/test/
 
 */
 JNIEXPORT jstring JNICALL Java_utils_FileUtility_getMimeType(JNIEnv *env, jclass class, jstring filename) {
+    const gchar *result_g;
     const gchar* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
+    GnomeVFSURI *uri;
+    char *uri_string;
+    char *path;
 
-    const gchar *result_g = gnome_vfs_get_mime_type(afile_g);
-
-    (*env)->ReleaseStringUTFChars(env, filename, afile_g);
+    gboolean started = gnome_vfs_init ();
+	if(started) {
+		g_printf("Started\n");
+		g_printf("Trying to get mimetype for: %s\n",afile_g);
+		result_g = gnome_vfs_get_mime_type(afile_g);
+		g_printf("got result\n");
+		(*env)->ReleaseStringUTFChars(env, filename, afile_g);
+		g_printf("about to shutdown\n"); 
+//		gnome_vfs_shutdown ();
+		g_printf("Shutdown completed\n");   
+	}
     return (*env)->NewStringUTF(env, result_g);
-
 }
 
 JNIEXPORT jstring JNICALL Java_utils_FileUtility_getIconFromMimeType (JNIEnv *env, jclass class, jstring filename) {
  //   GnomeVFSMimeApplication *application;
-    const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
+//    const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
 //    const gchar *result_g;
-    g_printf("filename: %s", afile_g);
+    g_printf("filename: ");
 /*
 
    application = gnome_vfs_mime_get_default_application (afile_g);
@@ -44,3 +55,7 @@ JNIEXPORT jstring JNICALL Java_utils_FileUtility_getIconFromMimeType (JNIEnv *en
 */
 	return NULL;
 }
+
+int
+main (int argc, char **argv)
+{ }

@@ -60,7 +60,6 @@ public class EvolutionMailDocument {
 					String tmp = mail.getFrom();
 					String hostname = tmp.substring(tmp.indexOf("@") + 1, tmp
 							.length());
-					System.out.println("Hostname: " + hostname);
 					mail.setHostname(hostname);
 				} else if (str.startsWith("Received:")) {
 //					StringTokenizer st = new StringTokenizer(str, " ");

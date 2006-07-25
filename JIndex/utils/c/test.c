@@ -111,6 +111,23 @@ main (int argc, char **argv)
 		print_application_info (l->data);
 		g_print ("-----------------------------\n");
 	}
+
+
+
+
+    const gchar* afile_g = "file:///etc/passwd";
+GnomeVFSURI *uriclass;
+    char *uri_string;
+    char *path;
+	
+	   uriclass = gnome_vfs_uri_new (afile_g);
+	g_printf("\n\nURI: %s\n",uriclass->text);
+    char*  result_g = gnome_vfs_get_mime_type(uriclass);
+g_printf("URI: %s\n",gnome_vfs_get_mime_type(afile_g));
+
+
+
+
 	gnome_vfs_mime_application_list_free (applications);	
 
 #ifdef TEXT_EXEC_MACRO_EXPANSION

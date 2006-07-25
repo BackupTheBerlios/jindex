@@ -13,9 +13,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.lucene.index.IndexWriter;
 
-import sun.util.logging.resources.logging;
 import utils.FileUtility;
 import utils.LuceneUtility;
 import documents.AddressBookDocument;
@@ -31,7 +31,7 @@ import documents.office.OpenOfficeDocument;
 import documents.office.PDFDocument;
 
 class IndexFiles extends Thread {
-	// static Logger log = Logger.getLogger(IndexFiles.class);
+	private static final Logger log = Logger.getLogger(IndexFiles.class);
 	long numMillisecondsToSleep = 5000; // 5 seconds sleep
 
 	static IndexWriter writer = null;
@@ -92,7 +92,8 @@ class IndexFiles extends Thread {
 		for (int j = 0; j < filelist.size(); j++) {
 			File file = (File) filelist.get(j);
 
-			String mimetype = FileUtility.getMimeType(file.getAbsolutePath());
+			log.debug("Getting mimetype for "+"file://"+file.getAbsolutePath());
+			String mimetype = new FileUtility().getMimeType("file://"+file.getAbsolutePath());
 			System.out.println("Mimetype: "+mimetype);
 			if (mimetype != null) {
 				if (mimetype.equals("audio/mpeg")) {

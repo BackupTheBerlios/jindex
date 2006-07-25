@@ -12,10 +12,14 @@ import org.apache.log4j.Logger;
 public class FileUtility {
 	static Logger log  = Logger.getLogger(FileUtility.class);
 	static {
+//		System.out.println("loading library");
+//		System.loadLibrary("JIndex");
+	}
+	public FileUtility() {
 		System.out.println("loading library");
 		System.loadLibrary("JIndex");
 	}
-	public static native String getMimeType(String file);
+	public native String getMimeType(String file);
 	public static native String getIconFromMimeType(String mimetype);
 	
 	public static byte[] getBytesFromFile(File file) throws IOException {
