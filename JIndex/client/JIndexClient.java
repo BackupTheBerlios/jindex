@@ -17,9 +17,7 @@ import java.awt.AWTException;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
-import java.awt.SystemTray;
 import java.awt.Toolkit;
-import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -40,7 +38,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
-import org.gnu.gnome.AppBar;
 import org.gnu.gtk.ComboBox;
 import org.gnu.gtk.DataColumnObject;
 import org.gnu.gtk.DataColumnPixbuf;
@@ -92,7 +89,7 @@ public class JIndexClient {
 
 	ComboBox searchtypecombo;
 
-	private AppBar statusbar;
+//	private AppBar statusbar;
 
 	public JIndexClient() throws FileNotFoundException, GladeXMLException, IOException {
 		InputStream is = this.getClass().getResourceAsStream("/glade/jindex.glade");
@@ -141,7 +138,8 @@ public class JIndexClient {
 		 * trayicon.addTrayIcon(ticon);
 		 */
 
-		registerTrayIcon();
+//        Java 6.0
+//		registerTrayIcon();
 
 		// Java gnome egg tray...
 		// StatusIcon si;
@@ -166,79 +164,79 @@ public class JIndexClient {
 		reader.close();
 	}
 
-	private void registerTrayIcon() {
-		final TrayIcon trayIcon;
-
-		if (SystemTray.isSupported()) {
-
-			SystemTray tray = SystemTray.getSystemTray();
-			Image image = Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("/images/stock_search.png"));
-
-			MouseListener mouseListener = new MouseListener() {
-
-				public void mouseClicked(MouseEvent e) {
-					if (!window.isActive()) {
-						window.show();
-						window.activate();
-						window.deiconify();
-						window.highlight();
-					}
-					else {
-						window.hide();
-					}
-				}
-
-				public void mouseEntered(MouseEvent e) {
-				}
-
-				public void mouseExited(MouseEvent e) {
-				}
-
-				public void mousePressed(MouseEvent e) {
-				}
-
-				public void mouseReleased(MouseEvent e) {
-				}
-			};
-
-			ActionListener exitListener = new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.out.println("Exiting...");
-					System.exit(0);
-				}
-			};
-
-			PopupMenu popup = new PopupMenu();
-			MenuItem defaultItem = new MenuItem("Exit");
-			defaultItem.addActionListener(exitListener);
-			popup.add(defaultItem);
-
-			trayIcon = new TrayIcon(image, "JIndex", popup);
-
-			ActionListener actionListener = new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					trayIcon.displayMessage(
-						"Action Event", "An Action Event Has Been Peformed!",
-						TrayIcon.MessageType.INFO);
-				}
-			};
-
-			trayIcon.setImageAutoSize(true);
-			trayIcon.addActionListener(actionListener);
-			trayIcon.addMouseListener(mouseListener);
-
-			try {
-				tray.add(trayIcon);
-			} catch (AWTException e) {
-				System.err.println("TrayIcon could not be added.");
-			}
-
-		}
-		else {
-			// System Tray is not supported
-		}
-	}
+//	private void registerTrayIcon() {
+//		final TrayIcon trayIcon;
+//
+//		if (SystemTray.isSupported()) {
+//
+//			SystemTray tray = SystemTray.getSystemTray();
+//			Image image = Toolkit.getDefaultToolkit().getImage(
+//				this.getClass().getResource("/images/stock_search.png"));
+//
+//			MouseListener mouseListener = new MouseListener() {
+//
+//				public void mouseClicked(MouseEvent e) {
+//					if (!window.isActive()) {
+//						window.show();
+//						window.activate();
+//						window.deiconify();
+//						window.highlight();
+//					}
+//					else {
+//						window.hide();
+//					}
+//				}
+//
+//				public void mouseEntered(MouseEvent e) {
+//				}
+//
+//				public void mouseExited(MouseEvent e) {
+//				}
+//
+//				public void mousePressed(MouseEvent e) {
+//				}
+//
+//				public void mouseReleased(MouseEvent e) {
+//				}
+//			};
+//
+//			ActionListener exitListener = new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					System.out.println("Exiting...");
+//					System.exit(0);
+//				}
+//			};
+//
+//			PopupMenu popup = new PopupMenu();
+//			MenuItem defaultItem = new MenuItem("Exit");
+//			defaultItem.addActionListener(exitListener);
+//			popup.add(defaultItem);
+//
+//			trayIcon = new TrayIcon(image, "JIndex", popup);
+//
+//			ActionListener actionListener = new ActionListener() {
+//				public void actionPerformed(ActionEvent e) {
+//					trayIcon.displayMessage(
+//						"Action Event", "An Action Event Has Been Peformed!",
+//						TrayIcon.MessageType.INFO);
+//				}
+//			};
+//
+//			trayIcon.setImageAutoSize(true);
+//			trayIcon.addActionListener(actionListener);
+//			trayIcon.addMouseListener(mouseListener);
+//
+//			try {
+//				tray.add(trayIcon);
+//			} catch (AWTException e) {
+//				System.err.println("TrayIcon could not be added.");
+//			}
+//
+//		}
+//		else {
+//			// System Tray is not supported
+//		}
+//	}
 
 	public void on_exit_activate() {
 		System.out.println("on_exit_activate");
