@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<project name="JIndex" default="compile">
+
+	<path id="files-classpath">
+	     <fileset dir="libs" >
+        	 <include name="**/*.jar"/>
+	     </fileset>
+	 </path>
+
+
+    <target name="clean" description="remove intermediate files">
+        <delete dir="classes"/>
+    </target>
+    <target name="compile"
+     description="compile the Java source code to class files">
+        <mkdir dir="classes"/>
+        <javac srcdir="." destdir="classes">
+	 <classpath>
+             <path refid="files-classpath" />
+  	</classpath>
+	</javac>
+
+    </target>
+    <target name="jar" depends="compile"
+     description="create a Jar file for the application">
+        <jar destfile="JIndex.jar">
+            <fileset dir="classes" includes="**/*.class"/>
+            <manifest>
+                <attribute name="Main-Class" value="client.JIndexClient"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+ <target name="compile-c"
+     description="compile the c source code">
+        <exec dir="utils/c" executable="make">
+	  <arg line="clean"/>
+	</exec>
+        <exec dir="utils/c" executable="make"/>
+    </target>
+</project>

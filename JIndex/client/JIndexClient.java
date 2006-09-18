@@ -12,15 +12,21 @@ import gui.OpenOfficeDocumentGUI;
 import gui.PDFContentGUI;
 import gui.TomboyDocumentGUI;
 import gui.UnknownfiletypeGUI;
-import gui.trayicon.TrayIconPopupMenu;
 
+import java.awt.AWTException;
+import java.awt.Image;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-
-import javax.swing.ImageIcon;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.StopAnalyzer;
@@ -49,8 +55,6 @@ import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
-import org.jdesktop.jdic.tray.SystemTray;
-import org.jdesktop.jdic.tray.TrayIcon;
 
 import documents.AddressBookDocument;
 import documents.ApplicationDocument;
@@ -70,14 +74,10 @@ public class JIndexClient {
 	private static LibGlade firstApp;
 
 	Window window; // Main window
-    
-	TrayIcon ticon;
-
-	SystemTray trayicon;
 
 	VBox contentpane = null;
 
-    // Tree view
+	// Tree view
 	SearchResultTable resulttable = null;
 
 	TreeView resulttable1 = null;
@@ -94,10 +94,8 @@ public class JIndexClient {
 
 	private AppBar statusbar;
 
-	public JIndexClient() throws FileNotFoundException, GladeXMLException,
-			IOException {
-		InputStream is = this.getClass().getResourceAsStream(
-				"/glade/jindex.glade");
+	public JIndexClient() throws FileNotFoundException, GladeXMLException, IOException {
+		InputStream is = this.getClass().getResourceAsStream("/glade/jindex.glade");
 		firstApp = new LibGlade(is, this, null);
 		window = (Window) firstApp.getWidget("mainwindow");
 		addWindowCloser();
@@ -115,8 +113,7 @@ public class JIndexClient {
 		searchfield.addListener(new KeyListener() {
 
 			public boolean keyEvent(KeyEvent event) {
-				if (event.getKeyval() == 65293
-						&& event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
+				if (event.getKeyval() == 65293 && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
 					doSearchGUI(searchfield.getText());
 					return true;
 				}
@@ -124,43 +121,123 @@ public class JIndexClient {
 			}
 
 		});
-		trayicon = SystemTray.getDefaultSystemTray();
+		/*
+		 * trayicon = SystemTray.getDefaultSystemTray();
+		 * 
+		 * ImageIcon icon = new ImageIcon(this.getClass().getResource( "/images/stock_search.png"));
+		 * 
+		 * ticon = new TrayIcon(icon, "JIndex Desktop Search"); ticon.addBalloonActionListener(new
+		 * ActionListener() {
+		 * 
+		 * public void actionPerformed(ActionEvent e) { System.out.println("Action!!!"); }
+		 * 
+		 * }); ticon.addActionListener(new ActionListener() {
+		 * 
+		 * public void actionPerformed(ActionEvent e) { if (!window.isActive()) { window.show(); }
+		 * else { window.hide(); }
+		 *  }
+		 * 
+		 * }); ticon.setPopupMenu(new TrayIconPopupMenu(firstApp)); ticon.setCaption("JIndex");
+		 * trayicon.addTrayIcon(ticon);
+		 */
 
-		ImageIcon icon = new ImageIcon(this.getClass().getResource(
-				"/images/stock_search.png"));
+		registerTrayIcon();
 
-		ticon = new TrayIcon(icon, "JIndex Desktop Search");
-		ticon.addBalloonActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("Action!!!");
-			}
-
-		});
-		ticon.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent e) {
-				if (!window.isActive()) {
-					window.show();
-				} else {
-					window.hide();
-				}
-
-			}
-
-		});
-		ticon.setPopupMenu(new TrayIconPopupMenu(firstApp));
-		ticon.setCaption("JIndex");
-		trayicon.addTrayIcon(ticon);
-
+		// Java gnome egg tray...
+		// StatusIcon si;
+		// si = new StatusIcon("statusicon/jg.png");
+		// si.setTooltip("Set the tooltip to change this text");
+		// si.addListener(new StatusIconListener() {
+		// public void statusIconEvent(StatusIconEvent e) {
+		// if (e.isOfType(StatusIconEvent.Type.ACTIVATE)) {
+		// System.out.println("activate");
+		// }
+		// if (e.isOfType(StatusIconEvent.Type.POPUP_MENU)) {
+		// System.out.println("popup menu");
+		// }
+		// }
+		// });
 		// StatusIcon statusicon = new
 		// StatusIcon(GtkStockItem.DIALOG_AUTHENTICATION);
 		// statusicon.setVisible(true);
 
 		IndexReader reader = IndexReader.open(INDEXFILE);
-		System.out.println("Number of documents in index is "
-				+ reader.numDocs());
+		System.out.println("Number of documents in index is " + reader.numDocs());
 		reader.close();
+	}
+
+	private void registerTrayIcon() {
+		final TrayIcon trayIcon;
+
+		if (SystemTray.isSupported()) {
+
+			SystemTray tray = SystemTray.getSystemTray();
+			Image image = Toolkit.getDefaultToolkit().getImage(
+				this.getClass().getResource("/images/stock_search.png"));
+
+			MouseListener mouseListener = new MouseListener() {
+
+				public void mouseClicked(MouseEvent e) {
+					if (!window.isActive()) {
+						window.show();
+						window.activate();
+						window.deiconify();
+						window.highlight();
+					}
+					else {
+						window.hide();
+					}
+				}
+
+				public void mouseEntered(MouseEvent e) {
+				}
+
+				public void mouseExited(MouseEvent e) {
+				}
+
+				public void mousePressed(MouseEvent e) {
+				}
+
+				public void mouseReleased(MouseEvent e) {
+				}
+			};
+
+			ActionListener exitListener = new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.out.println("Exiting...");
+					System.exit(0);
+				}
+			};
+
+			PopupMenu popup = new PopupMenu();
+			MenuItem defaultItem = new MenuItem("Exit");
+			defaultItem.addActionListener(exitListener);
+			popup.add(defaultItem);
+
+			trayIcon = new TrayIcon(image, "JIndex", popup);
+
+			ActionListener actionListener = new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					trayIcon.displayMessage(
+						"Action Event", "An Action Event Has Been Peformed!",
+						TrayIcon.MessageType.INFO);
+				}
+			};
+
+			trayIcon.setImageAutoSize(true);
+			trayIcon.addActionListener(actionListener);
+			trayIcon.addMouseListener(mouseListener);
+
+			try {
+				tray.add(trayIcon);
+			} catch (AWTException e) {
+				System.err.println("TrayIcon could not be added.");
+			}
+
+		}
+		else {
+			// System Tray is not supported
+		}
 	}
 
 	public void on_exit_activate() {
@@ -216,12 +293,10 @@ public class JIndexClient {
 				fields = concatArrays(AddressBookDocument.fields, fields);
 				fields = concatArrays(ApplicationDocument.fields, fields);
 
-				query = MultiFieldQueryParser.parse(searchquery, fields,
-						analyzer);
+				query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
 				// query = QueryParser.parse(searchquery, "contents", analyzer);
 
-				System.out.println("Searching for: "
-						+ query.toString("contents"));
+				System.out.println("Searching for: " + query.toString("contents"));
 
 				Hits hits = null;
 
@@ -230,58 +305,64 @@ public class JIndexClient {
 				for (int i = 0; i < hits.length(); i++) {
 					Document doc = null;
 					doc = hits.doc(i);
-					 System.out.println("Found: " + doc.get("type"));
+					System.out.println("Found: " + doc.get("type"));
 					if (doc.get("type") != null) {
 						if (doc.get("type").equals("text/gaimlog")) {
 							GaimLogGUI gui = new GaimLogGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("text/tomboy")) {
+						}
+						else if (doc.get("type").equals("text/tomboy")) {
 							TomboyDocumentGUI gui = new TomboyDocumentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("audio/mp3")) {
+						}
+						else if (doc.get("type").equals("audio/mp3")) {
 							MP3LogGUI gui = new MP3LogGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("image")) {
+						}
+						else if (doc.get("type").equals("image")) {
 							System.out.println("Added image");
 							ImageContentGUI gui = new ImageContentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("application/pdf")) {
+						}
+						else if (doc.get("type").equals("application/pdf")) {
 							PDFContentGUI gui = new PDFContentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals("text/x-java")) {
+						}
+						else if (doc.get("type").equals("text/x-java")) {
 							System.out.println("FOUND JAVA FILE");
 							JavaDocumentGUI gui = new JavaDocumentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equals(
-								"application/vnd.sun.xml.writer")) {
-							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(
-									doc);
+						}
+						else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
+							OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(doc);
 							resulttable.addToTable(gui);
-						} else if(doc.get("type").equals("application/vnd.ms-excel")) {
-							ExcelDocumentGUI gui = new ExcelDocumentGUI(
-									doc);
+						}
+						else if (doc.get("type").equals("application/vnd.ms-excel")) {
+							ExcelDocumentGUI gui = new ExcelDocumentGUI(doc);
 							resulttable.addToTable(gui);
-							
-						}if (doc.get("type").equals("Application")) {
+
+						}
+						if (doc.get("type").equals("Application")) {
 							ApplicationDocumentGUI gui = new ApplicationDocumentGUI(doc);
 							resulttable.addToTable(gui);
-						} 
+						}
 						else if (doc.get("type").equals("mail")) {
 							MailGUI gui = new MailGUI(doc);
 							resulttable.addToTable(gui);
-						} else if (doc.get("type").equalsIgnoreCase(
-								"EvolutionAddressBook")) {
-							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(
-									doc);
+						}
+						else if (doc.get("type").equalsIgnoreCase("EvolutionAddressBook")) {
+							EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(doc);
 							resulttable.addToTable(gui);
 							System.out.println("Found EvolutionAddressBook");
-						} else {
+						}
+						else {
 							System.out.println("found unknown file");
 							UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
 							resulttable.addToTable(gui);
 						}
 
-					} else {
+					}
+					else {
 						System.err.println("Document type is null");
 						System.err.println(doc);
 					}

@@ -9,6 +9,8 @@ import java.io.OutputStream;
 
 import org.apache.log4j.Logger;
 
+import utils.c.libJindex_new;
+
 public class FileUtility {
 	static Logger log  = Logger.getLogger(FileUtility.class);
 	static {
@@ -17,9 +19,11 @@ public class FileUtility {
 	}
 	public FileUtility() {
 		System.out.println("loading library");
-		System.loadLibrary("JIndex");
+		System.loadLibrary("JIndex_new");
 	}
-	public native String getMimeType(String file);
+	public static String getMimeType(String file) {
+		return libJindex_new.getMimeType(file);
+	}
 	public static native String getIconFromMimeType(String mimetype);
 	
 	public static byte[] getBytesFromFile(File file) throws IOException {

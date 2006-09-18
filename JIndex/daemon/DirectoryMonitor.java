@@ -27,7 +27,7 @@ public class DirectoryMonitor implements Runnable {
 	// public class DirectoryMonitor extends Thread {
 	static Logger log = Logger.getLogger(DirectoryMonitor.class);
 
-	static List filequeue = new LinkedList();
+	static List<File> filequeue = new LinkedList<File>();
 
 	private volatile static Thread thread = null;
 
@@ -37,19 +37,19 @@ public class DirectoryMonitor implements Runnable {
 
 	private static FAMConnection fam = null;
 
-	private static Map monitorlist = null;
+	private static Map<String, FAMRequest> monitorlist = null;
 
 	private static IndexFiles indexThread;
 
-	public static List updateIndex(List filelist) {
-		List completefileslist = new LinkedList();
+	public static List<File> updateIndex(List<File> filelist) {
+		List<File> completefileslist = new LinkedList<File>();
 		for (int j = 0; j < filelist.size(); j++) {
-			File file = (File) filelist.get(j);
+			File file = filelist.get(j);
 			if (file.canRead()) {
 				if (file.isDirectory()) {
 					String[] files = file.list();
 					if (files != null) {
-						LinkedList tmpfiles = new LinkedList();
+						LinkedList<File> tmpfiles = new LinkedList<File>();
 						for (int i = 0; i < files.length; i++) {
 							tmpfiles.add(new File(files[i]));
 						}
@@ -75,7 +75,7 @@ public class DirectoryMonitor implements Runnable {
 		// throw new IOException(path + ": not a directory");
 
 		// this.path = directory.getCanonicalPath();
-		monitorlist = new IdentityHashMap();
+		monitorlist = new IdentityHashMap<String, FAMRequest>();
 	}
 
 	public void start() {
@@ -183,9 +183,9 @@ public class DirectoryMonitor implements Runnable {
 	}
 
 	public boolean addDirectoryToMonitor(String path) {
-		Iterator ite = monitorlist.keySet().iterator();
+		Iterator<String> ite = monitorlist.keySet().iterator();
 		while (ite.hasNext()) {
-			String name = (String) ite.next();
+			String name = ite.next();
 			if (name.equals(path))
 				return false;
 		}
@@ -202,11 +202,11 @@ public class DirectoryMonitor implements Runnable {
 
 	public boolean removeDirectoryToMonitor(String path) {
 		log.debug("Delete dir: " + path);
-		Iterator ite = monitorlist.keySet().iterator();
+		Iterator<String> ite = monitorlist.keySet().iterator();
 		while (ite.hasNext()) {
-			String name = (String) ite.next();
+			String name = ite.next();
 			if (name.equals(path)) {
-				FAMRequest req = (FAMRequest) monitorlist.get(name);
+				FAMRequest req = monitorlist.get(name);
 				req.cancelMonitor();
 				return true;
 			}
@@ -225,12 +225,12 @@ public class DirectoryMonitor implements Runnable {
 				setPriority(8);
 				setDaemon(true);
 
-				Set set = monitorlist.keySet();
-				Iterator ite = set.iterator();
+				Set<String> set = monitorlist.keySet();
+				Iterator<String> ite = set.iterator();
 				while (ite.hasNext()) {
-					String watchpath = (String) ite.next();
+					String watchpath = ite.next();
 					log.debug("Shutting down watch for: " + watchpath);
-					FAMRequest famreq = (FAMRequest) monitorlist.get(watchpath);
+					FAMRequest famreq = monitorlist.get(watchpath);
 					famreq.cancelMonitor();
 				}
 				fam.close();
@@ -262,10 +262,10 @@ public class DirectoryMonitor implements Runnable {
 
 	public static synchronized void appendToQueue(String inputLine) {
 		File appendfile = new File(inputLine);
-		Iterator ite = filequeue.iterator();
+		Iterator<File> ite = filequeue.iterator();
 		boolean added = false;
 		while (ite.hasNext()) {
-			File file = (File) ite.next();
+			File file = ite.next();
 			if (file.getAbsolutePath().equals(appendfile.getAbsolutePath())) {
 				added = true;
 			}
@@ -277,8 +277,8 @@ public class DirectoryMonitor implements Runnable {
 	private synchronized static void addTofileQueue(File file) {
 		filequeue.add(file);
 	}
-	public static synchronized List getFileFromQueue() {
-		List value = new LinkedList();
+	public static synchronized List<File> getFileFromQueue() {
+		List<File> value = new LinkedList<File>();
 		value.addAll(filequeue);
 		filequeue.clear();
 		return value;

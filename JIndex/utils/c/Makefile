@@ -5,3 +5,7 @@ CFLAGS=`pkg-config --cflags gtk+-2.0 libgnomemm-2.6 libgnome-2.0 gnome-vfs-2.0` 
 LDFLAGS=`pkg-config --libs  gtk+-2.0 libgnomemm-2.6 libgnome-2.0 gnome-vfs-2.0` -shared
 #LDFLAGS=`pkg-config --libs  gtk+-2.0 libgnomemm-2.6 libgnome-2.0 gnome-vfs-2.0`
 all: libJIndex test
+
+clean: 
+	'rm' *.o
+	'rm' *.so
