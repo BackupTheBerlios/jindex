@@ -1,4 +1,4 @@
- %module libJindex_new
+ %module libJIndex_new
  %{
  /* Put header files here or function declarations like below */
  extern char *getMimeType(char *filename);

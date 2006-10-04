@@ -9,20 +9,18 @@ import java.io.OutputStream;
 
 import org.apache.log4j.Logger;
 
-import utils.c.libJindex_new;
+import utils.c.libJIndex_new;
+
 
 public class FileUtility {
 	static Logger log  = Logger.getLogger(FileUtility.class);
-	static {
-//		log.debug("loading library");
-//		System.loadLibrary("JIndex");
-	}
+
 	public FileUtility() {
-		log.debug("loading library");
+		System.out.println("loading library");
 		System.loadLibrary("JIndex_new");
 	}
 	public static String getMimeType(String file) {
-		return libJindex_new.getMimeType(file);
+		return libJIndex_new.getMimeType(file);
 	}
 	public static native String getIconFromMimeType(String mimetype);
 	

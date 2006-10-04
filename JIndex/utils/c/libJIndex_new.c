@@ -9,23 +9,23 @@
 https://stage.maemo.org/svn/maemo/projects/haf/trunk/osso-gnome-vfs2/test/
 
 */
-char *getMimeType(char *filename) {
-    char *result;
-    GnomeVFSURI *uri;
-    char *uri_string;
-    char *path;
-
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getMimeType
+  (JNIEnv *env, jclass class, jstring filename) {
+    const gchar *result;
+	const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
     gboolean started = gnome_vfs_init ();
 	if(started) {
 		g_printf("Started\n");
-		g_printf("Trying to get mimetype for: %s\n",filename);
-		result = gnome_vfs_get_mime_type(filename);
+		g_printf("Trying to get mimetype for: %s\n",afile_g);
+		result = gnome_vfs_get_mime_type(afile_g);
 		g_printf("got result\n");
 		g_printf("about to shutdown\n"); 
 //		gnome_vfs_shutdown ();
 		g_printf("Shutdown completed\n");   
 	}
-    return result;
+    
+      (*env)->ReleaseStringUTFChars(env, filename, afile_g);
+    return (*env)->NewStringUTF(env, result);
 }
 
 char* getIconFromMimeType (char *mimetype) {
@@ -53,7 +53,3 @@ char* getIconFromMimeType (char *mimetype) {
 */
 	return NULL;
 }
-
-int
-main (int argc, char **argv)
-{ }
