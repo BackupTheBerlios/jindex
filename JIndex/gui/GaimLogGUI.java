@@ -6,7 +6,10 @@ package gui;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import documents.GaimLogDocument;
 
 import utils.FileUtility;
 
@@ -16,7 +19,7 @@ import utils.FileUtility;
  */
 public class GaimLogGUI extends MainContentsGUI {
 	Document doc;
-
+	Logger log = Logger.getLogger(GaimLogGUI.class);
 	public GaimLogGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
@@ -33,7 +36,7 @@ public class GaimLogGUI extends MainContentsGUI {
 		}
 		
 		if(outicon == null) {
-			System.out.println("Getting image via protocal '"+doc.get("protocol")+"'.");
+			log.debug("Getting image via protocal '"+doc.get("protocol")+"'.");
 			icon = new File(".").getAbsolutePath() + "/images/gaim/im-" + doc.get("protocol") + ".png";
 			try {
 				outicon = FileUtility.getBytesFromFile(new File(icon));

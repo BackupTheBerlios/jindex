@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.apache.log4j.Logger;
 import org.gnu.gdk.Pixbuf;
 import org.gnu.gdk.PixbufLoader;
 import org.gnu.glib.Handle;
@@ -26,6 +27,7 @@ import org.gnu.gtk.event.TreeViewEvent;
 import org.gnu.gtk.event.TreeViewListener;
 
 public class SearchResultTable extends TreeView implements TreeViewListener {
+	Logger log = Logger.getLogger(SearchResultTable.class);
 	private DataColumnPixbuf ColThumbImage;
 	private DataColumnString ColData;
 	private DataColumnObject ColObj;
@@ -106,7 +108,7 @@ public class SearchResultTable extends TreeView implements TreeViewListener {
 				TreeIter item = ls.getIter(tp[0].toString());
 				MainContentsGUI command = (MainContentsGUI) ls.getValue(item, ColObj);
 				try {
-					System.out.println(command);
+					log.debug(command);
 					Process p = Runtime.getRuntime().exec(command.getOpenAction());
 					char[] error = new char[2048];
 					InputStreamReader isr = new InputStreamReader(p.getErrorStream());

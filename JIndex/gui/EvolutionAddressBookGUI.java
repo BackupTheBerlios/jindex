@@ -11,7 +11,10 @@ import java.io.UnsupportedEncodingException;
 import javax.mail.internet.MimeUtility;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import documents.GaimLogDocument;
 
 import utils.FileUtility;
 import utils.JStringUtils;
@@ -21,7 +24,7 @@ import utils.JStringUtils;
  */
 public class EvolutionAddressBookGUI extends MainContentsGUI {
 	Document doc;
-
+	Logger log = Logger.getLogger(EvolutionAddressBookGUI.class);
 	public EvolutionAddressBookGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
@@ -52,7 +55,7 @@ public class EvolutionAddressBookGUI extends MainContentsGUI {
 
 		String code = doc.get("photo");
 		if (code != null  && !"".equals(code)) {
-			System.out.println(code);
+			log.debug(code);
 			byte[] image = b64.decode(code.getBytes());
 			return image;
 		} else {

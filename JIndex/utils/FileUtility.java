@@ -14,11 +14,11 @@ import utils.c.libJindex_new;
 public class FileUtility {
 	static Logger log  = Logger.getLogger(FileUtility.class);
 	static {
-//		System.out.println("loading library");
+//		log.debug("loading library");
 //		System.loadLibrary("JIndex");
 	}
 	public FileUtility() {
-		System.out.println("loading library");
+		log.debug("loading library");
 		System.loadLibrary("JIndex_new");
 	}
 	public static String getMimeType(String file) {

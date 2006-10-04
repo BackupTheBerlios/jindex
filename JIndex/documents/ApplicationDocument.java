@@ -32,7 +32,7 @@ public class ApplicationDocument implements SearchDocument {
 		doc.add(Field.Text("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name"))));
 		doc.add(Field.Text("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec"))));
 		doc.add(Field.Text("comment",StringUtils.trimToEmpty(prop.getProperty("Comment"))));
-		System.out.println(StringUtils.trimToEmpty(prop.getProperty("Icon")));
+		log.debug(StringUtils.trimToEmpty(prop.getProperty("Icon")));
 		doc.add(Field.Keyword("icon",StringUtils.trimToEmpty(prop.getProperty("Icon"))));
 		doc.add(Field.Keyword("path", f.getPath()));
 		String path = f.getParent();
@@ -46,20 +46,9 @@ public class ApplicationDocument implements SearchDocument {
 
 		return doc;
 	}
-	public static void main(String argv[]) {
-		try {
-			Document(new File("/usr/share/applications/gthumb.desktop"));
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	private ApplicationDocument() {
-	}
-
+	
     public String[] getSearchFields() {
-        
-        System.out.println(fields);
+        log.debug(fields);
         return fields;
     }
 }

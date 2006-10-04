@@ -218,8 +218,6 @@ public class DirectoryMonitor implements Runnable {
 	 * 
 	 */
 	public static void main(String[] args) {
-		BasicConfigurator.configure();
-
 		Runtime.getRuntime().addShutdownHook(new Thread() {
 			public void start() {
 				setPriority(8);
@@ -240,7 +238,7 @@ public class DirectoryMonitor implements Runnable {
 				thread = null;
 				moribund.interrupt();
 				log.debug("Closing down indexer..");
-				System.out.println("Added shutdownhook in start");
+				log.debug("Added shutdownhook in start");
 				System.out.flush();
 			}
 		});

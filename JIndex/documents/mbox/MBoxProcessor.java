@@ -17,12 +17,16 @@ import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.URLName;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 
+import documents.GaimLogDocument;
+
 public class MBoxProcessor {
+	static Logger log = Logger.getLogger(MBoxProcessor.class);
 	public static void ProcessMBoxFile(File f, IndexWriter writer) throws java.io.FileNotFoundException {
 
 		// Add the path of the file as a field named "path". Use a Text field,
@@ -35,7 +39,7 @@ public class MBoxProcessor {
 
 		for (int i = 0; i < providers.length; i++) {
 			Provider p = providers[i];
-			System.out.println(p.getProtocol());
+			log.debug(p.getProtocol());
 			if (p.getProtocol().equals("mbox"))
 				provider = p;
 		}
@@ -46,24 +50,24 @@ public class MBoxProcessor {
 			URLName url = new URLName("mbox:///home/sorenm/.evolution/mail/local/Sent");
 			Store store = session.getStore(url);
 			Folder root = store.getDefaultFolder();
-			System.out.println("url open");
+			log.debug("url open");
 			root.open(Folder.READ_ONLY);
-				System.out.println("url open done");
+				log.debug("url open done");
 			s = session.getStore(session.getProvider("mbox"));
 			
-			System.out.println("Getting mbox: " + f.getPath());
+			log.debug("Getting mbox: " + f.getPath());
 			s.connect();
 			root = s.getFolder(f.getPath());
 
 			// root.addMessageChangedListener(this);
-			System.out.println("Got Folder");
-			System.out.println(root.getFullName());
+			log.debug("Got Folder");
+			log.debug(root.getFullName());
 			root.open(Folder.READ_ONLY);
 			// root.
-			System.out.println("Opened");
+			log.debug("Opened");
 
 			Message[] messages = root.getMessages();
-			System.out.println("Found " + root.getMessageCount() + " messages..");
+			log.debug("Found " + root.getMessageCount() + " messages..");
 			for (int i = 1; i < messages.length; i++) {
 				// for (int i = 1; i < root.getMessageCount(); i++) {
 
@@ -76,7 +80,7 @@ public class MBoxProcessor {
 					from = addr[j] + " ";
 				}
 
-				System.out.println("From = " + from);
+				log.debug("From = " + from);
 				// make a new, empty document
 				Document doc = new Document();
 				doc.add(Field.Keyword("path", f.getPath()));

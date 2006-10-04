@@ -2,41 +2,67 @@
 <project name="JIndex" default="compile">
 
 	<path id="files-classpath">
-	     <fileset dir="libs" >
-        	 <include name="**/*.jar"/>
-	     </fileset>
-	 </path>
+		<fileset dir="libs">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
 
 
-    <target name="clean" description="remove intermediate files">
-        <delete dir="classes"/>
-    </target>
-    <target name="compile"
-     description="compile the Java source code to class files">
-        <mkdir dir="classes"/>
-        <javac srcdir="." destdir="classes">
-	 <classpath>
-             <path refid="files-classpath" />
-  	</classpath>
-	</javac>
+	<target name="clean" description="remove intermediate files">
+		<delete dir="classes" />
+	</target>
+	<target name="compile" description="compile the Java source code to class files">
+		<mkdir dir="classes" />
+		<javac srcdir="." destdir="classes">
+			<classpath>
+				<path refid="files-classpath" />
+			</classpath>
+		</javac>
 
-    </target>
-    <target name="jar" depends="compile"
-     description="create a Jar file for the application">
-        <jar destfile="JIndex.jar">
-            <fileset dir="classes" includes="**/*.class"/>
-            <manifest>
-                <attribute name="Main-Class" value="client.JIndexClient"/>
-            </manifest>
-        </jar>
-    </target>
+	</target>
+	<target name="jar" depends="compile" description="create a Jar file for the application">
+		<jar destfile="JIndex.jar">
+			<fileset dir="classes" includes="**/*.class" />
+			<manifest>
+				<attribute name="Main-Class" value="client.JIndexClient" />
+			</manifest>
+		</jar>
+	</target>
 
 
- <target name="compile-c"
-     description="compile the c source code">
+	<property name="compiler" value="gcc" />
+	<property name="debug" value="true" />
+	<property name="src.dir" value="./utils/c" />
+	<property name="build.obj.dir" value="utils/c/build" />
+    <property name="include.dir" value="./utils/c" />
+
+	<taskdef name="cc" classname="net.sf.antcontrib.cpptasks.CCTask" />
+	<typedef name="linker" classname="net.sf.antcontrib.cpptasks.LinkerDef" />
+	<typedef name="compiler" classname="net.sf.antcontrib.cpptasks.CompilerDef" />
+	<taskdef resource="cpptasks.tasks" />
+
+	<target name="compile-c" description="compile the c source code">
+
+
+		<mkdir dir="${build.obj.dir}" />
+
+		<cc debug="${debug}" link="shared" objdir="${build.obj.dir}" outfile="${build.obj.dir}/JIndex.so">
+
+			<compiler id="gcc" name="gcc">
+				<compilerarg value="-O" unless="is-debug" />
+				<fileset dir="${src.dir}" includes="*.c" />
+			</compiler>
+			<libset dir="/usr/lib64" libs="gtk"/>
+			<includepath description="Test">
+			<path  path="/usr/include/gtk-2.0"/>
+				</includepath>
+		</cc>
+
+		<!--
         <exec dir="utils/c" executable="make">
 	  <arg line="clean"/>
 	</exec>
         <exec dir="utils/c" executable="make"/>
-    </target>
+	-->
+	</target>
 </project>

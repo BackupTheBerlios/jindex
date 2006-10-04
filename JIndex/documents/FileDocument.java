@@ -6,11 +6,13 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 public class FileDocument implements SearchDocument {
+	Logger log = Logger.getLogger(FileDocument.class);
     public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 
@@ -41,7 +43,7 @@ public class FileDocument implements SearchDocument {
 
     public String[] getSearchFields() {
         
-        System.out.println(fields);
+        log.debug(fields);
         return fields;
     }
 }

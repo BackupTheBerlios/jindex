@@ -10,7 +10,10 @@ import java.io.UnsupportedEncodingException;
 
 import javax.mail.internet.MimeUtility;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import documents.GaimLogDocument;
 
 import utils.FileUtility;
 import utils.JStringUtils;
@@ -20,7 +23,7 @@ import utils.JStringUtils;
  */
 public class MailGUI extends MainContentsGUI {
 	Document doc;
-
+	Logger log = Logger.getLogger(MailGUI.class);
 	public MailGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
@@ -30,7 +33,7 @@ public class MailGUI extends MainContentsGUI {
 
 	public String getTextContent() {
 		String textstring = "Wrong mimeencoding";
-		try {System.out.println(MimeUtility.decodeText(doc.get("from")));
+		try {log.debug(MimeUtility.decodeText(doc.get("from")));
 			String from = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("from").trim()));
 			String date = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("date").trim()));
 			String subject = JStringUtils.encodeXMLEntities(MimeUtility.decodeText(doc.get("subject")));

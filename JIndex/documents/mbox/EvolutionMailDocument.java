@@ -10,12 +10,16 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
+
+import documents.GaimLogDocument;
 
 import utils.LuceneUtility;
 
 public class EvolutionMailDocument {
+	static Logger log = Logger.getLogger(EvolutionMailDocument.class);
 	public static String[] fields = { "path", "type", "date", "from",
 			"subject", "mailcontents" };
 
@@ -36,7 +40,7 @@ public class EvolutionMailDocument {
 				if (str.startsWith("From ")) {
 					count++;
 					if (count > 1) {
-						// System.out.println(mail);
+						// log.debug(mail);
 						doc = new Document();
 						doc.add(Field.Text("type", "mail"));
 						doc.add(Field.Keyword("path", inboxfile
@@ -66,7 +70,7 @@ public class EvolutionMailDocument {
 //					st.nextToken();
 //					st.nextToken();
 //					String host = st.nextToken();
-//					System.out.println(host);
+//					log.debug(host);
 //					mail.addReceived(host);
 
 				} else if (str.startsWith("To:")) {
@@ -84,13 +88,13 @@ public class EvolutionMailDocument {
 				} else {
 					// msg.append(str);
 				}
-				// System.out.println(msg.length());
+				// log.debug(msg.length());
 
 			}
 			in.close();
 			LuceneUtility.removeEntry(inboxfile.getAbsolutePath());
 			LuceneUtility.addDocuments(docs);
-			System.out.println("Done");
+			log.debug("Done");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -102,14 +106,14 @@ public class EvolutionMailDocument {
 			throws java.io.IOException {
 		// Send the SMTP command
 		if (s != null) {
-			System.out.println("sending: " + s);
+			log.debug("sending: " + s);
 			out.print(s + "\r\n");
 			out.flush();
 		}
 		// Wait for the response
 		String line = in.readLine();
 		if (line != null) {
-			System.out.println("Answer: " + line);
+			log.debug("Answer: " + line);
 		}
 
 	}

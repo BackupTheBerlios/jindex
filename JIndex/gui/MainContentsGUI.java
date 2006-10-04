@@ -4,13 +4,16 @@
 package gui;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import documents.GaimLogDocument;
 
 import utils.FileUtility;
 
 public abstract class MainContentsGUI implements MainGUIInterface {
 	private String openAction;
-
+	Logger log = Logger.getLogger(MainContentsGUI.class);
 	Document maindoc = null;
 
 	public MainContentsGUI() {
@@ -37,7 +40,7 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 			String path = FileUtility.getIconFromMimeType(type);
 			type = type = StringUtils.replace(type, "/", "-");
 			if (path != null) {
-				System.out.println("Special path: " + path);
+				log.debug("Special path: " + path);
 				return FileUtility.getIcon(path);
 			}
 			return FileUtility.getIcon("/images/icon_missing.png");

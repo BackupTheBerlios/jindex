@@ -44,11 +44,11 @@ class IndexFiles extends Thread {
 			if (allreadyIndexedFiles == null)
 				allreadyIndexedFiles = new ArrayList();
 			else {
-				System.out.println("We got old files...");
+				log.debug("We got old files...");
 				Iterator ite = allreadyIndexedFiles.iterator();
 				while(ite.hasNext()) {
 					JFile obj = (JFile)ite.next();
-					System.out.println("Old filename: "+obj.getFilename());
+					log.debug("Old filename: "+obj.getFilename());
 				}
 				
 			}
@@ -61,14 +61,14 @@ class IndexFiles extends Thread {
 							indexDocs(updateIndex(files));
 						}
 					} catch (InterruptedException e) {
-						System.out.println("Shutting down...");
+						log.debug("Shutting down...");
 						break;
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
 				}
 			} finally {
-				System.out.println("We write objects");
+				log.debug("We write objects");
 				writeObject(allreadyIndexedFiles);
 			}
 		} catch (IOException e) {
@@ -94,7 +94,7 @@ class IndexFiles extends Thread {
 
 			log.debug("Getting mimetype for "+"file://"+file.getAbsolutePath());
 			String mimetype = new FileUtility().getMimeType("file://"+file.getAbsolutePath());
-			System.out.println("Mimetype: "+mimetype);
+			log.debug("Mimetype: "+mimetype);
 			if (mimetype != null) {
 				if (mimetype.equals("audio/mpeg")) {
 					LuceneUtility.addDocument(MP3Document.Document(file,  mimetype));
@@ -128,19 +128,19 @@ class IndexFiles extends Thread {
 				}
 
 				else if (file.getAbsolutePath().indexOf(".gaim/logs") > 0) {
-					// System.out.println("adding gaim log file"
+					// log.debug("adding gaim log file"
 					// +
 					// file);
 					LuceneUtility.addDocument(GaimLogDocument.Document(file));
 				} else if (file.getAbsolutePath().indexOf("/.tomboy/") > 0) {
 					LuceneUtility.addDocument(TomboyDocument.Document(file));
 				} else {
-					// System.out.println("adding as normal file
+					// log.debug("adding as normal file
 					// with NO ile desc" + file);
 					// writer.addDocument(FileDocument.Document(file));
 				}
 			} else {
-				System.out.println("Skipping unknown file with file desc" + file);
+				log.debug("Skipping unknown file with file desc" + file);
 				// writer.addDocument(FileDocument.Document(file));
 			}
 			// }
@@ -189,7 +189,7 @@ class IndexFiles extends Thread {
 			if (tmp.getFilename().equals(file.getFilename())) {
 				allreadyIndexedFiles.remove(i);
 				if (tmp.getLastmodified() != file.getLastmodified()) {
-					System.out.println("File was modified: " + tmp.getLastmodified() + " != " + file.getLastmodified());
+					log.debug("File was modified: " + tmp.getLastmodified() + " != " + file.getLastmodified());
 					return true;
 				} 
 				return false;

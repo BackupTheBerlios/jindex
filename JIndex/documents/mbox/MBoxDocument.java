@@ -17,11 +17,15 @@ import javax.mail.Provider;
 import javax.mail.Session;
 import javax.mail.Store;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
+import documents.GaimLogDocument;
+
 public class MBoxDocument {
+	static Logger log = Logger.getLogger(MBoxDocument.class);
 	public static Document Document(File f) throws java.io.FileNotFoundException {
 
 		Document doc = new Document();
@@ -60,7 +64,7 @@ public class MBoxDocument {
 			// process messages
 			Message message = messages[i];
 			Address[] addr =message.getFrom();
-			System.out.println(addr[0]);
+			log.debug(addr[0]);
 		}
 
 		} catch (MessagingException e1) {

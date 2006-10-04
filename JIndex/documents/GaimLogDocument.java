@@ -13,6 +13,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Field;
 import org.apache.xpath.XPathAPI;
@@ -24,6 +25,7 @@ import org.xml.sax.SAXException;
 import utils.LuceneUtility;
 
 public class GaimLogDocument implements SearchDocument {
+	static Logger log = Logger.getLogger(GaimLogDocument.class);
 	public static String[] fields = { "path", "absolutepath", "protocol", "startdate", "starttime", "endtime", "from", "alias", "filecontents" };
 
 	public static org.apache.lucene.document.Document Document(File f) {
@@ -60,7 +62,7 @@ public class GaimLogDocument implements SearchDocument {
 			doc.add(Field.Text("url", "url data"));
 			doc.add(Field.Text("type", "text/gaimlog"));
 			String protocol = getProtocol(line);
-			System.out.println("gaim protocol:" + protocol);
+			log.debug("gaim protocol:" + protocol);
 			doc.add(Field.Text("protocol", protocol));
 
 			String starttime[] = getStartTimes(line);

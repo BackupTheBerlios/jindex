@@ -9,13 +9,17 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.SimpleAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 
+import documents.GaimLogDocument;
+
 public class LuceneUtility {
+	static final Logger log = Logger.getLogger(LuceneUtility.class);
 	private final static String HOME = System.getProperty("HOME");
 
 	public static String getText(Document doc, String name) {
@@ -51,10 +55,10 @@ public class LuceneUtility {
 		try {
 			IndexReader reader = IndexReader.open(HOME + "/index");
 			try {
-				System.out.println("Index contains : " + reader.numDocs() + " documents");
-				System.out.println("Removing old entry: " + filename);
+				log.debug("Index contains : " + reader.numDocs() + " documents");
+				log.debug("Removing old entry: " + filename);
 				int delcounter = reader.delete(new Term("path", filename));
-				System.out.println("deleted " + delcounter + " documents");
+				log.debug("deleted " + delcounter + " documents");
 			} catch (FileNotFoundException fe) {
 				// skip might be the first run, so no index does exsits..
 			} catch (IOException e) {
@@ -82,7 +86,7 @@ public class LuceneUtility {
 				if (writer != null) {
 					writer.addDocument(document);
 				} else {
-					System.out.println("Writer is null, this is vey bad...");
+					log.debug("Writer is null, this is vey bad...");
 				}
 			} finally {
 				if (writer != null)
@@ -104,7 +108,7 @@ public class LuceneUtility {
 						writer.addDocument(newdoc);
 					}
 				} else {
-					System.out.println("Writer is null, this is vey bad...");
+					log.debug("Writer is null, this is vey bad...");
 				}
 			} finally {
 				writer.optimize();

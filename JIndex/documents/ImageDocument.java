@@ -46,11 +46,11 @@ public class ImageDocument implements SearchDocument {
 			Directory iptcDirectory = metadata.getDirectory(IptcDirectory.class);
 			String caption = iptcDirectory.getString(IptcDirectory.TAG_CAPTION);
 
-			System.out.println(cameraMake);
-			System.out.println(cameraModel);
-			System.out.println(artist);
-			System.out.println(created);
-			System.out.println(orientation);
+			log.debug(cameraMake);
+			log.debug(cameraModel);
+			log.debug(artist);
+			log.debug(created);
+			log.debug(orientation);
 			*/
 			doc.add(Field.Keyword("path", f.getPath()));
 			doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
@@ -112,19 +112,6 @@ public class ImageDocument implements SearchDocument {
 		graphics2D.drawImage(image, 0, 0, thumbWidth, thumbHeight, null);
 		// save thumbnail image to OUTFILE
 		ByteArrayOutputStream bout = new ByteArrayOutputStream();
-
-		// ImageWriter encoder =
-		// (ImageWriter)ImageIO.getImageWritersByFormatName("JPEG").next();
-		// ImageWriteParam param = new ImageWriteParam(null);
-		//
-		// param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-		// param.setCompressionQuality(0.85f);;
-
-		// encoder.setOutput(bout);
-		// encoder.write((IIOMetadata) null, new IIOImage(image,null,null),
-		// param);
-		//
-		// bout.close();
 
 		JPEGImageEncoder encoder1 = JPEGCodec.createJPEGEncoder(bout);
 		JPEGEncodeParam param1 = encoder1.getDefaultJPEGEncodeParam(thumbImage);

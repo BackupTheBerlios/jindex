@@ -10,7 +10,10 @@ import java.io.File;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
+
+import documents.GaimLogDocument;
 
 import utils.FileUtility;
 import utils.JStringUtils;
@@ -19,6 +22,7 @@ import utils.JStringUtils;
  * @author sorenm
  */
 public class ApplicationDocumentGUI extends MainContentsGUI {
+	Logger log = Logger.getLogger(ApplicationDocumentGUI.class);
 	Document doc;
 	public ApplicationDocumentGUI(Document _doc) {
 		super(_doc);
@@ -49,7 +53,7 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 
 	public byte[] getIcon() {
 		String icon = doc.get("icon");
-		System.out.println("Loading icon :"+icon);
+		log.debug("Loading icon :"+icon);
 		if (icon != null) {
 				if (new File(icon).exists())
 					return FileUtility.getExternalIcon(icon);

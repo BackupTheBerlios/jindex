@@ -14,11 +14,15 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.IndexWriter;
 
+import documents.GaimLogDocument;
+
 public class TestEvolutionMailDocument {
+	static Logger log = Logger.getLogger(TestEvolutionMailDocument.class);
 	public static String[] fields = { "path", "type", "from", "subject", "mailcontents" };
 
 	public static void main(String argv[]) {
@@ -43,25 +47,25 @@ public class TestEvolutionMailDocument {
 			}
 			long oldpos = 0;
 			if (list != null) {
-				System.out.println("A Maillist exsits");
+				log.debug("A Maillist exsits");
 				for (int i = 0; i < list.size(); i++) {
 					Mail mail = (Mail) list.get(i);
 					long startline = mail.getStartline();
 
 					in.skip(startline - oldpos);
 					String from = in.readLine();
-					// System.out.println(from + " == " +
+					// log.debug(from + " == " +
 					// mail.getInternalFrom());
 					if (from.equals(mail.getInternalFrom()))
-						System.out.println("Match");
+						log.debug("Match");
 					else {
-						System.out.println("No Match");
-						System.out.println(from + " == " + mail.getInternalFrom());
+						log.debug("No Match");
+						log.debug(from + " == " + mail.getInternalFrom());
 					}
 					oldpos = startline;
 				}
 			} else {
-				System.out.println("Mail list was null :o(");
+				log.debug("Mail list was null :o(");
 				list = new MailList();
 			}
 			Mail mail = null;
@@ -75,7 +79,7 @@ public class TestEvolutionMailDocument {
 					count++;
 					if (count > 1) {
 						list.add(mail);
-						// System.out.println(mail);
+						// log.debug(mail);
 						doc = new Document();
 						// TODO Path in mail needs to be fixed
 						// doc.add(Field.Keyword("path", f.getPath()));
@@ -87,7 +91,7 @@ public class TestEvolutionMailDocument {
 						doc.add(Field.Text("subject", mail.getSubject()));
 
 						doc.add(Field.Text("maillcontents", msg.toString()));
-						System.out.println("Found UID: " + mail.getUid());
+						log.debug("Found UID: " + mail.getUid());
 						doc.add(Field.Text("uid", mail.getUid()));
 						// doc.add(Field.Keyword("modified",
 						// DateField.timeToString(f.lastModified())));
@@ -120,18 +124,18 @@ public class TestEvolutionMailDocument {
 				}
 
 				// msg.append(str);
-				// System.out.println(msg.length());
+				// log.debug(msg.length());
 				linecount++;
 				charcounter += str.getBytes().length;
 			}
 
 			in.close();
 			writeObject(list);
-			System.out.println("Done");
+			log.debug("Done");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println(count);
+		log.debug(count);
 
 	}
 
@@ -192,13 +196,13 @@ public class TestEvolutionMailDocument {
 					sb.append(b);
 					// str += ((char)b);
 					if (b == '\n') {
-						//System.out.println(sb.toString());
+						//log.debug(sb.toString());
 						sb = new StringBuffer();
 					}
 				}
 			}
 			long now = System.currentTimeMillis();
-			System.out.println("call took: " + (now - test));
+			log.debug("call took: " + (now - test));
 			System.exit(0);
 		} catch (Exception e) {
 		}

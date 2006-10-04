@@ -9,12 +9,14 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
+import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 import documents.SearchDocument;
 
 public class ExcelDocument implements SearchDocument {
+	Logger log = Logger.getLogger(ExcelDocument.class);
 	public static String[] fields = { "path", "type", "url", "modified", "filecontents", "name" };
 
 	public static Document Document(File f, String mimetype) {
@@ -67,7 +69,7 @@ public class ExcelDocument implements SearchDocument {
 						}
 
 						for (int j = 1; j < row.length; j++) {
-							// System.out.println(',');
+							// log.debug(',');
 							if (!(row[j].isHidden())) {
 								list.add(row[j].getContents());
 							}
@@ -99,7 +101,7 @@ public class ExcelDocument implements SearchDocument {
 
 					if (row.length > 0) {
 						if (!(hide && row[0].isHidden())) {
-//							System.out.println(row[0].getContents());
+//							log.debug(row[0].getContents());
 							// Java 1.4 code to handle embedded commas
 							// bw.write("\"" +
 							// row[0].getContents().replaceAll("\"","\"\"") +
@@ -107,9 +109,9 @@ public class ExcelDocument implements SearchDocument {
 						}
 
 						for (int j = 1; j < row.length; j++) {
-							// System.out.println(',');
+							// log.debug(',');
 							if (!(hide && row[j].isHidden())) {
-							//	System.out.println(row[j].getContents());
+							//	log.debug(row[j].getContents());
 								// Java 1.4 code to handle embedded quotes
 								// bw.write("\"" +
 								// row[j].getContents().replaceAll("\"","\"\"")
@@ -117,7 +119,7 @@ public class ExcelDocument implements SearchDocument {
 							}
 						}
 					}
-					// System.out.println();
+					// log.debug();
 				}
 			}
 		}
@@ -131,7 +133,7 @@ public class ExcelDocument implements SearchDocument {
 		for (int sheet = 0; sheet < w.getNumberOfSheets(); sheet++) {
 			Sheet s = w.getSheet(sheet);
 
-			System.out.println(s.getName());
+			log.debug(s.getName());
 
 			Cell[] row = null;
 			Cell c = null;
@@ -146,9 +148,9 @@ public class ExcelDocument implements SearchDocument {
 						StringBuffer sb = new StringBuffer();
 						CellReferenceHelper.getCellReference(c.getColumn(), c.getRow(), sb);
 
-						//System.out.println("Cell " + sb.toString() + " contents:  " + c.getContents());
+						//log.debug("Cell " + sb.toString() + " contents:  " + c.getContents());
 
-						//System.out.println(" comment: " + features.getComment());
+						//log.debug(" comment: " + features.getComment());
 					}
 				}
 			}
