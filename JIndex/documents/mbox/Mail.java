@@ -68,9 +68,10 @@ public class Mail implements Serializable {
 	public void setFrom(String from) {
 		from = from.replaceAll("From:", "");
 		this.from = from.trim();
-		if(from.indexOf("<") > 0) {
-			this.from = from.substring(from.indexOf("<")+1, from.indexOf(">"));
-		}
+        int start =from.indexOf("<");
+        int stop =from.indexOf(">");
+        if(start > 0 && stop > 0)
+            this.from = from.substring(start+1, stop);
 	}
 
 	/**
