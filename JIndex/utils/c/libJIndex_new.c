@@ -2,14 +2,15 @@
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include "utils_FileUtility.h"
+//#include "utils_FileUtility.h"
+#include "utils_c_libJIndex_new.h"
 
 /*
 
 https://stage.maemo.org/svn/maemo/projects/haf/trunk/osso-gnome-vfs2/test/
 
 */
-JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getMimeType
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getMimeType
   (JNIEnv *env, jclass class, jstring filename) {
     const gchar *result;
 	const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
@@ -28,14 +29,19 @@ JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getMimeType
     return (*env)->NewStringUTF(env, result);
 }
 
-char* getIconFromMimeType (char *mimetype) {
- //   GnomeVFSMimeApplication *application;
-//    const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
-//    const gchar *result_g;
-    g_printf("filename: ");
 /*
+ * Class:     utils_c_libJIndex_new
+ * Method:    getIconFromMimeType
+ * Signature: (Ljava/lang/String;)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getIconFromMimeType
+  (JNIEnv *env, jclass class, jstring mimetype) {
 
-   application = gnome_vfs_mime_get_default_application (afile_g);
+    GnomeVFSMimeApplication *application;
+   const char* mimetype_g = (*env)->GetStringUTFChars(env, mimetype, 0);
+   const gchar *result_g;
+ 
+   application = gnome_vfs_mime_get_default_application (mimetype_g);
 	if (application == NULL) {
 	   g_print ("No default application.\n");
 	} else {	
@@ -48,8 +54,9 @@ char* getIconFromMimeType (char *mimetype) {
     const gchar *result_g =  gnome_vfs_mime_application_get_icon (application);
 	g_printf("filename: %s", result_g);
 */
-/*    (*env)->ReleaseStringUTFChars(env, filename, afile_g);
+	g_printf("filename: %s", result_g);
+    (*env)->ReleaseStringUTFChars(env, mimetype, mimetype_g);
     return (*env)->NewStringUTF(env, result_g);
-*/
+
 	return NULL;
 }

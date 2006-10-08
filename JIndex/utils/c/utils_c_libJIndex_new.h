@@ -12,7 +12,7 @@ extern "C" {
  * Method:    getMimeType
  * Signature: (Ljava/lang/String;)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getMimeType
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getMimeType
   (JNIEnv *, jclass, jstring);
 
 /*
@@ -20,7 +20,7 @@ JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getMimeType
  * Method:    getIconFromMimeType
  * Signature: (Ljava/lang/String;)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_1new_getIconFromMimeType
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getIconFromMimeType
   (JNIEnv *, jclass, jstring);
 
 #ifdef __cplusplus

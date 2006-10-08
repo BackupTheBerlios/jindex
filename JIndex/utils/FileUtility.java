@@ -16,13 +16,15 @@ public class FileUtility {
 	static Logger log  = Logger.getLogger(FileUtility.class);
 
 	public FileUtility() {
-		System.out.println("loading library");
+		log.debug("loading library");
 		System.loadLibrary("JIndex_new");
 	}
 	public static String getMimeType(String file) {
 		return libJIndex_new.getMimeType(file);
 	}
-	public static native String getIconFromMimeType(String mimetype);
+	public static String getIconFromMimeType(String mimetype) {
+        return libJIndex_new.getIconFromMimeType(mimetype);   
+    }
 	
 	public static byte[] getBytesFromFile(File file) throws IOException {
 		InputStream is = new FileInputStream(file);

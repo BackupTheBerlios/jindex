@@ -6,10 +6,10 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import org.apache.lucene.document.Document;
 import org.gnu.gtk.VBox;
-
-import utils.FileUtility;
 
 /**
  * @author sorenm
@@ -39,7 +39,7 @@ public class UnknownfiletypeGUI extends MainContentsGUI {
 			return value;
 		}
 		public byte[] getIcon() {
-			 return FileUtility.getIcon("/images/icon_missing.png");
+            return ImageCache.getInstance().getImage(doc.get("type"), "/images/icon_missing.png");
 		}
 		 
 }

@@ -6,6 +6,8 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.internet.MimeUtility;
@@ -13,9 +15,6 @@ import javax.mail.internet.MimeUtility;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
-import documents.GaimLogDocument;
-
-import utils.FileUtility;
 import utils.JStringUtils;
 
 /**
@@ -56,6 +55,6 @@ public class MailGUI extends MainContentsGUI {
 	}
 
 	public byte[] getIcon() {
-		 return FileUtility.getIcon("/images/evolution/email.png");
+        return ImageCache.getInstance().getImage(doc.get("type"), "/images/evolution/email.png");
 	}
 }

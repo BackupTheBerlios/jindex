@@ -3,11 +3,11 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
-
-import documents.GaimLogDocument;
 
 import utils.FileUtility;
 
@@ -37,13 +37,14 @@ public abstract class MainContentsGUI implements MainGUIInterface {
 	public byte[] getDefaultIcon() {
 		if (maindoc != null) {
 			String type = maindoc.get("type");
+            log.debug("Type: "+type);
 			String path = FileUtility.getIconFromMimeType(type);
 			type = type = StringUtils.replace(type, "/", "-");
 			if (path != null) {
 				log.debug("Special path: " + path);
-				return FileUtility.getIcon(path);
+                return ImageCache.getInstance().getImage(maindoc.get("type"), path);
 			}
-			return FileUtility.getIcon("/images/icon_missing.png");
+             return ImageCache.getInstance().getImage(maindoc.get("type"), "/images/icon_missing.png");
 		}
 		return null;
 	}

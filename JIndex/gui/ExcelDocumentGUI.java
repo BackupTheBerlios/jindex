@@ -6,6 +6,8 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import org.apache.lucene.document.Document;
 
 import utils.FileUtility;
@@ -42,6 +44,6 @@ public class ExcelDocumentGUI extends MainContentsGUI {
 	
 
 	public byte[] getIcon() {
-		 return FileUtility.getIcon("/images/office/spreadsheet.png");
+        return ImageCache.getInstance().getImage(maindoc.get("type"), "/images/office/spreadsheet.png");
 	}
 }

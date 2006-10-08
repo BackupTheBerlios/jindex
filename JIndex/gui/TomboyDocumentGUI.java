@@ -6,6 +6,8 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import org.apache.lucene.document.Document;
 
 import utils.FileUtility;
@@ -36,6 +38,7 @@ public class TomboyDocumentGUI extends MainContentsGUI {
 	}
 
 	public byte[] getIcon() {
-		 return FileUtility.getIcon("/images/tomboy/stock_notes.png");
+         return ImageCache.getInstance().getImage(doc.get("type"), "/images/tomboy/stock_notes.png");
+            
 	}
 }

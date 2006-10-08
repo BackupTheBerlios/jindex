@@ -6,6 +6,8 @@
  */
 package gui;
 
+import images.cache.ImageCache;
+
 import java.io.UnsupportedEncodingException;
 
 import javax.mail.internet.MimeUtility;
@@ -59,7 +61,7 @@ public class EvolutionAddressBookGUI extends MainContentsGUI {
 			byte[] image = b64.decode(code.getBytes());
 			return image;
 		} else {
-			 return FileUtility.getIcon("/images/evolution/contact.png");
+            return ImageCache.getInstance().getImage(maindoc.get("type"), "/images/evolution/contact.png");
 		}
 	}
 

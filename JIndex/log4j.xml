@@ -29,6 +29,10 @@
   <category name="client">
     <priority value="DEBUG"/>
   </category>
+
+  <category name="gui">
+    <priority value="DEBUG"/>
+  </category>
   
   <category name="daemon">
     <priority value="DEBUG"/>

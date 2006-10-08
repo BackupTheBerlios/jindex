@@ -104,6 +104,11 @@ public class ImageDocument implements SearchDocument {
 		} else {
 			thumbWidth = (int) (thumbHeight * imageRatio);
 		}
+        if(thumbHeight <= 0)
+            thumbHeight = 1;
+        if(thumbWidth<= 0)
+            thumbWidth = 1;
+        
 		// draw original image to thumbnail image object and
 		// scale it to the new size on-the-fly
 		BufferedImage thumbImage = new BufferedImage(thumbWidth, thumbHeight, BufferedImage.TYPE_INT_RGB);

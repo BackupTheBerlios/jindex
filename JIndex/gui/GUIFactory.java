@@ -13,7 +13,7 @@ public class GUIFactory {
         else if (doc.get("type").equals("text/tomboy")) {
             return  new TomboyDocumentGUI(doc);
         }
-        else if (doc.get("type").equals("audio/mp3")) {
+        else if (doc.get("type").equals("audio/mp3") || doc.get("type").equals("audio/mpeg")) {
             return new MP3LogGUI(doc);
         }
         else if (doc.get("type").equals("image")) {
