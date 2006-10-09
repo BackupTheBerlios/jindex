@@ -4,10 +4,10 @@ CFLAGS=-fPIC -Wall `pkg-config --cflags gtk+-2.0 gnome-vfs-2.0` -I$(JAVA_INCLUDE
 
 LDFLAGS=`pkg-config --libs gtk+-2.0 gnome-vfs-2.0` --shared
 
-all: libJIndex_new
+all: libJIndex
 
 
 #clean:
 #     rm libJIndex 
-#     rm libJIndex_new
+
 

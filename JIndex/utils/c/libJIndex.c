@@ -3,15 +3,14 @@
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 //#include "utils_FileUtility.h"
-#include "utils_c_libJIndex_new.h"
+#include "utils_c_libJIndex.h"
 
 /*
 
 https://stage.maemo.org/svn/maemo/projects/haf/trunk/osso-gnome-vfs2/test/
 
 */
-JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getMimeType
-  (JNIEnv *env, jclass class, jstring filename) {
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_getMimeType(JNIEnv *env, jclass class, jstring filename) {
     const gchar *result;
 	const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
     gboolean started = gnome_vfs_init ();
@@ -34,8 +33,7 @@ JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getMimeType
  * Method:    getIconFromMimeType
  * Signature: (Ljava/lang/String;)Ljava/lang/String;
  */
-JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_new_getIconFromMimeType
-  (JNIEnv *env, jclass class, jstring mimetype) {
+JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_getIconFromMimeType(JNIEnv *env, jclass class, jstring mimetype) {
 
     GnomeVFSMimeApplication *application;
    const char* mimetype_g = (*env)->GetStringUTFChars(env, mimetype, 0);
