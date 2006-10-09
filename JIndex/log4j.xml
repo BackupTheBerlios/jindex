@@ -26,6 +26,10 @@
   <!-- Limit categories -->
   <!-- ================ -->
 
+<category name=".">
+    <priority value="DEBUG"/>
+  </category>
+  
   <category name="client">
     <priority value="DEBUG"/>
   </category>

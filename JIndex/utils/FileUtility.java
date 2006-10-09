@@ -9,7 +9,7 @@ import java.io.OutputStream;
 
 import org.apache.log4j.Logger;
 
-import utils.c.libJIndex_new;
+import utils.c.libJIndex;
 
 
 public class FileUtility {
@@ -17,13 +17,13 @@ public class FileUtility {
 
 	public FileUtility() {
 		log.debug("loading library");
-		System.loadLibrary("JIndex_new");
+		System.loadLibrary("JIndex");
 	}
 	public static String getMimeType(String file) {
-		return libJIndex_new.getMimeType(file);
+		return libJIndex.getMimeType(file);
 	}
 	public static String getIconFromMimeType(String mimetype) {
-        return libJIndex_new.getIconFromMimeType(mimetype);   
+        return libJIndex.getIconFromMimeType(mimetype);   
     }
 	
 	public static byte[] getBytesFromFile(File file) throws IOException {
