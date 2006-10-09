@@ -13,8 +13,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.lucene.document.Document;
 
-import documents.GaimLogDocument;
-
 import utils.FileUtility;
 import utils.JStringUtils;
 
@@ -22,7 +20,7 @@ import utils.JStringUtils;
  * @author sorenm
  */
 public class ApplicationDocumentGUI extends MainContentsGUI {
-	Logger log = Logger.getLogger(ApplicationDocumentGUI.class);
+	final Logger log = Logger.getLogger(ApplicationDocumentGUI.class);
 	Document doc;
 	public ApplicationDocumentGUI(Document _doc) {
 		super(_doc);
@@ -54,14 +52,14 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 	public byte[] getIcon() {
 		String icon = doc.get("icon");
 		log.debug("Loading icon :"+icon);
-		if (icon != null) {
+		if (icon != null && !"".equalsIgnoreCase(icon)) {
 				if (new File(icon).exists())
 					return FileUtility.getExternalIcon(icon);
 				else if (new File("/usr/share/pixmaps/" + icon).exists())
 					return FileUtility.getExternalIcon("/usr/share/pixmaps/" + icon);
 
 		} else
-			return super.getDefaultIcon();
+			return FileUtility.getIcon("/images/icon_missing.png");
 		return null;
 	}
 	
