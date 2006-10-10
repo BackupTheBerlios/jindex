@@ -1,29 +1,8 @@
 package org.jindex.client;
 
-import org.jindex.client.gui.ApplicationDocumentGUI;
-import org.jindex.client.gui.EvolutionAddressBookGUI;
-import org.jindex.client.gui.ExcelDocumentGUI;
+import org.gnu.gdk.PixbufLoader;
 import org.jindex.client.gui.GUIFactory;
-import org.jindex.client.gui.GaimLogGUI;
-import org.jindex.client.gui.ImageContentGUI;
-import org.jindex.client.gui.JavaDocumentGUI;
-import org.jindex.client.gui.MP3LogGUI;
-import org.jindex.client.gui.MailGUI;
 import org.jindex.client.gui.MainContentsGUI;
-import org.jindex.client.gui.OpenOfficeDocumentGUI;
-import org.jindex.client.gui.PDFContentGUI;
-import org.jindex.client.gui.TomboyDocumentGUI;
-import org.jindex.client.gui.UnknownfiletypeGUI;
-
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,7 +38,7 @@ import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
 import org.gnu.gtk.event.StatusIconEvent;
 import org.gnu.gtk.event.StatusIconListener;
-
+import org.gnu.gdk.PixbufLoader;
 import org.jindex.documents.AddressBookDocument;
 import org.jindex.documents.ApplicationDocument;
 import org.jindex.documents.FileDocument;
@@ -70,7 +49,7 @@ import org.jindex.documents.MP3Document;
 import org.jindex.documents.TomboyDocument;
 import org.jindex.documents.mail.EvolutionMailDocument;
 import org.jindex.documents.office.PDFDocument;
-import org.jindex.client.*;
+import org.jindex.utils.FileUtility;
 
 public class JIndexClient {
     private static Logger log = Logger.getLogger(JIndexClient.class);
@@ -139,7 +118,10 @@ public class JIndexClient {
     }
 
     private void registerTrayIcon() {
-        StatusIcon si = new StatusIcon("images/stock_search.png");
+        //StatusIcon si = new StatusIcon("images/stock_search.png");
+        PixbufLoader test = new PixbufLoader();
+	test.write(FileUtility.getIcon("/stock_search.png"));
+        StatusIcon si = new StatusIcon(test.getPixbuf());
 //        si.setTooltip("Set the tooltip to change this text");
         si.addListener(new StatusIconListener() {
             public void statusIconEvent(StatusIconEvent e) {

@@ -6,7 +6,7 @@
  */
 package org.jindex.client.gui;
 
-import images.cache.ImageCache;
+import org.jindex.client.cache.ImageCache;
 
 import org.apache.lucene.document.Document;
 

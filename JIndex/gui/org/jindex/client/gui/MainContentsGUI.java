@@ -3,7 +3,7 @@
  */
 package org.jindex.client.gui;
 
-import images.cache.ImageCache;
+import org.jindex.client.cache.ImageCache;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;

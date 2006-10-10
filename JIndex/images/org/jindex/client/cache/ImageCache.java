@@ -1,7 +1,7 @@
 /*
  * Created on 08/10/2006
  */
-package images.cache;
+package org.jindex.client.cache;
 
 import java.util.HashMap;
 
