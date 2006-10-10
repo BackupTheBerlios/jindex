@@ -1,68 +1,69 @@
-<?xml version="1.0"?>
-<project name="JIndex" default="compile">
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- You may freely edit this file. See commented blocks below for -->
+<!-- some examples of how to customize the build. -->
+<!-- (If you delete it and reopen the project it will be recreated.) -->
+<project name="JIndex" default="default" basedir=".">
+    <description>Builds, tests, and runs the project JIndex.</description>
+    <import file="nbproject/build-impl.xml"/>
+    <!--
 
-	<path id="files-classpath">
-		<fileset dir="libs">
-			<include name="**/*.jar" />
-		</fileset>
-	</path>
+    There exist several targets which are by default empty and which can be 
+    used for execution of your tasks. These targets are usually executed 
+    before and after some main targets. They are: 
 
+      -pre-init:                 called before initialization of project properties
+      -post-init:                called after initialization of project properties
+      -pre-compile:              called before javac compilation
+      -post-compile:             called after javac compilation
+      -pre-compile-single:       called before javac compilation of single file
+      -post-compile-single:      called after javac compilation of single file
+      -pre-compile-test:         called before javac compilation of JUnit tests
+      -post-compile-test:        called after javac compilation of JUnit tests
+      -pre-compile-test-single:  called before javac compilation of single JUnit test
+      -post-compile-test-single: called after javac compilation of single JUunit test
+      -pre-jar:                  called before JAR building
+      -post-jar:                 called after JAR building
+      -post-clean:               called after cleaning build products
 
-	<target name="clean" description="remove intermediate files">
-		<delete dir="classes" />
-	</target>
-	<target name="compile" description="compile the Java source code to class files">
-		<mkdir dir="classes" />
-		<javac srcdir="." destdir="classes">
-			<classpath>
-				<path refid="files-classpath" />
-			</classpath>
-		</javac>
+    (Targets beginning with '-' are not intended to be called on their own.)
 
-	</target>
-	<target name="jar" depends="compile" description="create a Jar file for the application">
-		<jar destfile="JIndex.jar">
-			<fileset dir="classes" includes="**/*.class" />
-			<manifest>
-				<attribute name="Main-Class" value="client.JIndexClient" />
-			</manifest>
-		</jar>
-	</target>
+    Example of inserting an obfuscator after compilation could look like this:
 
+        <target name="-post-compile">
+            <obfuscate>
+                <fileset dir="${build.classes.dir}"/>
+            </obfuscate>
+        </target>
 
-	<property name="compiler" value="gcc" />
-	<property name="debug" value="true" />
-	<property name="src.dir" value="./utils/c" />
-	<property name="build.obj.dir" value="utils/c/build" />
-    <property name="include.dir" value="./utils/c" />
-
-	<taskdef name="cc" classname="net.sf.antcontrib.cpptasks.CCTask" />
-	<typedef name="linker" classname="net.sf.antcontrib.cpptasks.LinkerDef" />
-	<typedef name="compiler" classname="net.sf.antcontrib.cpptasks.CompilerDef" />
-	<taskdef resource="cpptasks.tasks" />
-
-	<target name="compile-c" description="compile the c source code">
+    For list of available properties check the imported 
+    nbproject/build-impl.xml file. 
 
 
-		<mkdir dir="${build.obj.dir}" />
+    Another way to customize the build is by overriding existing main targets.
+    The targets of interest are: 
 
-		<cc debug="${debug}" link="shared" objdir="${build.obj.dir}" outfile="${build.obj.dir}/JIndex.so">
+      -init-macrodef-javac:     defines macro for javac compilation
+      -init-macrodef-junit:     defines macro for junit execution
+      -init-macrodef-debug:     defines macro for class debugging
+      -init-macrodef-java:      defines macro for class execution
+      -do-jar-with-manifest:    JAR building (if you are using a manifest)
+      -do-jar-without-manifest: JAR building (if you are not using a manifest)
+      run:                      execution of project 
+      -javadoc-build:           Javadoc generation
+      test-report:              JUnit report generation
 
-			<compiler id="gcc" name="gcc">
-				<compilerarg value="-O" unless="is-debug" />
-				<fileset dir="${src.dir}" includes="*.c" />
-			</compiler>
-			<libset dir="/usr/lib64" libs="gtk"/>
-			<includepath description="Test">
-			<path  path="/usr/include/gtk-2.0"/>
-				</includepath>
-		</cc>
+    An example of overriding the target for project execution could look like this:
 
-		<!--
-        <exec dir="utils/c" executable="make">
-	  <arg line="clean"/>
-	</exec>
-        <exec dir="utils/c" executable="make"/>
-	-->
-	</target>
+        <target name="run" depends="JIndex-impl.jar">
+            <exec dir="bin" executable="launcher.exe">
+                <arg file="${dist.jar}"/>
+            </exec>
+        </target>
+
+    Notice that the overridden target depends on the jar target and not only on 
+    the compile target as the regular run target does. Again, for a list of available 
+    properties which you can use, check the target you are overriding in the
+    nbproject/build-impl.xml file. 
+
+    -->
 </project>

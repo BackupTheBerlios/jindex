@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import utils.FileUtility;
+import org.jindex.utils.FileUtility;
 
 public class ImageCache {
     private static final Logger log = Logger.getLogger(ImageCache.class);
