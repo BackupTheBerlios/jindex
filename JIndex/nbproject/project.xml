@@ -9,7 +9,6 @@
                 <root id="src.dir"/>
                 <root id="daemon.dir"/>
                 <root id="documents.dir"/>
-                <root id="glade.dir"/>
                 <root id="gui.dir"/>
                 <root id="images.dir"/>
                 <root id="utils.dir"/>

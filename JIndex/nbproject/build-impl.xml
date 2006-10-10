@@ -73,7 +73,6 @@ is divided into following sections:
                 <available file="${src.dir}"/>
                 <available file="${daemon.dir}"/>
                 <available file="${documents.dir}"/>
-                <available file="${glade.dir}"/>
                 <available file="${gui.dir}"/>
                 <available file="${images.dir}"/>
                 <available file="${utils.dir}"/>
@@ -108,7 +107,6 @@ is divided into following sections:
         <fail unless="src.dir">Must set src.dir</fail>
         <fail unless="daemon.dir">Must set daemon.dir</fail>
         <fail unless="documents.dir">Must set documents.dir</fail>
-        <fail unless="glade.dir">Must set glade.dir</fail>
         <fail unless="gui.dir">Must set gui.dir</fail>
         <fail unless="images.dir">Must set images.dir</fail>
         <fail unless="utils.dir">Must set utils.dir</fail>
@@ -133,7 +131,7 @@ is divided into following sections:
     </target>
     <target name="-init-macrodef-javac">
         <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute name="srcdir" default="${src.dir}:${daemon.dir}:${documents.dir}:${glade.dir}:${gui.dir}:${images.dir}:${utils.dir}"/>
+            <attribute name="srcdir" default="${src.dir}:${daemon.dir}:${documents.dir}:${gui.dir}:${images.dir}:${utils.dir}"/>
             <attribute name="destdir" default="${build.classes.dir}"/>
             <attribute name="classpath" default="${javac.classpath}"/>
             <attribute name="debug" default="${javac.debug}"/>
@@ -268,7 +266,6 @@ is divided into following sections:
             <fileset dir="${src.dir}" excludes="${build.classes.excludes}"/>
             <fileset dir="${daemon.dir}" excludes="${build.classes.excludes}"/>
             <fileset dir="${documents.dir}" excludes="${build.classes.excludes}"/>
-            <fileset dir="${glade.dir}" excludes="${build.classes.excludes}"/>
             <fileset dir="${gui.dir}" excludes="${build.classes.excludes}"/>
             <fileset dir="${images.dir}" excludes="${build.classes.excludes}"/>
             <fileset dir="${utils.dir}" excludes="${build.classes.excludes}"/>
@@ -424,7 +421,6 @@ is divided into following sections:
                 <pathelement location="${src.dir}"/>
                 <pathelement location="${daemon.dir}"/>
                 <pathelement location="${documents.dir}"/>
-                <pathelement location="${glade.dir}"/>
                 <pathelement location="${gui.dir}"/>
                 <pathelement location="${images.dir}"/>
                 <pathelement location="${utils.dir}"/>
@@ -432,14 +428,12 @@ is divided into following sections:
             <packageset dir="${src.dir}" includes="*/**"/>
             <packageset dir="${daemon.dir}" includes="*/**"/>
             <packageset dir="${documents.dir}" includes="*/**"/>
-            <packageset dir="${glade.dir}" includes="*/**"/>
             <packageset dir="${gui.dir}" includes="*/**"/>
             <packageset dir="${images.dir}" includes="*/**"/>
             <packageset dir="${utils.dir}" includes="*/**"/>
             <fileset dir="${src.dir}" includes="*.java"/>
             <fileset dir="${daemon.dir}" includes="*.java"/>
             <fileset dir="${documents.dir}" includes="*.java"/>
-            <fileset dir="${glade.dir}" includes="*.java"/>
             <fileset dir="${gui.dir}" includes="*.java"/>
             <fileset dir="${images.dir}" includes="*.java"/>
             <fileset dir="${utils.dir}" includes="*.java"/>
