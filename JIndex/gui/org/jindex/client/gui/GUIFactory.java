@@ -24,8 +24,10 @@ public class GUIFactory {
             return  new PDFContentGUI(doc);
         }
         else if (doc.get("type").equals("text/x-java")) {
-            System.out.println("FOUND JAVA FILE");
             return  new JavaDocumentGUI(doc);
+        }
+        else if (doc.get("type").equals("text/html")) {
+            return  new HTMLDocumentGUI(doc);
         }
         else if (doc.get("type").equals("application/vnd.sun.xml.writer")) {
             return new OpenOfficeDocumentGUI(doc);

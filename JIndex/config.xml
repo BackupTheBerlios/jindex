@@ -27,5 +27,11 @@
 	<watch>
 		<filename>/usr/share/applications</filename>
 	</watch>
+        
+        <watch>
+		<filename>/home/sorenm/.mozilla/firefox/q3qe8bfl.default/Cache</filename>
+	</watch>
+        
+        
 </list>
 

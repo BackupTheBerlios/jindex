@@ -22,7 +22,9 @@ import org.jindex.daemon.config.ConfigReader;
 /**
  *
  * Based on code from Lars Pedersen, <a href="mailto:lp@arosii.dk">lp@arosii.dk</a>
- */
+*/
+
+
 public class DirectoryMonitor implements Runnable {
     static Logger log = Logger.getLogger(DirectoryMonitor.class);
     
@@ -221,7 +223,8 @@ public class DirectoryMonitor implements Runnable {
     }
     
     /**
-     *
+     * Main method for the 'server'
+     * @param args Command line arguments
      */
     public static void main(String[] args) {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -266,8 +269,7 @@ public class DirectoryMonitor implements Runnable {
 
     /**
      * Adds a File or directory to the queue waiting to be indexed.
-     * 
-     * @param inputLine 
+     * @param inputLine Value to append to the cue
      */
     public static synchronized void appendToQueue(String inputLine) {
         File appendfile = new File(inputLine);

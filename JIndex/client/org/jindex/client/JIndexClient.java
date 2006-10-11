@@ -43,6 +43,7 @@ import org.jindex.documents.AddressBookDocument;
 import org.jindex.documents.ApplicationDocument;
 import org.jindex.documents.FileDocument;
 import org.jindex.documents.GaimLogDocument;
+import org.jindex.documents.HTMLDocument;
 import org.jindex.documents.ImageDocument;
 import org.jindex.documents.JavaDocument;
 import org.jindex.documents.MP3Document;
@@ -122,7 +123,7 @@ public class JIndexClient {
         PixbufLoader test = new PixbufLoader();
 	test.write(FileUtility.getIcon("/stock_search.png"));
         StatusIcon si = new StatusIcon(test.getPixbuf());
-//        si.setTooltip("Set the tooltip to change this text");
+        si.setTooltip("JIndex searcher");
         si.addListener(new StatusIconListener() {
             public void statusIconEvent(StatusIconEvent e) {
                 if (e.isOfType(StatusIconEvent.Type.POPUP_MENU))
@@ -184,6 +185,7 @@ public class JIndexClient {
                 fields = concatArrays(TomboyDocument.fields, fields);
                 fields = concatArrays(AddressBookDocument.fields, fields);
                 fields = concatArrays(ApplicationDocument.fields, fields);
+                fields = concatArrays(HTMLDocument.fields, fields);
 
                 query = MultiFieldQueryParser.parse(searchquery, fields,
                         analyzer);
