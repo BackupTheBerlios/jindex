@@ -54,32 +54,32 @@ import org.jindex.utils.FileUtility;
 
 public class JIndexClient {
     private static Logger log = Logger.getLogger(JIndexClient.class);
-
+    
     private static String INDEXFILE = System.getProperty("HOME") + "/index";
-
+    
     private static LibGlade firstApp;
-
+    
     Window window; // Main window
-
+    
     VBox contentpane = null;
-
+    
     // Tree view
     SearchResultTable resulttable = null;
-
+    
     TreeView resulttable1 = null;
-
+    
     ListStore ls = null;
-
+    
     DataColumnPixbuf ColThumbImage;
-
+    
     DataColumnString ColData;
-
+    
     DataColumnObject ColObj;
-
+    
     ComboBox searchtypecombo;
-
+    
     private AppBar statusbar;
-
+    
     public JIndexClient() throws FileNotFoundException, GladeXMLException,
             IOException {
         InputStream is = this.getClass().getResourceAsStream(
@@ -89,17 +89,17 @@ public class JIndexClient {
         addWindowCloser();
         final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
         searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
-
+        
         // statusbar = (AppBar) firstApp.getWidget("ApplicationBar");
         // if(statusbar == null)
         // log.debug("Statusbar is null..");
         // statusbar.setStatusText("Appliction loaded");
         resulttable1 = (TreeView) firstApp.getWidget("resultview");
         resulttable = new SearchResultTable(resulttable1);
-
+        
         initCombo();
         searchfield.addListener(new KeyListener() {
-
+            
             public boolean keyEvent(KeyEvent event) {
                 if (event.getKeyval() == 65293
                         && event.getType() == KeyEvent.Type.KEY_PRESSED) {// catch
@@ -108,36 +108,44 @@ public class JIndexClient {
                 }
                 return false;
             }
-
+            
         });
-
+        
         registerTrayIcon();
-
+        
         IndexReader reader = IndexReader.open(INDEXFILE);
         log.debug("Number of documents in index is " + reader.numDocs());
         reader.close();
     }
-
+    
     private void registerTrayIcon() {
         //StatusIcon si = new StatusIcon("images/stock_search.png");
         PixbufLoader test = new PixbufLoader();
-	test.write(FileUtility.getIcon("/stock_search.png"));
+        test.write(FileUtility.getIcon("/stock_search.png"));
         StatusIcon si = new StatusIcon(test.getPixbuf());
         si.setTooltip("JIndex searcher");
         si.addListener(new StatusIconListener() {
             public void statusIconEvent(StatusIconEvent e) {
                 if (e.isOfType(StatusIconEvent.Type.POPUP_MENU))
                     log.debug("clicked");
+                if (e.isOfType(StatusIconEvent.Type.ACTIVATE)) {
+                    log.debug("Show window or not");
+                    if (!window.isActive()) {
+                        window.show();
+                    } else {
+                        window.hide();
+                    }
+                }
             }
         });
-
+        
     }
-
+    
     public void on_exit_activate() {
         log.debug("on_exit_activate");
-
+        
     }
-
+    
     public static void main(String[] args) {
         try {
             Gtk.init(args);
@@ -148,53 +156,73 @@ public class JIndexClient {
         } finally {
             log.debug("Exit");
         }
-
+        
     }
-
+    
     public void addWindowCloser() {
         window.addListener(new LifeCycleListener() {
             public void lifeCycleEvent(LifeCycleEvent event) {
             }
-
+            
             public boolean lifeCycleQuery(LifeCycleEvent event) {
                 window.hide();
                 return true;
             }
         });
     }
-
+    
     public void doSearchGUI(String searchquery) {
-        // SearchFiles files = new SearchFiles(queryfield.getText());
         Query query = null;
         if (!searchquery.equals("")) {
+            
             try {
                 resulttable.clear();
                 Searcher searcher = new IndexSearcher(INDEXFILE);
                 // Analyzer analyzer = new StandardAnalyzer();
                 Analyzer analyzer = new StopAnalyzer();
-
+                String selectedSearchType = searchtypecombo.getActiveText();
                 String[] fields = new String[0];
-
-                fields = concatArrays(MP3Document.fields, fields);
-                fields = concatArrays(GaimLogDocument.fields, fields);
-                fields = concatArrays(FileDocument.fields, fields);
-                fields = concatArrays(ImageDocument.fields, fields);
-                fields = concatArrays(PDFDocument.fields, fields);
-                fields = concatArrays(EvolutionMailDocument.fields, fields);
-                fields = concatArrays(JavaDocument.fields, fields);
-                fields = concatArrays(TomboyDocument.fields, fields);
-                fields = concatArrays(AddressBookDocument.fields, fields);
-                fields = concatArrays(ApplicationDocument.fields, fields);
-                fields = concatArrays(HTMLDocument.fields, fields);
-
+                if(selectedSearchType.equalsIgnoreCase("Music") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(MP3Document.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Chats") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(GaimLogDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Files") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(FileDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Images") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(ImageDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Documents") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(PDFDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Mails") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(EvolutionMailDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Source code") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(JavaDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Notes") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(TomboyDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Addresses") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(AddressBookDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Application") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(ApplicationDocument.fields, fields);
+                
+                if(selectedSearchType.equalsIgnoreCase("Webpages") || "".equalsIgnoreCase(selectedSearchType))
+                    fields = concatArrays(HTMLDocument.fields, fields);
+                
                 query = MultiFieldQueryParser.parse(searchquery, fields,
                         analyzer);
                 // query = QueryParser.parse(searchquery, "contents", analyzer);
-
+                
                 log.debug("Searching for: " + query.toString("contents"));
-
+                
                 Hits hits = null;
-
+                
                 hits = searcher.search(query);
                 long start = System.currentTimeMillis();
                 log.debug(hits.length() + " total matching documents");
@@ -204,74 +232,18 @@ public class JIndexClient {
                     log.debug("Found: " + doc.get("type"));
                     MainContentsGUI gui = GUIFactory.getInterface(doc);
                     resulttable.addToTable(gui);
-                    /*
-                    if (doc.get("type") != null) {
-                        if (doc.get("type").equals("text/gaimlog")) {
-                            GaimLogGUI gui = new GaimLogGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("text/tomboy")) {
-                            TomboyDocumentGUI gui = new TomboyDocumentGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("audio/mp3")) {
-                            MP3LogGUI gui = new MP3LogGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("image")) {
-                            log.debug("Added image");
-                            ImageContentGUI gui = new ImageContentGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("application/pdf")) {
-                            PDFContentGUI gui = new PDFContentGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("text/x-java")) {
-                            log.debug("FOUND JAVA FILE");
-                            JavaDocumentGUI gui = new JavaDocumentGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals(
-                                "application/vnd.sun.xml.writer")) {
-                            OpenOfficeDocumentGUI gui = new OpenOfficeDocumentGUI(
-                                    doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals(
-                                "application/vnd.ms-excel")) {
-                            ExcelDocumentGUI gui = new ExcelDocumentGUI(doc);
-                            resulttable.addToTable(gui);
-
-                        }
-                        if (doc.get("type").equals("Application")) {
-                            ApplicationDocumentGUI gui = new ApplicationDocumentGUI(
-                                    doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equals("mail")) {
-                            MailGUI gui = new MailGUI(doc);
-                            resulttable.addToTable(gui);
-                        } else if (doc.get("type").equalsIgnoreCase(
-                                "EvolutionAddressBook")) {
-                            EvolutionAddressBookGUI gui = new EvolutionAddressBookGUI(
-                                    doc);
-                            resulttable.addToTable(gui);
-                            log.debug("Found EvolutionAddressBook");
-                        } else {
-                            log.debug("found unknown file");
-                            UnknownfiletypeGUI gui = new UnknownfiletypeGUI(doc);
-                            resulttable.addToTable(gui);
-                        }
- */
-//                    } else {
-//                        log.error("Document type is null");
-//                        log.error(doc);
-//                    }
                 }
                 long stop = System.currentTimeMillis();
                 log.debug("Displaying took: "+(stop-start)+" milliseconds");
                 searcher.close();
             } catch (IOException e2) {
-                e2.printStackTrace();
+                log.error(e2);
             } catch (ParseException e) {
-                e.printStackTrace();
+                log.error(e);
             }
         }
     }
-
+    
     public static String[] concatArrays(String[] src, String[] dest) {
         String[] result = new String[src.length + dest.length];
         int counter = 0;
@@ -284,11 +256,11 @@ public class JIndexClient {
             counter++;
         }
         return result;
-
+        
     }
-
+    
     public void initCombo() {
         searchtypecombo.showAll();
     }
-
+    
 }
