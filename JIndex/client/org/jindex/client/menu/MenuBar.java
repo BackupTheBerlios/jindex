@@ -15,6 +15,7 @@ import org.gnu.gtk.MenuItem;
 import org.gnu.gtk.Window;
 import org.gnu.gtk.event.MenuItemEvent;
 import org.gnu.gtk.event.MenuItemListener;
+import org.jindex.client.PreferenceWindowActions;
 
 /**
  *
@@ -31,14 +32,15 @@ public class MenuBar {
         addListeners();
     }
     public void addListeners() {
-    MenuItem prefItem = (org.gnu.gtk.MenuItem) app.getWidget("preferences");
-    prefItem.addListener(new MenuItemListener() {
-        public void menuItemEvent(MenuItemEvent menuItemEvent) {
-            Window window = (Window) app.getWidget("configwindow");
-            window.showAll();
-            log.debug("Item clicked");
-            
-        }
-    });
+        MenuItem prefItem = (org.gnu.gtk.MenuItem) app.getWidget("preferences");
+        prefItem.addListener(new MenuItemListener() {
+            public void menuItemEvent(MenuItemEvent menuItemEvent) {
+                Window window = (Window) app.getWidget("configwindow");
+                PreferenceWindowActions prefAction = new PreferenceWindowActions(app);
+                window.showAll();
+                log.debug("Item clicked");
+                
+            }
+        });
     }
 }

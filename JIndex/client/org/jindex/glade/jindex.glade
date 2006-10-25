@@ -543,7 +543,7 @@ WebPages
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkButton" id="button3">
+		<widget class="GtkButton" id="add_button">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -621,7 +621,7 @@ WebPages
 	      </child>
 
 	      <child>
-		<widget class="GtkButton" id="button4">
+		<widget class="GtkButton" id="remove_button">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="relief">GTK_RELIEF_NORMAL</property>
@@ -723,7 +723,7 @@ WebPages
 	  <property name="spacing">0</property>
 
 	  <child>
-	    <widget class="GtkButton" id="button7">
+	    <widget class="GtkButton" id="help_button">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-help</property>
@@ -739,7 +739,7 @@ WebPages
 	  </child>
 
 	  <child>
-	    <widget class="GtkButton" id="button5">
+	    <widget class="GtkButton" id="ok_button">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-ok</property>
@@ -756,7 +756,7 @@ WebPages
 	  </child>
 
 	  <child>
-	    <widget class="GtkButton" id="button6">
+	    <widget class="GtkButton" id="cancel_button">
 	      <property name="visible">True</property>
 	      <property name="can_focus">True</property>
 	      <property name="label">gtk-cancel</property>
