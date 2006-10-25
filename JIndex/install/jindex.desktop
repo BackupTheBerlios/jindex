@@ -1,0 +1,18 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=JIndex client
+Name[da]=JIndex søge klient
+Name[en_CA]=JIndex search client
+Name[en_GB]=JIndex search client
+Comment=Search your desktop
+Comment[da]=Søgning på dit skrivebord
+Comment[en_CA]=Search your desktop
+Comment[en_GB]=Search your desktop
+TryExec=jindex
+Exec=jindex %U
+Icon=stock_search.png
+NoDisplay=true
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GNOME;GTK;Application;Accessories;
