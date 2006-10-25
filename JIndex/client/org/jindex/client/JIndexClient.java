@@ -39,6 +39,7 @@ import org.gnu.gtk.event.LifeCycleListener;
 import org.gnu.gtk.event.StatusIconEvent;
 import org.gnu.gtk.event.StatusIconListener;
 import org.gnu.gdk.PixbufLoader;
+import org.jindex.client.menu.MenuBar;
 import org.jindex.documents.AddressBookDocument;
 import org.jindex.documents.ApplicationDocument;
 import org.jindex.documents.FileDocument;
@@ -79,6 +80,8 @@ public class JIndexClient {
     ComboBox searchtypecombo;
     
     private StatusBar statusbar;
+
+    private MenuBar menubar;
     
     public JIndexClient() throws FileNotFoundException, GladeXMLException,
             IOException {
@@ -90,6 +93,8 @@ public class JIndexClient {
         final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
         searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
         statusbar = (StatusBar) firstApp.getWidget("statusbar");
+        menubar = new MenuBar(firstApp);
+        
         setStatusBarMessage("JIndex started");
         
         resulttable1 = (TreeView) firstApp.getWidget("resultview");
