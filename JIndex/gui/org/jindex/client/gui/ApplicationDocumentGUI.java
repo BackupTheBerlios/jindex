@@ -22,6 +22,10 @@ import org.jindex.utils.JStringUtils;
 public class ApplicationDocumentGUI extends MainContentsGUI {
 	final Logger log = Logger.getLogger(ApplicationDocumentGUI.class);
 	Document doc;
+    /**
+     * 
+     * @param _doc 
+     */
 	public ApplicationDocumentGUI(Document _doc) {
 		super(_doc);
 		doc = _doc;
@@ -29,6 +33,10 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 
 	}
 
+    /**
+     * 
+     * @return 
+     */
 	public String getTextContent() {
 		String appname  = JStringUtils.encodeXMLEntities(doc.get("applicationname").trim())+"\n";
 		String textstring = "<span font_desc=\"sans bold 10\">" + appname + "</span>\n";
@@ -36,6 +44,10 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 		return textstring;
 	}
 
+    /**
+     * 
+     * @return 
+     */
 	public String[] getOpenAction() {
 		String cmd = doc.get("exec-command");
 		cmd = StringUtils.replace(cmd,"%U","").trim();
@@ -49,6 +61,10 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 		return value;
 	}
 
+    /**
+     * 
+     * @return 
+     */
 	public byte[] getIcon() {
 		String icon = doc.get("icon");
 		log.debug("Loading icon :"+icon);

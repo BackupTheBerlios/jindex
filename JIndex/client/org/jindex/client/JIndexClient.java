@@ -1,6 +1,7 @@
 package org.jindex.client;
 
 import org.gnu.gdk.PixbufLoader;
+import org.gnu.gtk.StatusBar;
 import org.jindex.client.gui.GUIFactory;
 import org.jindex.client.gui.MainContentsGUI;
 import java.io.FileNotFoundException;
@@ -20,7 +21,6 @@ import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.glade.GladeXMLException;
 import org.gnu.glade.LibGlade;
-import org.gnu.gnome.AppBar;
 import org.gnu.gtk.ComboBox;
 import org.gnu.gtk.DataColumnObject;
 import org.gnu.gtk.DataColumnPixbuf;
@@ -78,7 +78,7 @@ public class JIndexClient {
     
     ComboBox searchtypecombo;
     
-    private AppBar statusbar;
+    private StatusBar statusbar;
     
     public JIndexClient() throws FileNotFoundException, GladeXMLException,
             IOException {
@@ -89,11 +89,9 @@ public class JIndexClient {
         addWindowCloser();
         final Entry searchfield = (Entry) firstApp.getWidget("queryfield");
         searchtypecombo = (ComboBox) firstApp.getWidget("searchtypecombo");
+        statusbar = (StatusBar) firstApp.getWidget("statusbar");
+        setStatusBarMessage("JIndex started");
         
-        // statusbar = (AppBar) firstApp.getWidget("ApplicationBar");
-        // if(statusbar == null)
-        // log.debug("Statusbar is null..");
-        // statusbar.setStatusText("Appliction loaded");
         resulttable1 = (TreeView) firstApp.getWidget("resultview");
         resulttable = new SearchResultTable(resulttable1);
         
@@ -121,13 +119,14 @@ public class JIndexClient {
     private void registerTrayIcon() {
         //StatusIcon si = new StatusIcon("images/stock_search.png");
         PixbufLoader test = new PixbufLoader();
-        test.write(FileUtility.getIcon("/stock_search.png"));
+        test.write(FileUtility.getIcon("/images/stock_search.png"));
         StatusIcon si = new StatusIcon(test.getPixbuf());
         si.setTooltip("JIndex searcher");
         si.addListener(new StatusIconListener() {
             public void statusIconEvent(StatusIconEvent e) {
-                if (e.isOfType(StatusIconEvent.Type.POPUP_MENU))
+                if (e.isOfType(StatusIconEvent.Type.POPUP_MENU)) {
                     log.debug("clicked");
+                }
                 if (e.isOfType(StatusIconEvent.Type.ACTIVATE)) {
                     log.debug("Show window or not");
                     if (!window.isActive()) {
@@ -178,47 +177,13 @@ public class JIndexClient {
             try {
                 resulttable.clear();
                 Searcher searcher = new IndexSearcher(INDEXFILE);
-                // Analyzer analyzer = new StandardAnalyzer();
                 Analyzer analyzer = new StopAnalyzer();
                 String selectedSearchType = searchtypecombo.getActiveText();
                 String[] fields = new String[0];
-                if(selectedSearchType.equalsIgnoreCase("Music") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(MP3Document.fields, fields);
+                fields = getSearchFields(selectedSearchType);
                 
-                if(selectedSearchType.equalsIgnoreCase("Chats") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(GaimLogDocument.fields, fields);
                 
-                if(selectedSearchType.equalsIgnoreCase("Files") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(FileDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Images") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(ImageDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Documents") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(PDFDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Mails") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(EvolutionMailDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Source code") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(JavaDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Notes") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(TomboyDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Addresses") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(AddressBookDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Application") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(ApplicationDocument.fields, fields);
-                
-                if(selectedSearchType.equalsIgnoreCase("Webpages") || "".equalsIgnoreCase(selectedSearchType))
-                    fields = concatArrays(HTMLDocument.fields, fields);
-                
-                query = MultiFieldQueryParser.parse(searchquery, fields,
-                        analyzer);
-                // query = QueryParser.parse(searchquery, "contents", analyzer);
-                
+                query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
                 log.debug("Searching for: " + query.toString("contents"));
                 
                 Hits hits = null;
@@ -235,6 +200,7 @@ public class JIndexClient {
                 }
                 long stop = System.currentTimeMillis();
                 log.debug("Displaying took: "+(stop-start)+" milliseconds");
+                setStatusBarMessage("Found "+hits.length()+" doucuments ccontaining the word '"+searchquery+"' in "+(stop-start)+" milliseconds");
                 searcher.close();
             } catch (IOException e2) {
                 log.error(e2);
@@ -260,7 +226,47 @@ public class JIndexClient {
     }
     
     public void initCombo() {
+        searchtypecombo.setActive(0);
         searchtypecombo.showAll();
     }
     
+    private String[] getSearchFields(String selectedSearchType) {
+        String[] fields = new String[0];
+        if(selectedSearchType.equalsIgnoreCase("Music") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(MP3Document.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Chats") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(GaimLogDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Files") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(FileDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Images") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(ImageDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Documents") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(PDFDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Mails") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(EvolutionMailDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Source code") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(JavaDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Notes") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(TomboyDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Addresses") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(AddressBookDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Application") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(ApplicationDocument.fields, fields);
+        
+        if(selectedSearchType.equalsIgnoreCase("Webpages") || "All".equalsIgnoreCase(selectedSearchType))
+            fields = concatArrays(HTMLDocument.fields, fields);
+        return fields;
+    }
+    public void setStatusBarMessage(String msg) {
+         statusbar.push(statusbar.getContextID(msg), msg);
+    }
 }
