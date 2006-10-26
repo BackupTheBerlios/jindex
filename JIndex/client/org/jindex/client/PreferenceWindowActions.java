@@ -11,13 +11,17 @@ package org.jindex.client;
 
 import org.apache.log4j.Logger;
 import org.gnu.glade.LibGlade;
+import org.gnu.glib.EventType;
+import org.gnu.glib.Type;
 import org.gnu.gtk.Button;
+import org.gnu.gtk.Dialog;
 import org.gnu.gtk.MenuItem;
 import org.gnu.gtk.Window;
 import org.gnu.gtk.event.ButtonEvent;
 import org.gnu.gtk.event.ButtonListener;
 import org.gnu.gtk.event.MenuItemEvent;
 import org.gnu.gtk.event.MenuItemListener;
+import org.jindex.client.window.NewSearchTypeDialog;
 
 /**
  *
@@ -81,8 +85,11 @@ public class PreferenceWindowActions {
         Button addButton = (Button) app.getWidget("add_button");
         addButton.addListener(new ButtonListener() {
             public void buttonEvent(ButtonEvent buttonEvent) {
-                
-                log.debug("addButton clicked");
+                if(buttonEvent.isOfType(ButtonEvent.Type.CLICK)) {
+                    NewSearchTypeDialog dialog = new NewSearchTypeDialog();
+                    dialog.showAll();
+                    log.debug("addButton clicked");
+                }
                 
             }
         });
