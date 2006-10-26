@@ -80,7 +80,7 @@ public class NewSearchTypeDialog {
         dialog.setModal(true);
         dialog.show();
         dialog.present();
-        dialog.run();
+        int returnvalue = dialog.run();
     }
     
 }
