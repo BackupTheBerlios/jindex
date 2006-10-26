@@ -95,7 +95,7 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkImageMenuItem" id="quit1">
+			<widget class="GtkImageMenuItem" id="quit">
 			  <property name="visible">True</property>
 			  <property name="stock_item">GNOMEUIINFO_MENU_EXIT_ITEM</property>
 			  <signal name="activate" handler="on_quit1_activate" last_modification_time="Wed, 25 Oct 2006 12:09:33 GMT"/>
@@ -516,7 +516,7 @@ WebPages
 	      <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 	      <child>
-		<widget class="GtkTreeView" id="treeview2">
+		<widget class="GtkTreeView" id="configTypelist">
 		  <property name="visible">True</property>
 		  <property name="can_focus">True</property>
 		  <property name="headers_visible">True</property>

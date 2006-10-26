@@ -42,5 +42,14 @@ public class MenuBar {
                 
             }
         });
+        
+        MenuItem quitItem = (org.gnu.gtk.MenuItem) app.getWidget("quit");
+        quitItem.addListener(new MenuItemListener() {
+            public void menuItemEvent(MenuItemEvent menuItemEvent) {
+                log.debug("Item clicked");
+                System.exit(0);
+                
+            }
+        });
     }
 }
