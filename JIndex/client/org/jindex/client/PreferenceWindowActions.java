@@ -104,8 +104,7 @@ public class PreferenceWindowActions {
         addButton.addListener(new ButtonListener() {
             public void buttonEvent(ButtonEvent buttonEvent) {
                 if(buttonEvent.isOfType(ButtonEvent.Type.CLICK)) {
-                    NewSearchTypeDialog dialog = new NewSearchTypeDialog();
-                    dialog.showAll();
+                    NewSearchTypeDialog dialog = new NewSearchTypeDialog(app);
                     log.debug("addButton clicked");
                 }
                 
