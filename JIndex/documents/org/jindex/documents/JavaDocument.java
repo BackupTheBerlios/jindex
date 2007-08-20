@@ -18,14 +18,14 @@ public class JavaDocument implements SearchDocument {
 		try {
 		Document doc = new Document();
 		log.debug("Indexing java file: "+f.getName());
-		doc.add(Field.Keyword("path", f.getPath()));
-		doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
+		doc.add(getField("path", f.getPath()));
+		doc.add(getField("absolutepath", f.getAbsolutePath()));
 
-		doc.add(Field.Keyword("file-name", f.getName()));
-		doc.add(Field.Text("type", mimetype));
+		doc.add(getField("file-name", f.getName()));
+		doc.add(getField("type", mimetype));
 		
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
-		doc.add(Field.Text("filecontents", new FileReader(f)));
+		doc.add(getField("modified", DateField.timeToString(f.lastModified())));
+		doc.add(new Field("filecontents", new FileReader(f)));
 		return doc;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -39,6 +39,8 @@ public class JavaDocument implements SearchDocument {
     public String[] getSearchFields() {
        return fields;
     }
-		
+		    private static Field getField(String name, String value) {
+        return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 
 }

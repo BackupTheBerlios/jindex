@@ -74,8 +74,9 @@ public class ApplicationDocumentGUI extends MainContentsGUI {
 				else if (new File("/usr/share/pixmaps/" + icon).exists())
 					return FileUtility.getExternalIcon("/usr/share/pixmaps/" + icon);
 
-		} else
+		} else {
 			return FileUtility.getIcon("/images/icon_missing.png");
+                }
 		return null;
 	}
 	

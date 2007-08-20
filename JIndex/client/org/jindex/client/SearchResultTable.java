@@ -46,7 +46,11 @@ public class SearchResultTable extends TreeView implements TreeViewListener {
         ColThumbImage = new DataColumnPixbuf();
         ColData = new DataColumnString();
         ColObj = new DataColumnObject();
-        ls = new ListStore(new DataColumn[] { ColThumbImage, ColData, ColObj });
+        DataColumn[] crap = new DataColumn[] { ColData, ColObj, ColThumbImage };
+        ///ls = new ListStore(new DataColumn[] { ColThumbImage, ColData, ColObj });
+        //ls = new ListStore(new DataColumn[] { ColData, ColObj });
+        ls = new ListStore(crap);
+        
         
         table.setEnableSearch(true); /*
          * allows to use keyboard to search
@@ -102,6 +106,7 @@ public class SearchResultTable extends TreeView implements TreeViewListener {
             ls.setValue(row, ColThumbImage, test.getPixbuf());
             
         }
+
         ls.setValue(row, ColData, gui.getTextContent());
         ls.setValue(row, ColObj, gui);
         table.showAll();
@@ -120,9 +125,9 @@ public class SearchResultTable extends TreeView implements TreeViewListener {
                 try {
                     log.debug(command);
                     Process p = Runtime.getRuntime().exec(command.getOpenAction());
-                    char[] error = new char[2048];
-                    InputStreamReader isr = new InputStreamReader(p.getErrorStream());
-                    isr.read(error);
+//                    char[] error = new char[2048];
+  //                  InputStreamReader isr = new InputStreamReader(p.getErrorStream());
+    //                isr.read(error);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

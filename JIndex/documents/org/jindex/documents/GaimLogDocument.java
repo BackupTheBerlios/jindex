@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -14,7 +15,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.log4j.Logger;
-import org.apache.lucene.document.DateField;
 import org.apache.lucene.document.Field;
 import org.apache.xpath.XPathAPI;
 import org.w3c.dom.NamedNodeMap;
@@ -32,9 +32,9 @@ public class GaimLogDocument implements SearchDocument {
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
 		try {
 
-			doc.add(Field.Keyword("path", f.getPath()));
-			doc.add(Field.Keyword("absolutepath", f.getParent()));
-			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+			doc.add(getField("path", f.getPath()));
+			doc.add(getField("absolutepath", f.getParent()));
+			doc.add(getField("modified", new Date(f.lastModified()).toLocaleString()));
 
 			Reader reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 
@@ -59,16 +59,16 @@ public class GaimLogDocument implements SearchDocument {
 			imwith = getName(line);
 			in.close();
 
-			doc.add(Field.Text("url", "url data"));
-			doc.add(Field.Text("type", "text/gaimlog"));
+			doc.add(getField("url", "url data"));
+			doc.add(getField("type", "text/gaimlog"));
 			String protocol = getProtocol(line);
 			log.debug("gaim protocol:" + protocol);
-			doc.add(Field.Text("protocol", protocol));
+			doc.add(getField("protocol", protocol));
 
 			String starttime[] = getStartTimes(line);
-			doc.add(Field.Text("startdate", starttime[0]));
-			doc.add(Field.Text("starttime", starttime[1]));
-			doc.add(Field.Text("endtime", getEndTime(lastline)));
+			doc.add(getField("startdate", starttime[0]));
+			doc.add(getField("starttime", starttime[1]));
+			doc.add(getField("endtime", getEndTime(lastline)));
 
 			try {
 
@@ -83,12 +83,12 @@ public class GaimLogDocument implements SearchDocument {
 				String icon = getNodeValueBasedOnAttribute(nodelist, "setting", "name", "buddy_icon");
 
 				if (!buddyname.equals(""))
-					doc.add(Field.Text("from", buddyname));
+					doc.add(getField("from", buddyname));
 				else
-					doc.add(Field.Text("from", imwith));
-				doc.add(Field.Text("alias", alias));
+					doc.add(getField("from", imwith));
+				doc.add(getField("alias", alias));
 				if (!icon.equals(""))
-					doc.add(Field.Text("icon", LuceneUtility.getHOME() + "/.gaim/icons/" + icon));
+					doc.add(getField("icon", LuceneUtility.getHOME() + "/.gaim/icons/" + icon));
 				// }
 			} catch (SAXException se) {
 				se.printStackTrace();
@@ -102,7 +102,7 @@ public class GaimLogDocument implements SearchDocument {
 
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 
-			doc.add(Field.Text("filecontents", reader, true));
+			doc.add(new Field("filecontents", reader));
 			// return the document
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
@@ -198,5 +198,9 @@ public class GaimLogDocument implements SearchDocument {
 		// TODO Auto-generated method stub
 		return null;
 	}
+        
+            private static Field getField(String name, String value) {
+        return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 
 }

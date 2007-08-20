@@ -13,10 +13,16 @@ import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.StopAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexReader;
+import org.apache.lucene.index.Term;
 import org.apache.lucene.queryParser.MultiFieldQueryParser;
 import org.apache.lucene.queryParser.ParseException;
+import org.apache.lucene.queryParser.QueryParser;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.Hits;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MultiPhraseQuery;
+import org.apache.lucene.search.PhraseQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.Searcher;
 import org.gnu.glade.GladeXMLException;
@@ -28,7 +34,6 @@ import org.gnu.gtk.DataColumnString;
 import org.gnu.gtk.Entry;
 import org.gnu.gtk.Gtk;
 import org.gnu.gtk.ListStore;
-import org.gnu.gtk.StatusIcon;
 import org.gnu.gtk.TreeView;
 import org.gnu.gtk.VBox;
 import org.gnu.gtk.Window;
@@ -36,9 +41,6 @@ import org.gnu.gtk.event.KeyEvent;
 import org.gnu.gtk.event.KeyListener;
 import org.gnu.gtk.event.LifeCycleEvent;
 import org.gnu.gtk.event.LifeCycleListener;
-import org.gnu.gtk.event.StatusIconEvent;
-import org.gnu.gtk.event.StatusIconListener;
-import org.gnu.gdk.PixbufLoader;
 import org.jindex.client.menu.MenuBar;
 import org.jindex.documents.AddressBookDocument;
 import org.jindex.documents.ApplicationDocument;
@@ -51,7 +53,6 @@ import org.jindex.documents.MP3Document;
 import org.jindex.documents.TomboyDocument;
 import org.jindex.documents.mail.EvolutionMailDocument;
 import org.jindex.documents.office.PDFDocument;
-import org.jindex.utils.FileUtility;
 
 public class JIndexClient {
     private static Logger log = Logger.getLogger(JIndexClient.class);
@@ -83,8 +84,7 @@ public class JIndexClient {
 
     private MenuBar menubar;
     
-    public JIndexClient() throws FileNotFoundException, GladeXMLException,
-            IOException {
+    public JIndexClient() throws FileNotFoundException, GladeXMLException, IOException {
         InputStream is = this.getClass().getResourceAsStream(
                 "/org/jindex/glade/jindex.glade");
         firstApp = new LibGlade(is, this, null);
@@ -122,6 +122,7 @@ public class JIndexClient {
     }
     
     private void registerTrayIcon() {
+        /*
         //StatusIcon si = new StatusIcon("images/stock_search.png");
         PixbufLoader test = new PixbufLoader();
         test.write(FileUtility.getIcon("/images/stock_search.png"));
@@ -142,7 +143,7 @@ public class JIndexClient {
                 }
             }
         });
-        
+        */
     }
     
     public void on_exit_activate() {
@@ -177,6 +178,7 @@ public class JIndexClient {
     
     public void doSearchGUI(String searchquery) {
         Query query = null;
+        
         if (!searchquery.equals("")) {
             
             try {
@@ -186,9 +188,28 @@ public class JIndexClient {
                 String selectedSearchType = searchtypecombo.getActiveText();
                 String[] fields = new String[0];
                 fields = getSearchFields(selectedSearchType);
+                Occur[] occurs = new Occur[fields.length];
+                
+                PhraseQuery multiQuery = new PhraseQuery();
+                
+                int it=0;
+                String searchString = new String();
+                for (String string : fields) {
+                    searchString += string+":\""+searchquery+"\"";
+                }
+                QueryParser queryParser = new QueryParser("absolutepath", new StopAnalyzer());
+                query = queryParser.parse(searchString);
+                //query = MultiFieldQueryParser.parse(searchquery.split(" "), fields, analyzer);
                 
                 
-                query = MultiFieldQueryParser.parse(searchquery, fields, analyzer);
+                /*
+                System.out.println("Searching for: "+searchquery);
+                String[] crap = searchquery.split(" ");
+                System.out.println("Crap: "+crap.length);
+
+                
+                query = MultiFieldQueryParser.parse(searchquery.split(" "), fields, occurs,analyzer);
+                 * */
                 log.debug("Searching for: " + query.toString("contents"));
                 
                 Hits hits = null;
@@ -209,8 +230,9 @@ public class JIndexClient {
                 searcher.close();
             } catch (IOException e2) {
                 log.error(e2);
-            } catch (ParseException e) {
-                log.error(e);
+            } 
+            catch(ParseException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -273,5 +295,14 @@ public class JIndexClient {
     }
     public void setStatusBarMessage(String msg) {
          statusbar.push(statusbar.getContextID(msg), msg);
+    }
+    public void on_quit_activate() {
+        
+    }
+    public void on_preferences1_activate() {
+        
+    }
+    public void on_about1_activate() {
+        
     }
 }

@@ -42,14 +42,14 @@ public class EvolutionMailDocument {
 					if (count > 1) {
 						// log.debug(mail);
 						doc = new Document();
-						doc.add(Field.Text("type", "mail"));
-						doc.add(Field.Keyword("path", inboxfile
+						doc.add(getField("type", "mail"));
+						doc.add(getField("path", inboxfile
 								.getAbsolutePath()));
-						doc.add(Field.Text("from", mail.getFrom()));
-						doc.add(Field.Text("subject", mail.getSubject()));
-						doc.add(Field.Keyword("date", mail.getDate()));
-						doc.add(Field.Text("maillcontents", msg.toString()));
-						doc.add(Field.Text("uid", mail.getUid()));
+						doc.add(getField("from", mail.getFrom()));
+						doc.add(getField("subject", mail.getSubject()));
+						doc.add(getField("date", mail.getDate()));
+						doc.add(getField("maillcontents", msg.toString()));
+						doc.add(getField("uid", mail.getUid()));
 						// writer.addDocument(doc);
 						docs.add(doc);
 						
@@ -151,5 +151,7 @@ public class EvolutionMailDocument {
 		}
 
 	}
-
+    private static Field getField(String name, String value) {
+        return new Field(name, value.getBytes(), Field.Store.YES);
+    }
 }

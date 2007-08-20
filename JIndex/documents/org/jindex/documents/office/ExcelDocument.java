@@ -23,14 +23,14 @@ public class ExcelDocument implements SearchDocument {
 
 		Document doc = new Document();
 
-		doc.add(Field.Keyword("path", f.getPath()));
+		doc.add(getField("path", f.getPath()));
 		String path = f.getParent();
 		path = path.substring(0, path.length() - 1);
-		doc.add(Field.Keyword("absolutepath", path));
+		doc.add(getField("absolutepath", path));
 
-		doc.add(Field.Keyword("name", f.getName()));
+		doc.add(getField("name", f.getName()));
 
-		doc.add(Field.Text("type", mimetype));
+		doc.add(getField("type", mimetype));
 
 		try {
 			if(f.getName().endsWith(".xls"))
@@ -78,8 +78,8 @@ public class ExcelDocument implements SearchDocument {
 				}
 			}
 		}
-		doc.add(Field.Text("filecontents", list.toString()));
-		doc.add(Field.Keyword("name", name));
+		doc.add(getField("filecontents", list.toString()));
+		doc.add(getField("name", name));
 		return doc;
 	}
 
@@ -161,5 +161,7 @@ public class ExcelDocument implements SearchDocument {
     public String[] getSearchFields() {
        return fields;
     }
-
+    private static Field getField(String name, String value) {
+        return new Field(name, value.getBytes(), Field.Store.YES);
+    }
 }

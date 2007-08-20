@@ -83,16 +83,16 @@ public class MBoxProcessor {
 				log.debug("From = " + from);
 				// make a new, empty document
 				Document doc = new Document();
-				doc.add(Field.Keyword("path", f.getPath()));
+				doc.add(getField("path", f.getPath()));
 
-				// doc.add(Field.Text("type", match.getMimeType()));
-				doc.add(Field.Text("type", "mail"));
-				doc.add(Field.Text("icon", "icon data"));
-				doc.add(Field.Text("url", "url data"));
-				doc.add(Field.Text("from", from));
-				doc.add(Field.Text("subject", message.getSubject()));
+				// doc.add(getField("type", match.getMimeType()));
+				doc.add(getField("type", "mail"));
+				doc.add(getField("icon", "icon data"));
+				doc.add(getField("url", "url data"));
+				doc.add(getField("from", from));
+				doc.add(getField("subject", message.getSubject()));
 
-				doc.add(Field.Text("contents", message.getSubject() + " " + from));
+				doc.add(getField("contents", message.getSubject() + " " + from));
 				// Add the last modified date of the file a field named
 				// "modified". Use
 				// a
@@ -100,7 +100,7 @@ public class MBoxProcessor {
 				// attempt is
 				// made
 				// to tokenize the field into words.
-				doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+				doc.add(getField("modified", DateField.timeToString(f.lastModified())));
 				writer.addDocument(doc);
 			}
 
@@ -119,7 +119,7 @@ public class MBoxProcessor {
 		// ?? why doesn't FileReader work here ??
 		FileInputStream is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
-		// doc.add(Field.Text("contents", reader));
+		// doc.add(getField("contents", reader));
 
 		// return the document
 		// return doc;
@@ -127,4 +127,7 @@ public class MBoxProcessor {
 
 	private MBoxProcessor() {
 	}
+            private static Field getField(String name, String value) {
+        return new Field(name, value.getBytes(), Field.Store.YES);
+    }
 }

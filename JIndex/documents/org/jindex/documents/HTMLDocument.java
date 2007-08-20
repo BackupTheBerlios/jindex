@@ -18,13 +18,13 @@ public class HTMLDocument {
         try {
             Document doc = new Document();
             log.debug("Indexing HTML file: "+f.getName());
-            doc.add(Field.Keyword("path", f.getPath()));
-            doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
+            doc.add(getField("path", f.getPath()));
+            doc.add(getField("absolutepath", f.getAbsolutePath()));
             
-            doc.add(Field.Keyword("file-name", f.getName()));
-            doc.add(Field.Text("type", mimetype));
+            doc.add(getField("file-name", f.getName()));
+            doc.add(getField("type", mimetype));
             
-            doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+            doc.add(getField("modified", DateField.timeToString(f.lastModified())));
             
             BufferedReader br = new BufferedReader(new FileReader(f));
             String line = "";
@@ -33,7 +33,7 @@ public class HTMLDocument {
                 sb.append(line);
             }
             String result = sb.toString().replaceAll("</?[a-zA-Z]+\\b[^>]*>", " ");
-            doc.add(Field.Text("filecontents", result));
+            doc.add(getField("filecontents", result));
             return doc;
         } catch (IOException e) {
             e.printStackTrace();
@@ -42,5 +42,8 @@ public class HTMLDocument {
     }
     public static void main(String argv[] ) {
         HTMLDocument.Document(new File("/home/sorenm/test.html"), "text/html");
+    }
+        private static Field getField(String name, String value) {
+      return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
     }
 }

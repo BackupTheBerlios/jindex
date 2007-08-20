@@ -26,9 +26,9 @@ public class MozillaBookmarkDocument {
 	
 	public static org.apache.lucene.document.Document Document(File f) {
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
-		doc.add(Field.Keyword("path", f.getPath()));
-		doc.add(Field.Keyword("absolutepath", f.getParent()));
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+		doc.add(getField("path", f.getPath()));
+		doc.add(getField("absolutepath", f.getParent()));
+		doc.add(getField("modified", DateField.timeToString(f.lastModified())));
 
 
 		try {
@@ -141,5 +141,7 @@ public class MozillaBookmarkDocument {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+    private static Field getField(String name, String value) {
+        return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 }

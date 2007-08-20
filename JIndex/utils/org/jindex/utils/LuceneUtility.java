@@ -16,7 +16,6 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.Term;
 
-import org.jindex.documents.GaimLogDocument;
 
 public class LuceneUtility {
 	static final Logger log = Logger.getLogger(LuceneUtility.class);
@@ -32,17 +31,18 @@ public class LuceneUtility {
 
 	public synchronized static IndexWriter getWriter() {
 		IndexWriter writer = null;
+
 		try {
 			writer = new IndexWriter(HOME + "/index", new SimpleAnalyzer(), false);
 		} catch (IOException e) {
-			if (!new File(HOME + "/index").exists()) {
+			if (new File(HOME + "/index").listFiles().length == 0) {
 				try {
 					writer = new IndexWriter(HOME + "/index", new SimpleAnalyzer(), true);
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
 			}
-		}
+                }
 		return writer;
 	}
 
@@ -51,13 +51,13 @@ public class LuceneUtility {
 	}
 
 	public static synchronized void removeEntry(String filename) {
-
+                if(filename != null) {
 		try {
 			IndexReader reader = IndexReader.open(HOME + "/index");
 			try {
 				log.debug("Index contains : " + reader.numDocs() + " documents");
 				log.debug("Removing old entry: " + filename);
-				int delcounter = reader.delete(new Term("path", filename));
+				int delcounter = reader.deleteDocuments(new Term("path", filename));
 				log.debug("deleted " + delcounter + " documents");
 			} catch (FileNotFoundException fe) {
 				// skip might be the first run, so no index does exsits..
@@ -71,6 +71,9 @@ public class LuceneUtility {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+                } else {
+                    log.debug("Tried to remove null filename... oddd...");
+                }
 	}
 
 	public static String getHOME() {
@@ -108,7 +111,8 @@ public class LuceneUtility {
 						writer.addDocument(newdoc);
 					}
 				} else {
-					log.debug("Writer is null, this is vey bad...");
+                                    throw new RuntimeException("Writer is null, this is vey bad...");
+					//log.debug("Writer is null, this is vey bad...");
 				}
 			} finally {
 				writer.optimize();

@@ -29,20 +29,20 @@ public class ApplicationDocument implements SearchDocument {
 		}
 		
 
-		doc.add(Field.Text("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name"))));
-		doc.add(Field.Text("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec"))));
-		doc.add(Field.Text("comment",StringUtils.trimToEmpty(prop.getProperty("Comment"))));
-		log.debug(StringUtils.trimToEmpty(prop.getProperty("Icon")));
-		doc.add(Field.Keyword("icon",StringUtils.trimToEmpty(prop.getProperty("Icon"))));
-		doc.add(Field.Keyword("path", f.getPath()));
+		doc.add(new Field("applicationname",StringUtils.trimToEmpty(prop.getProperty("Name")).getBytes(), Field.Store.YES));
+		doc.add(new Field("exec-command",StringUtils.trimToEmpty(prop.getProperty("Exec")).getBytes(), Field.Store.YES));
+		doc.add(new Field("comment",StringUtils.trimToEmpty(prop.getProperty("Comment")).getBytes(), Field.Store.YES));
+
+                doc.add(new Field("icon",StringUtils.trimToEmpty(prop.getProperty("Icon")).getBytes(), Field.Store.YES));
+		doc.add(new Field("path", f.getPath().getBytes(), Field.Store.YES));
 		String path = f.getParent();
 //		path = path.substring(0, path.length() - 1);
-		doc.add(Field.Keyword("absolutepath", path));
+		doc.add(new Field("absolutepath", path.getBytes(), Field.Store.YES));
 
-		doc.add(Field.Keyword("file-name", f.getName()));
+		doc.add(new Field("file-name", f.getName().getBytes(), Field.Store.YES));
 
-		doc.add(Field.Text("type", "Application"));
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+		doc.add(new Field("type", "Application".getBytes(), Field.Store.YES));
+		doc.add(new Field("modified", DateField.timeToString(f.lastModified()).getBytes(), Field.Store.YES));
 
 		return doc;
 	}

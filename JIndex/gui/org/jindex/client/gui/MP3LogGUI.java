@@ -22,12 +22,12 @@ public class MP3LogGUI extends MainContentsGUI {
 	
 
     public String getTextContent() {
-		String textstring = "Wrong mimeencoding";
+		String textstring = "";
 		String artist = doc.get("artist").trim();
 		String title = doc.get("title").trim();
 		String album = doc.get("album").trim();
-		textstring = "<span font_desc=\"sans bold 10\">" + title + "</span>\n";
-		textstring = "<span font_desc=\"sans 10\">Sent:" + artist + "</span>\n";
+		textstring += "<span font_desc=\"sans bold 10\">" + title + " from album "+album+"</span>\n";
+		textstring += "<span font_desc=\"sans 10\">Artist:" + artist + "</span>\n";
 		textstring += album;
 
 		return textstring;

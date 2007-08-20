@@ -30,15 +30,15 @@ public class MBoxDocument {
 
 		Document doc = new Document();
 
-		doc.add(Field.Keyword("path", f.getPath()));
+		doc.add(getField("path", f.getPath()));
 
 
-		doc.add(Field.Text("type", "type field"));
-		doc.add(Field.Text("icon", "icon data"));
-		doc.add(Field.Text("url", "url data"));
-		doc.add(Field.Text("from", ""));
+		doc.add(getField("type", "type field"));
+		doc.add(getField("icon", "icon data"));
+		doc.add(getField("url", "url data"));
+		doc.add(getField("from", ""));
 
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+		doc.add(getField("modified", DateField.timeToString(f.lastModified())));
 
 		
 		Session session = Session.getDefaultInstance(new Properties());
@@ -75,7 +75,7 @@ public class MBoxDocument {
 		}
 		FileInputStream is = new FileInputStream(f);
 		Reader reader = new BufferedReader(new InputStreamReader(is));
-		doc.add(Field.Text("contents", reader));
+		doc.add(new Field("contents", reader));
 
 		// return the document
 		return doc;
@@ -92,5 +92,8 @@ public class MBoxDocument {
 
 	private MBoxDocument() {
 	}
+            private static Field getField(String name, String value) {
+        return new Field(name, value.getBytes(), Field.Store.YES);
+    }
 }
 

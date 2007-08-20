@@ -32,24 +32,24 @@ public class VideoDocument implements SearchDocument {
     public static Document Document(File f) {
         Document doc = new Document();
 
-        doc.add(Field.Keyword("path", f.getPath()));
+        doc.add(getField("path", f.getPath()));
         String path = f.getParent();
         // path = path.substring(0, path.length() - 1);
-        doc.add(Field.Keyword("absolutepath", path));
+        doc.add(getField("absolutepath", path));
 
-        doc.add(Field.Keyword("name", f.getName()));
+        doc.add(getField("name", f.getName()));
 
-        doc.add(Field.Text("type", "image"));
+        doc.add(getField("type", "image"));
 
         ImageIcon tmpicon = new ImageIcon(f.getPath());
 
-        doc.add(Field.Text("image-width", String.valueOf(tmpicon.getIconWidth())));
-        doc.add(Field.Text("image-height", String.valueOf(tmpicon.getIconHeight())));
+        doc.add(getField("image-width", String.valueOf(tmpicon.getIconWidth())));
+        doc.add(getField("image-height", String.valueOf(tmpicon.getIconHeight())));
 
         try {
            BASE64Encoder b64E = new BASE64Encoder();
            String encoded = b64E.encode(generateThumbnail(f.getPath()));
-           doc.add(Field.UnIndexed("thumbnail",encoded));
+           doc.add(getField("thumbnail",encoded));
         } catch (ImageFormatException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -57,7 +57,7 @@ public class VideoDocument implements SearchDocument {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        doc.add(Field.Keyword("modified", DateField.timeToString(f
+        doc.add(getField("modified", DateField.timeToString(f
                 .lastModified())));
         return doc;
     }
@@ -117,5 +117,7 @@ public class VideoDocument implements SearchDocument {
         bim.releaseWritableTile(0, 0);
         return b;
     }
-
+    private static Field getField(String name, String value) {
+     return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 }

@@ -18,10 +18,10 @@ public class TomboyDocument implements SearchDocument {
 
 	public static org.apache.lucene.document.Document Document(File f) {
 		org.apache.lucene.document.Document doc = new org.apache.lucene.document.Document();
-		doc.add(Field.Keyword("path", f.getPath()));
-		doc.add(Field.Keyword("absolutepath", f.getParent()));
-		doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
-		doc.add(Field.Text("type", "text/tomboy"));
+		doc.add(getField("path", f.getPath()));
+		doc.add(getField("absolutepath", f.getParent()));
+		doc.add(getField("modified", DateField.timeToString(f.lastModified())));
+		doc.add(getField("type", "text/tomboy"));
 		try {
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -35,11 +35,11 @@ public class TomboyDocument implements SearchDocument {
 			String lastchanged = getNodeValue(nodelist, "last-change-date");
 			String content = getNodeValue(nodelist1, "note-content");
 			if(title != null)
-				doc.add(Field.Text("title",title));
+				doc.add(getField("title",title));
 			if(lastchanged != null)
-				doc.add(Field.Text("last-changed",lastchanged));
+				doc.add(getField("last-changed",lastchanged));
 			if(content != null)
-					doc.add(Field.Text("contents",content));
+					doc.add(getField("contents",content));
 		} catch (SAXException se) {
 			se.printStackTrace();
 		} catch (TransformerException e) {
@@ -70,5 +70,8 @@ public class TomboyDocument implements SearchDocument {
 		// TODO Auto-generated method stub
 		return null;
 	}
+            private static Field getField(String name, String value) {
+        return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 
 }

@@ -52,28 +52,28 @@ public class ImageDocument implements SearchDocument {
 			log.debug(created);
 			log.debug(orientation);
 			*/
-			doc.add(Field.Keyword("path", f.getPath()));
-			doc.add(Field.Keyword("absolutepath", f.getAbsolutePath()));
+			doc.add(getField("path", f.getPath()));
+			doc.add(getField("absolutepath", f.getAbsolutePath()));
 
-			doc.add(Field.Keyword("filename", f.getName()));
+			doc.add(getField("filename", f.getName()));
 
-			doc.add(Field.Text("type", mimetype));
+			doc.add(getField("type", mimetype));
 
 			ImageIcon tmpicon = new ImageIcon(f.getPath());
 
-			doc.add(Field.Text("image-width", String.valueOf(tmpicon.getIconWidth())));
-			doc.add(Field.Text("image-height", String.valueOf(tmpicon.getIconHeight())));
+			doc.add(getField("image-width", String.valueOf(tmpicon.getIconWidth())));
+			doc.add(getField("image-height", String.valueOf(tmpicon.getIconHeight())));
 
 			try {
 				Base64 b64E = new Base64();
 				byte[] encoded = b64E.encode(generateThumbnail(f.getPath()));
-				doc.add(Field.UnIndexed("thumbnail", new String(encoded)));
+				doc.add(getField("thumbnail", new String(encoded)));
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			doc.add(Field.Keyword("modified", DateField.timeToString(f.lastModified())));
+			doc.add(getField("modified", DateField.timeToString(f.lastModified())));
 //		}
 		return doc;
 	}
@@ -136,5 +136,7 @@ public class ImageDocument implements SearchDocument {
 		bim.releaseWritableTile(0, 0);
 		return b;
 	}
-
+    private static Field getField(String name, String value) {
+   return new Field(name, value, Field.Store.YES, Field.Index.TOKENIZED);
+    }
 }

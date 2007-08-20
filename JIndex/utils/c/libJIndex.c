@@ -38,18 +38,31 @@ JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_getIconFromMimeType(JNIEnv *env
     GnomeVFSMimeApplication *application;
    const char* mimetype_g = (*env)->GetStringUTFChars(env, mimetype, 0);
    const gchar *result_g = NULL;
- 
+    GtkIconTheme* iconTheme;
+GtkIconInfo* iconInfo;
+
    gnome_vfs_init ();
    application = gnome_vfs_mime_get_default_application (mimetype_g);
 	if (application == NULL) {
 	   g_print ("No default application.\n");
 	} else {	
 	    result_g =  gnome_vfs_mime_application_get_icon (application);
+
+
+            iconTheme = gtk_icon_theme_get_default();
+            
+iconInfo = gtk_icon_theme_lookup_icon(iconTheme, result_g, 32, GTK_ICON_LOOKUP_NO_SVG);
+
+    g_printf("filename: %s", gtk_icon_info_get_filename(iconInfo));
+
+
 	}
 	gnome_vfs_shutdown ();
 	g_printf("filename: %s", result_g);
-    (*env)->ReleaseStringUTFChars(env, mimetype, mimetype_g);
-    return (*env)->NewStringUTF(env, result_g);
+        (*env)->ReleaseStringUTFChars(env, mimetype, mimetype_g);
+        
+return (*env)->NewStringUTF(env, gtk_icon_info_get_filename(iconInfo));
 
-	return NULL;
+        //return (*env)->NewStringUTF(env, result_g);
+
 }

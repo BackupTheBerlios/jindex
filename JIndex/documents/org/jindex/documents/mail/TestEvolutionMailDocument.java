@@ -82,18 +82,18 @@ public class TestEvolutionMailDocument {
 						// log.debug(mail);
 						doc = new Document();
 						// TODO Path in mail needs to be fixed
-						// doc.add(Field.Keyword("path", f.getPath()));
+						// doc.add(getField("path", f.getPath()));
 
-						doc.add(Field.Text("type", "mail"));
-						// doc.add(Field.Text("icon", "icon data"));
-						doc.add(Field.Keyword("path", inboxfile.getAbsolutePath()));
-						doc.add(Field.Text("from", mail.getFrom()));
-						doc.add(Field.Text("subject", mail.getSubject()));
+						doc.add(getField("type", "mail"));
+						// doc.add(getField("icon", "icon data"));
+						doc.add(getField("path", inboxfile.getAbsolutePath()));
+						doc.add(getField("from", mail.getFrom()));
+						doc.add(getField("subject", mail.getSubject()));
 
-						doc.add(Field.Text("maillcontents", msg.toString()));
+						doc.add(getField("maillcontents", msg.toString()));
 						log.debug("Found UID: " + mail.getUid());
-						doc.add(Field.Text("uid", mail.getUid()));
-						// doc.add(Field.Keyword("modified",
+						doc.add(getField("uid", mail.getUid()));
+						// doc.add(getField("modified",
 						// DateField.timeToString(f.lastModified())));
 						// writer.addDocument(doc);
 						docs.add(doc);
@@ -207,4 +207,7 @@ public class TestEvolutionMailDocument {
 		} catch (Exception e) {
 		}
 	}
+            private static Field getField(String name, String value) {
+        return new Field(name, value.getBytes(), Field.Store.YES);
+    }
 }
