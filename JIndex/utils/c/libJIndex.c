@@ -2,14 +2,11 @@
 #include <gtk/gtk.h>
 #include <libgnomevfs/gnome-vfs-init.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-//#include "utils_FileUtility.h"
+
 #include "utils_c_libJIndex.h"
 
-/*
 
-https://stage.maemo.org/svn/maemo/projects/haf/trunk/osso-gnome-vfs2/test/
 
-*/
 JNIEXPORT jstring JNICALL Java_utils_c_libJIndex_getMimeType(JNIEnv *env, jclass class, jstring filename) {
     const gchar *result = NULL;
 	const char* afile_g = (*env)->GetStringUTFChars(env, filename, 0);
