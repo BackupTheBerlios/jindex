@@ -10,7 +10,6 @@ import org.jindex.client.cache.ImageCache;
 
 import org.apache.lucene.document.Document;
 
-import org.jindex.utils.FileUtility;
 
 /**
  * @author sorenm

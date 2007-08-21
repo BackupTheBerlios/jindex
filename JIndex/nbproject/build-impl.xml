@@ -70,12 +70,7 @@ is divided into following sections:
         </condition>
         <condition property="have.sources">
             <or>
-                <available file="${src.dir}"/>
-                <available file="${daemon.dir}"/>
-                <available file="${documents.dir}"/>
-                <available file="${gui.dir}"/>
-                <available file="${images.dir}"/>
-                <available file="${utils.dir}"/>
+                <available file="${src.src.dir}"/>
             </or>
         </condition>
         <condition property="netbeans.home+have.tests">
@@ -107,12 +102,7 @@ is divided into following sections:
         <!-- You can override this target in the ../build.xml file. -->
     </target>
     <target depends="-pre-init,-init-private,-init-user,-init-project,-do-init" name="-init-check">
-        <fail unless="src.dir">Must set src.dir</fail>
-        <fail unless="daemon.dir">Must set daemon.dir</fail>
-        <fail unless="documents.dir">Must set documents.dir</fail>
-        <fail unless="gui.dir">Must set gui.dir</fail>
-        <fail unless="images.dir">Must set images.dir</fail>
-        <fail unless="utils.dir">Must set utils.dir</fail>
+        <fail unless="src.src.dir">Must set src.src.dir</fail>
         <fail unless="test.src.dir">Must set test.src.dir</fail>
         <fail unless="build.dir">Must set build.dir</fail>
         <fail unless="dist.dir">Must set dist.dir</fail>
@@ -134,7 +124,7 @@ is divided into following sections:
     </target>
     <target name="-init-macrodef-javac">
         <macrodef name="javac" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute default="${src.dir}:${daemon.dir}:${documents.dir}:${gui.dir}:${images.dir}:${utils.dir}" name="srcdir"/>
+            <attribute default="${src.src.dir}" name="srcdir"/>
             <attribute default="${build.classes.dir}" name="destdir"/>
             <attribute default="${javac.classpath}" name="classpath"/>
             <attribute default="${includes}" name="includes"/>
@@ -154,7 +144,7 @@ is divided into following sections:
             </sequential>
         </macrodef>
         <macrodef name="depend" uri="http://www.netbeans.org/ns/j2se-project/3">
-            <attribute default="${src.dir}:${daemon.dir}:${documents.dir}:${gui.dir}:${images.dir}:${utils.dir}" name="srcdir"/>
+            <attribute default="${src.src.dir}" name="srcdir"/>
             <attribute default="${build.classes.dir}" name="destdir"/>
             <attribute default="${javac.classpath}" name="classpath"/>
             <sequential>
@@ -308,12 +298,7 @@ is divided into following sections:
         <j2seproject3:depend/>
         <j2seproject3:javac/>
         <copy todir="${build.classes.dir}">
-            <fileset dir="${src.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-            <fileset dir="${daemon.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-            <fileset dir="${documents.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-            <fileset dir="${gui.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-            <fileset dir="${images.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
-            <fileset dir="${utils.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
+            <fileset dir="${src.src.dir}" excludes="${build.classes.excludes},${excludes}" includes="${includes}"/>
         </copy>
     </target>
     <target name="-post-compile">
@@ -459,28 +444,8 @@ is divided into following sections:
             <classpath>
                 <path path="${javac.classpath}"/>
             </classpath>
-            <packageset dir="${src.dir}" excludes="${excludes}" includes="${includes}"/>
-            <packageset dir="${daemon.dir}" excludes="${excludes}" includes="${includes}"/>
-            <packageset dir="${documents.dir}" excludes="${excludes}" includes="${includes}"/>
-            <packageset dir="${gui.dir}" excludes="${excludes}" includes="${includes}"/>
-            <packageset dir="${images.dir}" excludes="${excludes}" includes="${includes}"/>
-            <packageset dir="${utils.dir}" excludes="${excludes}" includes="${includes}"/>
-            <fileset dir="${src.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${daemon.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${documents.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${gui.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${images.dir}" excludes="${excludes}" includes="${includes}">
-                <filename name="**/*.java"/>
-            </fileset>
-            <fileset dir="${utils.dir}" excludes="${excludes}" includes="${includes}">
+            <packageset dir="${src.src.dir}" excludes="${excludes}" includes="${includes}"/>
+            <fileset dir="${src.src.dir}" excludes="${excludes}" includes="${includes}">
                 <filename name="**/*.java"/>
             </fileset>
         </javadoc>
